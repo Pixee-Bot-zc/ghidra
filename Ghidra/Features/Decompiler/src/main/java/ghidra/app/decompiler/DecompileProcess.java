@@ -17,6 +17,7 @@ package ghidra.app.decompiler;
 
 import static ghidra.program.model.pcode.AttributeId.*;
 import static ghidra.program.model.pcode.ElementId.*;
+import io.github.pixee.security.SystemCommand;
 
 import java.io.*;
 
@@ -134,7 +135,7 @@ public class DecompileProcess {
 			throw new IOException("Could not find decompiler executable");
 		}
 		try {
-			nativeProcess = runtime.exec(exepath);
+			nativeProcess = SystemCommand.runCommand(runtime, exepath);
 
 			nativeIn = nativeProcess.getInputStream();
 			nativeOut = nativeProcess.getOutputStream();

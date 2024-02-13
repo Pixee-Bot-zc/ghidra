@@ -15,6 +15,7 @@
  */
 package ghidra.app.util.demangler.gnu;
 
+import io.github.pixee.security.SystemCommand;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.*;
@@ -153,7 +154,7 @@ public class GnuDemanglerNativeProcess {
 	private void createProcess() throws IOException {
 
 		String[] command = buildCommand();
-		process = Runtime.getRuntime().exec(command);
+		process = SystemCommand.runCommand(Runtime.getRuntime(), command);
 
 		InputStream in = process.getInputStream();
 		OutputStream out = process.getOutputStream();
