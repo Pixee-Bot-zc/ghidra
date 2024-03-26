@@ -15,6 +15,7 @@
  */
 package ghidra.server;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -560,7 +561,7 @@ public class UserManager {
 			Map<X500Principal, UserEntry> x500LookupMap) throws IOException {
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 			String line;
-			while ((line = br.readLine()) != null) {
+			while ((line = BoundedLineReader.readLine(br, 5_000_000)) != null) {
 				if (line.startsWith("#")) {
 					continue;
 				}

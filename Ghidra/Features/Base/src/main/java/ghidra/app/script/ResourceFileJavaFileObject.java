@@ -15,6 +15,7 @@
  */
 package ghidra.app.script;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.net.URI;
 
@@ -90,7 +91,7 @@ public class ResourceFileJavaFileObject implements JavaFileObject {
 		try {
 			StringBuffer buffy = new StringBuffer();
 			String line;
-			while ((line = in.readLine()) != null) {
+			while ((line = BoundedLineReader.readLine(in, 5_000_000)) != null) {
 				buffy.append(line);
 				buffy.append("\n");
 			}

@@ -15,6 +15,7 @@
  */
 package ghidra.app.plugin.core.script;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
@@ -187,7 +188,7 @@ public class GhidraScriptEditorComponentProvider extends ComponentProvider {
 			new BufferedReader(new InputStreamReader(scriptSourceFile.getInputStream()));
 		try {
 			while (true) {
-				String line = reader.readLine();
+				String line = BoundedLineReader.readLine(reader, 5_000_000);
 				if (line == null) {
 					break;
 				}

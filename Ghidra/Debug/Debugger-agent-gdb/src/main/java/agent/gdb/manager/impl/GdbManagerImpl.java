@@ -15,6 +15,7 @@
  */
 package agent.gdb.manager.impl;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.text.MessageFormat;
 import java.util.*;
@@ -139,7 +140,7 @@ public class GdbManagerImpl implements GdbManager {
 			}
 			try {
 				String line;
-				while (GdbManagerImpl.this.isAlive() && null != (line = reader.readLine())) {
+				while (GdbManagerImpl.this.isAlive() && null != (line = BoundedLineReader.readLine(reader, 5_000_000))) {
 					String l = line;
 					if (interpreter == null) {
 						if (l.startsWith("=") || l.startsWith("~")) {
@@ -1615,7 +1616,7 @@ public class GdbManagerImpl implements GdbManager {
 		@Override
 		public String readLine(String prompt) throws IOException {
 			System.out.print(prompt);
-			return reader.readLine();
+			return BoundedLineReader.readLine(reader, 5_000_000);
 		}
 	}
 

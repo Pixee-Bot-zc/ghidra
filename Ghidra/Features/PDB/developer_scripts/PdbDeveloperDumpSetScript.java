@@ -21,6 +21,7 @@
 //
 //@category PDB
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +57,7 @@ public class PdbDeveloperDumpSetScript extends GhidraScript {
 		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(controlFile))) {
 			String line;
 			int lineNumber = 0;
-			while ((line = bufferedReader.readLine()) != null) {
+			while ((line = BoundedLineReader.readLine(bufferedReader, 5_000_000)) != null) {
 				lineNumber++;
 				if (line.isBlank() || line.trim().startsWith("#")) {
 					continue;

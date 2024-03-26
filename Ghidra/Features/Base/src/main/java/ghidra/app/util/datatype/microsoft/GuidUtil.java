@@ -15,6 +15,7 @@
  */
 package ghidra.app.util.datatype.microsoft;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.Hashtable;
 
@@ -130,7 +131,7 @@ public class GuidUtil {
 				new BufferedReader(new InputStreamReader(infile.getInputStream()));
 
 			String inline;
-			while ((inline = input.readLine()) != null) {
+			while ((inline = BoundedLineReader.readLine(input, 5_000_000)) != null) {
 				if (!inline.startsWith("#") && (inline.length() >= 30)) {
 					GuidInfo guidInfo = parseLine(inline, "-", guidType);
 					if (guidInfo != null) {

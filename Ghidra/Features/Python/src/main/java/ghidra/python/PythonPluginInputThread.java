@@ -15,6 +15,7 @@
  */
 package ghidra.python;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -58,7 +59,7 @@ class PythonPluginInputThread extends Thread {
 	public void run() {
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(consoleStdin))) {
 			String line;
-			while (!shutdownRequested.get() && (line = reader.readLine()) != null) {
+			while (!shutdownRequested.get() && (line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
 
 				// Execute the line in a new thread
 				pythonExecutionThread =

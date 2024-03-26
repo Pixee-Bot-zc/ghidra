@@ -15,6 +15,7 @@
  */
 package ghidra.app.plugin.core.debug.gui.tracermi.launcher;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.math.BigInteger;
 import java.net.*;
@@ -477,7 +478,7 @@ public class UnixShellScriptTraceRmiLaunchOffer extends AbstractTraceRmiLaunchOf
 			new BufferedReader(new InputStreamReader(new FileInputStream(script)))) {
 			AttributesParser attrs = new AttributesParser();
 			String line;
-			for (int lineNo = 1; (line = reader.readLine()) != null; lineNo++) {
+			for (int lineNo = 1; (line = BoundedLineReader.readLine(reader, 5_000_000)) != null; lineNo++) {
 				if (line.startsWith(SHEBANG) && lineNo == 1) {
 				}
 				else if (line.isBlank()) {

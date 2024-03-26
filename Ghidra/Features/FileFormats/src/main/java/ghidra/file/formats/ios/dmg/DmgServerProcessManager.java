@@ -15,6 +15,7 @@
  */
 package ghidra.file.formats.ios.dmg;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.*;
 import java.util.Map.Entry;
@@ -137,7 +138,7 @@ class DmgServerProcessManager implements Closeable {
 								}
 								cmd.results = new ArrayList<>(expectedResponseCount);
 								for (int i = 0; i < expectedResponseCount; i++) {
-									String s = inputReader.readLine();
+									String s = BoundedLineReader.readLine(inputReader, 5_000_000);
 									if (s == null) {
 										throw new IOException(
 											"EOF while reading results from DMG Server");
@@ -353,7 +354,7 @@ class DmgServerProcessManager implements Closeable {
 	}
 
 	int readInt(BufferedReader inputReader) throws IOException {
-		String s = inputReader.readLine();
+		String s = BoundedLineReader.readLine(inputReader, 5_000_000);
 		if (s == null) {
 			throw new IOException("EOF while reading results from DMG Server");
 		}
@@ -370,7 +371,7 @@ class DmgServerProcessManager implements Closeable {
 		new Thread(() -> {
 			try {
 				while (true) {
-					String line = reader.readLine();
+					String line = BoundedLineReader.readLine(reader, 5_000_000);
 					if (line == null) {
 						break;
 					}

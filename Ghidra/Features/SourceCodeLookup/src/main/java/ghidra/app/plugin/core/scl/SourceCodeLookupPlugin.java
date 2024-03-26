@@ -15,6 +15,7 @@
  */
 package ghidra.app.plugin.core.scl;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.awt.event.KeyEvent;
 import java.io.*;
 import java.net.Socket;
@@ -136,7 +137,7 @@ public class SourceCodeLookupPlugin extends ProgramPlugin {
 				output.print(symbolText + "\n");
 				output.flush();
 
-				String reply = input.readLine();
+				String reply = BoundedLineReader.readLine(input, 5_000_000);
 				Msg.debug(this, reply);
 				tool.setStatusInfo(reply);
 

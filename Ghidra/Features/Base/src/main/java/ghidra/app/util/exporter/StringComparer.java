@@ -15,6 +15,7 @@
  */
 package ghidra.app.util.exporter;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class StringComparer {
 		try (BufferedReader reader = new BufferedReader(new FileReader(actualFile))) {
 			int excess = 0;
 			while (true) {
-				String actualLine = reader.readLine();
+				String actualLine = BoundedLineReader.readLine(reader, 5_000_000);
 				if (actualLine == null) {
 					break;
 				}

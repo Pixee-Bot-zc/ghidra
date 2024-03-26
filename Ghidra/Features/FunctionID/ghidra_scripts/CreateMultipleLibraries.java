@@ -17,7 +17,8 @@
 //  A root is chosen as a folder within the active project
 //  Subfolders at a specific depth from this root form the roots of individual libraries
 //    Library Name, Version, and Variant are created from the directory path elements
-//@category FunctionID
+
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.*;
 import java.util.Map.Entry;
@@ -221,13 +222,13 @@ public class CreateMultipleLibraries extends GhidraScript {
 		}
 		BufferedReader reader = new BufferedReader(new FileReader(commonSymbolsFile));
 		commonSymbols = new LinkedList<>();
-		String line = reader.readLine();
+		String line = BoundedLineReader.readLine(reader, 5_000_000);
 		while (line != null) {
 			monitor.checkCancelled();
 			if (line.length() != 0) {
 				commonSymbols.add(line);
 			}
-			line = reader.readLine();
+			line = BoundedLineReader.readLine(reader, 5_000_000);
 		}
 		reader.close();
 	}

@@ -17,6 +17,7 @@
 //@category Conversion
 
 import ghidra.app.script.GhidraScript;
+import io.github.pixee.security.BoundedLineReader;
 
 import java.io.*;
 
@@ -57,7 +58,7 @@ public class AsciiToBinaryScript extends GhidraScript {
 				break;
 			}
 
-			String line = in.readLine();
+			String line = BoundedLineReader.readLine(in, 5_000_000);
 			if (line == null) {
 				break;
 			}

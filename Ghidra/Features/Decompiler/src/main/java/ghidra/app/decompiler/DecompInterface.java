@@ -21,6 +21,7 @@
 
 package ghidra.app.decompiler;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 
 import generic.jar.ResourceFile;
@@ -237,7 +238,7 @@ public class DecompInterface {
 		try {
 			StringBuffer buffer = new StringBuffer();
 			String line = null;
-			while ((line = reader.readLine()) != null) {
+			while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
 				buffer.append(line);
 			}
 			return buffer.toString();

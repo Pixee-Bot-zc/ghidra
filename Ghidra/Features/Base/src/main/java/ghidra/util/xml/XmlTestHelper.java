@@ -15,6 +15,7 @@
  */
 package ghidra.util.xml;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.*;
 import java.util.Map.Entry;
@@ -89,7 +90,7 @@ public class XmlTestHelper {
 		BufferedReader br = new BufferedReader(new InputStreamReader(is));
 		String line = "";
 		while (line != null) {
-			line = br.readLine();
+			line = BoundedLineReader.readLine(br, 5_000_000);
 			if (line != null) {
 				xmlList.add(line);
 			}
@@ -112,7 +113,7 @@ public class XmlTestHelper {
 		try {
 			String line;
 			int linenum = 0;
-			while ((line = reader.readLine()) != null && it.hasNext()) {
+			while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null && it.hasNext()) {
 				++linenum;
 				String compareLine = it.next();
 				if (!compareLine.equals(line)) {

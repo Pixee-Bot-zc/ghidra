@@ -15,6 +15,7 @@
  */
 package ghidra.app.plugin.core.cparser;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -651,27 +652,27 @@ class ParseDialog extends ReusableDialogComponentProvider {
 			BufferedReader br =
 				new BufferedReader(new InputStreamReader(item.file.getInputStream()));
 			String line = null;
-			while ((line = br.readLine()) != null && line.trim().length() > 0) {
+			while ((line = BoundedLineReader.readLine(br, 5_000_000)) != null && line.trim().length() > 0) {
 				line = line.trim();
 
 				pathList.add(line);
 			}
 
-			while ((line = br.readLine()) != null && line.trim().length() > 0) {
+			while ((line = BoundedLineReader.readLine(br, 5_000_000)) != null && line.trim().length() > 0) {
 				line = line.trim();
 
 				sb.append(line + "\n");
 			}
 
 			// get paths
-			while ((line = br.readLine()) != null && line.trim().length() > 0) {
+			while ((line = BoundedLineReader.readLine(br, 5_000_000)) != null && line.trim().length() > 0) {
 				line = line.trim();
 
 				includeList.add(line);
 			}
 
 			// get language
-			while ((line = br.readLine()) != null) {
+			while ((line = BoundedLineReader.readLine(br, 5_000_000)) != null) {
 				line = line.trim();
 				if (line.length() > 0) {
 					langString = (line.length() == 0 ? null : line);
@@ -680,7 +681,7 @@ class ParseDialog extends ReusableDialogComponentProvider {
 			}
 
 			// get compiler spec
-			while ((line = br.readLine()) != null) {
+			while ((line = BoundedLineReader.readLine(br, 5_000_000)) != null) {
 				line = line.trim();
 				if (line.length() > 0) {
 					compileString = (line.length() == 0 ? null : line);
