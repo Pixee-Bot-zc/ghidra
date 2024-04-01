@@ -22,6 +22,7 @@
 //@category PDB
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,7 +89,7 @@ public class PdbDeveloperDumpSetScript extends GhidraScript {
 				PdbParser.parse(entry.input(), new PdbReaderOptions(), monitor)) {
 				pdb.deserialize();
 				try (BufferedWriter bufferedWriter =
-					new BufferedWriter(new FileWriter(new File(entry.output())))) {
+					Files.newBufferedWriter(new File(entry.output()).toPath())) {
 					outputHeaderMessage(bufferedWriter, entry.input());
 					pdb.dumpDirectory(bufferedWriter);
 					pdb.dumpSubStreams(bufferedWriter);
