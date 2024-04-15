@@ -58,6 +58,38 @@ void Emit::spaces(int4 num,int4 bump)
   }
 }
 
+int4 Emit::openBraceIndent(const string &brace,brace_style style)
+
+{
+  if (style == same_line)
+    spaces(1);
+  else if (style == skip_line) {
+    tagLine();
+    tagLine();
+  }
+  else {
+    tagLine();
+  }
+  int4 id = startIndent();
+  print(brace);
+  return id;
+}
+
+void Emit::openBrace(const string &brace,brace_style style)
+
+{
+  if (style == same_line)
+    spaces(1);
+  else if (style == skip_line) {
+    tagLine();
+    tagLine();
+  }
+  else {
+    tagLine();
+  }
+  print(brace);
+}
+
 EmitMarkup::~EmitMarkup(void)
 
 {
@@ -295,6 +327,17 @@ void EmitMarkup::setOutputStream(ostream *t)
     delete encoder;
   s = t;
   encoder = new PackedEncode(*s);
+}
+
+void EmitMarkup::setPackedOutput(bool val)
+
+{
+  if (encoder == (Encoder *)0) return;
+  delete encoder;
+  if (val)
+    encoder = new PackedEncode(*s);
+  else
+    encoder = new XmlEncode(*s);
 }
 
 int4 TokenSplit::countbase = 0;
@@ -1167,9 +1210,6 @@ void EmitPrettyPrint::flush(void)
   lowlevel->flush();
 }
 
-/// This method toggles the low-level emitter between EmitMarkup and EmitNoMarkup depending
-/// on whether markup is desired.
-/// \param val is \b true if markup is desired
 void EmitPrettyPrint::setMarkup(bool val)
 
 {

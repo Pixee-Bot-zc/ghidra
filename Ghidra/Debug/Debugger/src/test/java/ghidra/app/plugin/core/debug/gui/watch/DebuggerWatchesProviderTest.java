@@ -28,14 +28,14 @@ import db.Transaction;
 import generic.Unique;
 import ghidra.app.plugin.core.codebrowser.CodeBrowserPlugin;
 import ghidra.app.plugin.core.codebrowser.CodeViewerProvider;
-import ghidra.app.plugin.core.debug.gui.AbstractGhidraHeadedDebuggerGUITest;
+import ghidra.app.plugin.core.debug.gui.AbstractGhidraHeadedDebuggerTest;
 import ghidra.app.plugin.core.debug.gui.listing.DebuggerListingPlugin;
 import ghidra.app.plugin.core.debug.gui.listing.DebuggerListingProvider;
 import ghidra.app.plugin.core.debug.gui.register.*;
 import ghidra.app.plugin.core.debug.gui.watch.DebuggerWatchesProvider.WatchDataSettingsDialog;
 import ghidra.app.plugin.core.debug.service.control.DebuggerControlServicePlugin;
 import ghidra.app.plugin.core.debug.service.modules.DebuggerStaticMappingServicePlugin;
-import ghidra.app.services.*;
+import ghidra.app.services.DebuggerControlService;
 import ghidra.dbg.model.TestTargetRegisterBankInThread;
 import ghidra.debug.api.action.ActionSource;
 import ghidra.debug.api.control.ControlMode;
@@ -59,7 +59,7 @@ import ghidra.trace.util.TraceRegisterUtils;
 import ghidra.util.Msg;
 import ghidra.util.task.TaskMonitor;
 
-public class DebuggerWatchesProviderTest extends AbstractGhidraHeadedDebuggerGUITest {
+public class DebuggerWatchesProviderTest extends AbstractGhidraHeadedDebuggerTest {
 
 	protected static void assertNoErr(DefaultWatchRow row) {
 		Throwable error = row.getError();
@@ -102,6 +102,9 @@ public class DebuggerWatchesProviderTest extends AbstractGhidraHeadedDebuggerGUI
 		try (Transaction tx = tb.startTransaction()) {
 			thread = tb.getOrAddThread("Thread1", 0);
 		}
+
+		// TODO: This seems to hold up the task manager.
+		listingProvider.setAutoDisassemble(false);
 	}
 
 	@After
@@ -652,7 +655,8 @@ public class DebuggerWatchesProviderTest extends AbstractGhidraHeadedDebuggerGUI
 
 		performEnabledAction(listingProvider, watchesProvider.actionAddFromLocation, true);
 
-		List<DefaultWatchRow> watches = new ArrayList<>(watchesProvider.watchTableModel.getModelData());
+		List<DefaultWatchRow> watches =
+			new ArrayList<>(watchesProvider.watchTableModel.getModelData());
 		watches.sort(Comparator.comparing(DefaultWatchRow::getExpression));
 		assertEquals(2, watches.size());
 		assertEquals("*:16 0x00600000:8", watches.get(0).getExpression());
@@ -669,7 +673,8 @@ public class DebuggerWatchesProviderTest extends AbstractGhidraHeadedDebuggerGUI
 
 		performEnabledAction(codeViewerProvider, watchesProvider.actionAddFromLocation, true);
 
-		List<DefaultWatchRow> watches = new ArrayList<>(watchesProvider.watchTableModel.getModelData());
+		List<DefaultWatchRow> watches =
+			new ArrayList<>(watchesProvider.watchTableModel.getModelData());
 		watches.sort(Comparator.comparing(DefaultWatchRow::getExpression));
 		assertEquals(2, watches.size());
 		assertEquals("*:16 0x55750000:8", watches.get(0).getExpression());

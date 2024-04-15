@@ -120,6 +120,13 @@ public:
     error_color = 9,		///< Indicates a warning or error state
     special_color = 10		///< A token with special/highlighted meaning
   };
+
+  /// \brief Different brace formatting styles
+  enum brace_style {
+    same_line = 0,		///< Opening brace on the same line as if/do/while/for/switch
+    next_line = 1,		///< Opening brace is on next line
+    skip_line = 2		///< Opening brace is two lines down
+  };
   virtual ~Emit(void) {}				///< Destructor
 
   /// \brief Begin a whole document of output
@@ -294,7 +301,7 @@ public:
 
   /// \brief Emit a \e case label constant
   ///
-  /// A string describing the \e switch variable value is emitted and starting PcodeOp of the \e case block.
+  /// A string describing the \e switch variable value and starting PcodeOp of the \e case block.
   /// \param name is the character data of the value
   /// \param hl indicates how the value should be highlighted
   /// \param op is the first PcodeOp in the \e case block
@@ -342,6 +349,19 @@ public:
   virtual void clear(void) { parenlevel = 0; indentlevel=0; pendPrint=(PendPrint *)0; }
   virtual void setOutputStream(ostream *t)=0;			///< Set the output stream for the emitter
   virtual ostream *getOutputStream(void) const=0;		///< Get the current output stream
+
+  /// \brief Toggle whether \b this emits mark-up or not
+
+  /// If the emitter supports it, \b true turns on mark-up, \b false turns it off. Otherwise there is no effect.
+  /// \param val is \b true if markup is desired
+  virtual void setMarkup(bool val) {}
+
+  /// \brief Toggle whether \b this emitter produces packed output
+  ///
+  /// If the emitter supports it, \b true selects packed output and \b false selects unpacked XML output.
+  /// Otherwise the method has no effect.
+  /// \param val is \b true for packed or \b false for unpacked
+  virtual void setPackedOutput(bool val) {}
   virtual void spaces(int4 num,int4 bump=0);
 
   /// \brief Start a new indent level
@@ -436,6 +456,31 @@ public:
   /// \return \b true if the specific print callback is pending
   bool hasPendingPrint(PendPrint *pend) const { return (pendPrint == pend); }
 
+  /// \brief Emit an opening brace given a specific format and add an indent level
+  ///
+  /// The brace is emitted on the same line, or on a following line,
+  /// depending on the selected style.  One level of indent is added.
+  /// \param brace is the string to display as the opening brace
+  /// \param style indicates how the brace should be formatted
+  /// \return the nesting id associated with the index
+  int4 openBraceIndent(const string &brace,brace_style style);
+
+  /// \brief Emit an opening brace given a specific format
+  ///
+  /// The indent level is \e not increased.  The brace is emitted on the same
+  /// line, or on a following line, depending on the selected style.
+  /// \param brace is the string to display as the opening brace
+  /// \param style indicates how the brace should be formatted
+  void openBrace(const string &brace,brace_style style);
+
+  /// \brief Emit a closing brace and remove an indent level
+  ///
+  /// The brace is emitted on the next line.
+  /// \param brace is the string to display as the closing brace
+  /// \param id is nesting id of the indent being removed
+  void closeBraceIndent(const string &brace,int4 id) {
+    stopIndent(id); tagLine(); print(brace);
+  }
 };
 
 /// \brief Emitter that associates markup with individual tokens
@@ -490,6 +535,7 @@ public:
   virtual void closeParen(const string &paren,int4 id);
   virtual void setOutputStream(ostream *t);
   virtual ostream *getOutputStream(void) const { return s; }
+  virtual void setPackedOutput(bool val);
   virtual bool emitsMarkup(void) const { return true; }
 };
 
@@ -1053,6 +1099,7 @@ public:
   virtual void clear(void);
   virtual void setOutputStream(ostream *t) { lowlevel->setOutputStream(t); }
   virtual ostream *getOutputStream(void) const { return lowlevel->getOutputStream(); }
+  virtual void setPackedOutput(bool val) { lowlevel->setPackedOutput(val); }
   virtual void spaces(int4 num,int4 bump=0);
   virtual int4 startIndent(void);
   virtual void stopIndent(int4 id);
@@ -1064,7 +1111,7 @@ public:
   virtual void setCommentFill(const string &fill) { commentfill = fill; }
   virtual bool emitsMarkup(void) const { return lowlevel->emitsMarkup(); }
   virtual void resetDefaults(void);
-  void setMarkup(bool val);	///< Toggle whether the low-level emitter emits markup or not
+  virtual void setMarkup(bool val);
 };
 
 /// \brief Helper class for sending cancelable print commands to an ExitXml
@@ -1083,8 +1130,9 @@ inline void Emit::emitPending(void)
 
 {
   if (pendPrint != (PendPrint *)0) {
-    pendPrint->callback(this);
-    pendPrint = (PendPrint *)0;
+    PendPrint *tmp = pendPrint;
+    pendPrint = (PendPrint *)0;		// Clear pending before callback
+    tmp->callback(this);
   }
 }
 

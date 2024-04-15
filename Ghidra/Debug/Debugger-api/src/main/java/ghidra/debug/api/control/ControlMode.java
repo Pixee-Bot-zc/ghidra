@@ -24,10 +24,11 @@ import javax.swing.Icon;
 
 import db.Transaction;
 import generic.theme.GIcon;
-import ghidra.app.services.*;
+import ghidra.app.services.DebuggerEmulationService;
+import ghidra.app.services.DebuggerTraceManagerService;
 import ghidra.app.services.DebuggerTraceManagerService.ActivationCause;
 import ghidra.async.AsyncUtils;
-import ghidra.debug.api.model.TraceRecorder;
+import ghidra.debug.api.target.Target;
 import ghidra.debug.api.tracemgr.DebuggerCoordinates;
 import ghidra.framework.plugintool.PluginTool;
 import ghidra.program.model.address.Address;
@@ -91,12 +92,12 @@ public enum ControlMode {
 
 		@Override
 		public boolean isSelectable(DebuggerCoordinates coordinates) {
-			return coordinates.isAliveAndPresent();
+			return coordinates.isAlive();
 		}
 
 		@Override
 		public ControlMode getAlternative(DebuggerCoordinates coordinates) {
-			return RO_TRACE;
+			return RW_EMULATOR;
 		}
 	},
 	/**
@@ -124,24 +125,24 @@ public enum ControlMode {
 			if (!coordinates.isAliveAndPresent()) {
 				return false;
 			}
-			TraceRecorder recorder = coordinates.getRecorder();
-			return recorder.isVariableOnTarget(coordinates.getPlatform(),
+			Target target = coordinates.getTarget();
+			return target.isVariableExists(coordinates.getPlatform(),
 				coordinates.getThread(), coordinates.getFrame(), address, length);
 		}
 
 		@Override
 		public CompletableFuture<Void> setVariable(PluginTool tool,
 				DebuggerCoordinates coordinates, Address address, byte[] data) {
-			TraceRecorder recorder = coordinates.getRecorder();
-			if (recorder == null) {
+			Target target = coordinates.getTarget();
+			if (target == null) {
 				return CompletableFuture
 						.failedFuture(new MemoryAccessException("Trace has no live target"));
 			}
-			if (!coordinates.isPresent()) {
+			if (!coordinates.isAliveAndPresent()) {
 				return CompletableFuture
 						.failedFuture(new MemoryAccessException("View is not the present"));
 			}
-			return recorder.writeVariable(coordinates.getPlatform(), coordinates.getThread(),
+			return target.writeVariableAsync(coordinates.getPlatform(), coordinates.getThread(),
 				coordinates.getFrame(), address, data);
 		}
 
@@ -152,7 +153,7 @@ public enum ControlMode {
 
 		@Override
 		public boolean isSelectable(DebuggerCoordinates coordinates) {
-			return coordinates.isAliveAndPresent();
+			return coordinates.isAlive();
 		}
 
 		@Override
@@ -257,7 +258,7 @@ public enum ControlMode {
 					return CompletableFuture.failedFuture(new MemoryAccessException());
 				}
 			}
-			return AsyncUtils.NIL;
+			return AsyncUtils.nil();
 		}
 
 		@Override
@@ -347,7 +348,7 @@ public enum ControlMode {
 					throw new AssertionError(e);
 				}
 			}
-			return traceManager.activateAndNotify(withTime, ActivationCause.EMU_STATE_EDIT, false);
+			return traceManager.activateAndNotify(withTime, ActivationCause.EMU_STATE_EDIT);
 		}
 
 		@Override
@@ -373,6 +374,39 @@ public enum ControlMode {
 	 * @return true to follow, false if not
 	 */
 	public abstract boolean followsPresent();
+
+	/**
+	 * Validate and/or adjust the given coordinates pre-activation
+	 * 
+	 * <p>
+	 * This is called by the trace manager whenever there is a request to activate new coordinates.
+	 * The control mode may adjust or reject the request before the trace manager actually performs
+	 * and notifies the activation.
+	 * 
+	 * @param tool the tool for displaying status messages
+	 * @param coordinates the requested coordinates
+	 * @param cause the cause of the activation
+	 * @return the effective coordinates or null to reject
+	 */
+	public DebuggerCoordinates validateCoordinates(PluginTool tool,
+			DebuggerCoordinates coordinates, ActivationCause cause) {
+		if (!followsPresent()) {
+			return coordinates;
+		}
+		Target target = coordinates.getTarget();
+		if (target == null) {
+			return coordinates;
+		}
+		if (cause == ActivationCause.USER &&
+			(!coordinates.getTime().isSnapOnly() || coordinates.getSnap() != target.getSnap())) {
+			tool.setStatusInfo(
+				"Cannot navigate time in %s mode. Switch to Trace or Emulate mode first."
+						.formatted(name),
+				true);
+			return null;
+		}
+		return coordinates;
+	}
 
 	/**
 	 * Check if (broadly speaking) the mode supports editing the given coordinates

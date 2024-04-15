@@ -74,6 +74,8 @@ public class DataTypeArchiveGTree extends GTree {
 		}
 
 		addTreeExpansionListener(cleanupListener);
+
+		setAccessibleNamePrefix("Data Type Manager");
 	}
 
 	private int getHeight(GTreeNode rootNode, DataTypeTreeRenderer renderer) {
@@ -158,9 +160,21 @@ public class DataTypeArchiveGTree extends GTree {
 		reloadTree();
 	}
 
-	public void setIncludeDataTypeMembersInSearch(boolean includeDataTypes) {
-		setDataTransformer(
-			includeDataTypes ? new DataTypeTransformer() : new DefaultGTreeDataTransformer());
+	public void updateDataTransformer(DataTypesProvider provider) {
+
+		boolean includeMembers = provider.isIncludeDataMembersInSearch();
+		boolean filterOnNameOnly = provider.isFilterOnNameOnly();
+
+		DefaultDtTreeDataTransformer transformer;
+		if (includeMembers) {
+			transformer = new DataTypeTransformer(filterOnNameOnly);
+		}
+		else {
+			transformer = new DefaultDtTreeDataTransformer(filterOnNameOnly);
+		}
+
+		setDataTransformer(transformer);
+
 		reloadTree();
 	}
 
@@ -249,7 +263,30 @@ public class DataTypeArchiveGTree extends GTree {
 // Inner Classes
 //==================================================================================================
 
-	private class DataTypeTransformer extends DefaultGTreeDataTransformer {
+	/** Only filters on name or display name, not dt contents */
+	private class DefaultDtTreeDataTransformer extends DefaultGTreeDataTransformer {
+
+		private boolean filterOnNameOnly;
+
+		DefaultDtTreeDataTransformer(boolean filterOnNameOnly) {
+			this.filterOnNameOnly = filterOnNameOnly;
+		}
+
+		@Override
+		protected String toString(GTreeNode node) {
+			if (filterOnNameOnly) {
+				return node.getName(); // the node name is the type name
+			}
+			return super.toString(node); // display text
+		}
+	}
+
+	/** Filters on dt contents */
+	private class DataTypeTransformer extends DefaultDtTreeDataTransformer {
+
+		DataTypeTransformer(boolean filterOnNameOnly) {
+			super(filterOnNameOnly);
+		}
 
 		@Override
 		public List<String> transform(GTreeNode node) {

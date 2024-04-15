@@ -18,6 +18,7 @@ package ghidra.app.plugin.core.debug.gui.objects.components;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.beans.*;
+import java.math.BigInteger;
 import java.util.*;
 import java.util.List;
 
@@ -44,6 +45,28 @@ import ghidra.util.layout.PairLayout;
 
 public class DebuggerMethodInvocationDialog extends DialogComponentProvider
 		implements PropertyChangeListener {
+
+	public static class BigIntEditor extends PropertyEditorSupport {
+		@Override
+		public String getJavaInitializationString() {
+			Object value = getValue();
+			return value == null
+					? "null"
+					: "new BigInteger(\"%s\")".formatted(value);
+		}
+
+		@Override
+		public void setAsText(String text) throws IllegalArgumentException {
+			setValue(text == null
+					? null
+					: new BigInteger(text));
+		}
+	}
+
+	static {
+		PropertyEditorManager.registerEditor(BigInteger.class, BigIntEditor.class);
+	}
+
 	private static final String KEY_MEMORIZED_ARGUMENTS = "memorizedArguments";
 
 	static class ChoicesPropertyEditor implements PropertyEditor {
@@ -205,7 +228,7 @@ public class DebuggerMethodInvocationDialog extends DialogComponentProvider
 	protected boolean resetRequested;
 
 	private final PluginTool tool;
-	private Map<String, ParameterDescription<?>> parameters;
+	Map<String, ParameterDescription<?>> parameters;
 
 	// TODO: Not sure this is the best keying, but I think it works.
 	private Map<NameTypePair, Object> memorized = new HashMap<>();
@@ -275,13 +298,13 @@ public class DebuggerMethodInvocationDialog extends DialogComponentProvider
 		close();
 	}
 
-	private void invoke(ActionEvent evt) {
+	void invoke(ActionEvent evt) {
 		this.arguments = TargetMethod.validateArguments(parameters, collectArguments(), false);
 		this.resetRequested = false;
 		close();
 	}
 
-	private void reset(ActionEvent evt) {
+	void reset(ActionEvent evt) {
 		this.arguments = new LinkedHashMap<>();
 		this.resetRequested = true;
 		close();
@@ -310,7 +333,11 @@ public class DebuggerMethodInvocationDialog extends DialogComponentProvider
 
 			PropertyEditor editor = getEditor(param);
 			Object val = computeMemorizedValue(param);
-			editor.setValue(val);
+			if (val == null) {
+				editor.setValue("");
+			} else {
+				editor.setValue(val);
+			}
 			editor.addPropertyChangeListener(this);
 			pairPanel.add(MiscellaneousUtils.getEditorComponent(editor));
 			paramEditors.put(param, editor);
@@ -341,6 +368,10 @@ public class DebuggerMethodInvocationDialog extends DialogComponentProvider
 
 	public <T> T getMemorizedArgument(String name, Class<T> type) {
 		return type.cast(memorized.get(new NameTypePair(name, type)));
+	}
+
+	public void forgetMemorizedArguments() {
+		memorized.clear();
 	}
 
 	@Override

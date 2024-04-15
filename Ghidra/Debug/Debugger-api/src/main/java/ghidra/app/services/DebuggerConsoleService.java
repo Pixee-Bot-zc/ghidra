@@ -21,18 +21,17 @@ import javax.swing.Icon;
 
 import docking.ActionContext;
 import docking.action.DockingActionIf;
-import ghidra.dbg.DebuggerConsoleLogger;
 import ghidra.framework.plugintool.ServiceInfo;
 import ghidra.util.HTMLUtilities;
 
 @ServiceInfo(defaultProviderName = "ghidra.app.plugin.core.debug.gui.console.DebuggerConsolePlugin")
-public interface DebuggerConsoleService extends DebuggerConsoleLogger {
+public interface DebuggerConsoleService {
 
 	/**
 	 * Log a message to the console
 	 * 
 	 * <p>
-	 * <b>WARNING:</b> See {@link #log(Icon, String, ActionContext)} regarding HTML.
+	 * <b>WARNING:</b> See {@link #log(Icon, String, Throwable, ActionContext)} regarding HTML.
 	 * 
 	 * @param icon an icon for the message
 	 * @param message the HTML-formatted message
@@ -40,7 +39,31 @@ public interface DebuggerConsoleService extends DebuggerConsoleLogger {
 	void log(Icon icon, String message);
 
 	/**
+	 * Log an error message to the console
+	 * 
+	 * <p>
+	 * <b>WARNING:</b> See {@link #log(Icon, String, Throwable, ActionContext)} regarding HTML.
+	 * 
+	 * @param icon an icon for the message
+	 * @param message the HTML-formatted message
+	 * @param error an exception, if applicable
+	 */
+	void log(Icon icon, String message, Throwable error);
+
+	/**
 	 * Log an actionable message to the console
+	 * 
+	 * <p>
+	 * <b>WARNING:</b> See {@link #log(Icon, String, Throwable, ActionContext)} regarding HTML.
+	 * 
+	 * @param icon an icon for the message
+	 * @param message the HTML-formatted message
+	 * @param context an (immutable) context for actions
+	 */
+	void log(Icon icon, String message, ActionContext context);
+
+	/**
+	 * Log an actionable error message to the console
 	 * 
 	 * <p>
 	 * <b>WARNING:</b> The log accepts and will interpret HTML in its messages, allowing a rich and
@@ -49,9 +72,10 @@ public interface DebuggerConsoleService extends DebuggerConsoleLogger {
 	 * 
 	 * @param icon an icon for the message
 	 * @param message the HTML-formatted message
+	 * @param error an exception, if applicable
 	 * @param context an (immutable) context for actions
 	 */
-	void log(Icon icon, String message, ActionContext context);
+	void log(Icon icon, String message, Throwable error, ActionContext context);
 
 	/**
 	 * Remove an actionable message from the console

@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.net.SocketAddress;
 import java.net.SocketException;
 
+import ghidra.util.exception.CancelledException;
+
 /**
  * An acceptor to receive a single Trace RMI connection from a back-end
  */
@@ -27,12 +29,20 @@ public interface TraceRmiAcceptor {
 	 * Accept a single connection
 	 * 
 	 * <p>
-	 * This acceptor is no longer valid after the connection is accepted.
+	 * This acceptor is no longer valid after the connection is accepted. If accepting the
+	 * connection fails, e.g., because of a timeout, this acceptor is no longer valid.
 	 * 
 	 * @return the connection, if successful
 	 * @throws IOException if there was an error
 	 */
-	TraceRmiConnection accept() throws IOException;
+	TraceRmiConnection accept() throws IOException, CancelledException;
+
+	/**
+	 * Check if the acceptor is actually still accepting.
+	 * 
+	 * @return true if not accepting anymore
+	 */
+	boolean isClosed();
 
 	/**
 	 * Get the address (and port) where the acceptor is listening
@@ -48,4 +58,14 @@ public interface TraceRmiAcceptor {
 	 * @throws SocketException if there's a protocol error
 	 */
 	void setTimeout(int millis) throws SocketException;
+
+	/**
+	 * Cancel the connection
+	 * 
+	 * <p>
+	 * If a different thread has called {@link #accept()}, it will fail. In this case, both
+	 * {@linkplain TraceRmiServiceListener#acceptCancelled(TraceRmiAcceptor)} and
+	 * {@linkplain TraceRmiServiceListener#acceptFailed(Exception)} may be invoked.
+	 */
+	void cancel();
 }

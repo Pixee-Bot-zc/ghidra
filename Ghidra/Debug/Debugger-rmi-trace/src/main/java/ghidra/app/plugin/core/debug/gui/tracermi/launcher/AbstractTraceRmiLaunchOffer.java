@@ -26,14 +26,14 @@ import java.util.concurrent.*;
 
 import javax.swing.Icon;
 
-import org.jdom.Element;
-import org.jdom.JDOMException;
-
-import db.Transaction;
 import ghidra.app.plugin.core.debug.gui.DebuggerResources;
 import ghidra.app.plugin.core.debug.gui.objects.components.DebuggerMethodInvocationDialog;
+import ghidra.app.plugin.core.debug.gui.tracermi.launcher.LaunchFailureDialog.ErrPromptResponse;
+import ghidra.app.plugin.core.debug.service.tracermi.DefaultTraceRmiAcceptor;
+import ghidra.app.plugin.core.debug.service.tracermi.TraceRmiHandler;
 import ghidra.app.plugin.core.terminal.TerminalListener;
 import ghidra.app.services.*;
+import ghidra.app.services.DebuggerTraceManagerService.ActivationCause;
 import ghidra.async.AsyncUtils;
 import ghidra.dbg.target.TargetMethod.ParameterDescription;
 import ghidra.dbg.util.ShellUtils;
@@ -44,7 +44,8 @@ import ghidra.framework.options.SaveState;
 import ghidra.framework.plugintool.AutoConfigState.ConfigStateField;
 import ghidra.framework.plugintool.PluginTool;
 import ghidra.program.model.address.*;
-import ghidra.program.model.listing.*;
+import ghidra.program.model.listing.InstructionIterator;
+import ghidra.program.model.listing.Program;
 import ghidra.program.util.ProgramLocation;
 import ghidra.pty.*;
 import ghidra.trace.model.Trace;
@@ -55,12 +56,12 @@ import ghidra.util.Msg;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.Task;
 import ghidra.util.task.TaskMonitor;
-import ghidra.util.xml.XmlUtilities;
 
 public abstract class AbstractTraceRmiLaunchOffer implements TraceRmiLaunchOffer {
-
-	public static final String PREFIX_DBGLAUNCH = "DBGLAUNCH_";
 	public static final String PARAM_DISPLAY_IMAGE = "Image";
+	public static final String PREFIX_PARAM_EXTTOOL = "env:GHIDRA_LANG_EXTTOOL_";
+
+	public static final int DEFAULT_TIMEOUT_MILLIS = 10000;
 
 	protected record PtyTerminalSession(Terminal terminal, Pty pty, PtySession session,
 			Thread waiter) implements TerminalSession {
@@ -77,6 +78,16 @@ public abstract class AbstractTraceRmiLaunchOffer implements TraceRmiLaunchOffer
 			pty.close();
 			waiter.interrupt();
 		}
+
+		@Override
+		public boolean isTerminated() {
+			return terminal.isTerminated();
+		}
+
+		@Override
+		public String description() {
+			return session.description();
+		}
 	}
 
 	protected record NullPtyTerminalSession(Terminal terminal, Pty pty, String name)
@@ -91,6 +102,16 @@ public abstract class AbstractTraceRmiLaunchOffer implements TraceRmiLaunchOffer
 		public void terminate() throws IOException {
 			terminal.terminated();
 			pty.close();
+		}
+
+		@Override
+		public boolean isTerminated() {
+			return terminal.isTerminated();
+		}
+
+		@Override
+		public String description() {
+			return name;
 		}
 	}
 
@@ -113,18 +134,33 @@ public abstract class AbstractTraceRmiLaunchOffer implements TraceRmiLaunchOffer
 		}
 	}
 
+	protected final TraceRmiLauncherServicePlugin plugin;
 	protected final Program program;
 	protected final PluginTool tool;
 	protected final TerminalService terminalService;
 
-	public AbstractTraceRmiLaunchOffer(Program program, PluginTool tool) {
-		this.program = Objects.requireNonNull(program);
-		this.tool = Objects.requireNonNull(tool);
+	public AbstractTraceRmiLaunchOffer(TraceRmiLauncherServicePlugin plugin, Program program) {
+		this.plugin = Objects.requireNonNull(plugin);
+		this.program = program;
+		this.tool = plugin.getTool();
 		this.terminalService = Objects.requireNonNull(tool.getService(TerminalService.class));
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this.getClass() != obj.getClass()) {
+			return false;
+		}
+		AbstractTraceRmiLaunchOffer other = (AbstractTraceRmiLaunchOffer) obj;
+		return this.getConfigName().equals(other.getConfigName());
+	}
+
 	protected int getTimeoutMillis() {
-		return 10000;
+		return DEFAULT_TIMEOUT_MILLIS;
+	}
+
+	protected int getConnectionTimeoutMillis() {
+		return getTimeoutMillis();
 	}
 
 	@Override
@@ -133,6 +169,9 @@ public abstract class AbstractTraceRmiLaunchOffer implements TraceRmiLaunchOffer
 	}
 
 	protected Address getMappingProbeAddress() {
+		if (program == null) {
+			return null;
+		}
 		AddressIterator eepi = program.getSymbolTable().getExternalEntryPointIterator();
 		if (eepi.hasNext()) {
 			return eepi.next();
@@ -151,12 +190,11 @@ public abstract class AbstractTraceRmiLaunchOffer implements TraceRmiLaunchOffer
 		return null; // I guess we won't wait for a mapping, then
 	}
 
-	protected CompletableFuture<Void> listenForMapping(
-			DebuggerStaticMappingService mappingService, TraceRmiConnection connection,
-			Trace trace) {
+	protected CompletableFuture<Void> listenForMapping(DebuggerStaticMappingService mappingService,
+			TraceRmiConnection connection, Trace trace) {
 		Address probeAddress = getMappingProbeAddress();
 		if (probeAddress == null) {
-			return AsyncUtils.NIL; // No need to wait on mapping of nothing
+			return AsyncUtils.nil(); // No need to wait on mapping of nothing
 		}
 		ProgramLocation probe = new ProgramLocation(program, probeAddress);
 		var result = new CompletableFuture<Void>() {
@@ -189,6 +227,9 @@ public abstract class AbstractTraceRmiLaunchOffer implements TraceRmiLaunchOffer
 
 	protected Collection<ModuleMapEntry> invokeMapper(TaskMonitor monitor,
 			DebuggerStaticMappingService mappingService, Trace trace) throws CancelledException {
+		if (program == null) {
+			return List.of();
+		}
 		Map<TraceModule, ModuleMapProposal> map = mappingService
 				.proposeModuleMaps(trace.getModuleManager().getAllModules(), List.of(program));
 		Collection<ModuleMapEntry> proposal = MapProposal.flatten(map.values());
@@ -196,7 +237,7 @@ public abstract class AbstractTraceRmiLaunchOffer implements TraceRmiLaunchOffer
 		return proposal;
 	}
 
-	private void saveLauncherArgs(Map<String, ?> args,
+	protected SaveState saveLauncherArgsToState(Map<String, ?> args,
 			Map<String, ParameterDescription<?>> params) {
 		SaveState state = new SaveState();
 		for (ParameterDescription<?> param : params.values()) {
@@ -204,17 +245,22 @@ public abstract class AbstractTraceRmiLaunchOffer implements TraceRmiLaunchOffer
 			if (val != null) {
 				ConfigStateField.putState(state, param.type.asSubclass(Object.class),
 					"param_" + param.name, val);
-				state.putLong("last", System.currentTimeMillis());
 			}
 		}
-		if (program != null) {
-			ProgramUserData userData = program.getProgramUserData();
-			try (Transaction tx = userData.openTransaction()) {
-				Element element = state.saveToXml();
-				userData.setStringProperty(PREFIX_DBGLAUNCH + getConfigName(),
-					XmlUtilities.toString(element));
-			}
+		return state;
+	}
+
+	protected void saveState(SaveState state) {
+		if (program == null) {
+			plugin.writeToolLaunchConfig(getConfigName(), state);
+			return;
 		}
+		plugin.writeProgramLaunchConfig(program, getConfigName(), state);
+	}
+
+	protected void saveLauncherArgs(Map<String, ?> args,
+			Map<String, ParameterDescription<?>> params) {
+		saveState(saveLauncherArgsToState(args, params));
 	}
 
 	/**
@@ -230,9 +276,6 @@ public abstract class AbstractTraceRmiLaunchOffer implements TraceRmiLaunchOffer
 	@SuppressWarnings("unchecked")
 	protected Map<String, ?> generateDefaultLauncherArgs(
 			Map<String, ParameterDescription<?>> params) {
-		if (program == null) {
-			return Map.of();
-		}
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
 		ParameterDescription<String> paramImage = null;
 		for (Entry<String, ParameterDescription<?>> entry : params.entrySet()) {
@@ -244,8 +287,17 @@ public abstract class AbstractTraceRmiLaunchOffer implements TraceRmiLaunchOffer
 				}
 				paramImage = (ParameterDescription<String>) param;
 			}
+			else if (param.name.startsWith(PREFIX_PARAM_EXTTOOL)) {
+				String tool = param.name.substring(PREFIX_PARAM_EXTTOOL.length());
+				List<String> names =
+					program.getLanguage().getLanguageDescription().getExternalNames(tool);
+				if (names != null && !names.isEmpty()) {
+					var paramStr = (ParameterDescription<String>) param;
+					paramStr.set(map, names.get(0));
+				}
+			}
 		}
-		if (paramImage != null) {
+		if (paramImage != null && program != null) {
 			File imageFile = TraceRmiLauncherServicePlugin.getProgramPath(program);
 			if (imageFile != null) {
 				paramImage.set(map, imageFile.getAbsolutePath());
@@ -314,67 +366,54 @@ public abstract class AbstractTraceRmiLaunchOffer implements TraceRmiLaunchOffer
 	 * user may be expecting a customized launch. If there will be a prompt, then this may safely
 	 * return the defaults, since the user will be given a chance to correct them.
 	 * 
-	 * @param params the parameters of the model's launcher
 	 * @param forPrompt true if the user will be confirming the arguments
 	 * @return the loaded arguments, or defaults
 	 */
 	protected Map<String, ?> loadLastLauncherArgs(boolean forPrompt) {
-		/**
-		 * TODO: Supposedly, per-program, per-user config stuff is being generalized for analyzers.
-		 * Re-examine this if/when that gets merged
-		 */
-		if (program != null) {
-			Map<String, ParameterDescription<?>> params = getParameters();
-			ProgramUserData userData = program.getProgramUserData();
-			String property =
-				userData.getStringProperty(PREFIX_DBGLAUNCH + getConfigName(), null);
-			if (property != null) {
-				try {
-					Element element = XmlUtilities.fromString(property);
-					SaveState state = new SaveState(element);
-					List<String> names = List.of(state.getNames());
-					Map<String, Object> args = new LinkedHashMap<>();
-					for (ParameterDescription<?> param : params.values()) {
-						String key = "param_" + param.name;
-						if (names.contains(key)) {
-							Object configState = ConfigStateField.getState(state, param.type, key);
-							if (configState != null) {
-								args.put(param.name, configState);
-							}
-						}
-					}
-					if (!args.isEmpty()) {
-						return args;
-					}
-				}
-				catch (JDOMException | IOException e) {
-					if (!forPrompt) {
-						throw new RuntimeException(
-							"Saved launcher args are corrupt, or launcher parameters changed. Not launching.",
-							e);
-					}
-					Msg.error(this,
-						"Saved launcher args are corrupt, or launcher parameters changed. Defaulting.",
-						e);
-				}
-			}
-			Map<String, ?> args = generateDefaultLauncherArgs(params);
-			saveLauncherArgs(args, params);
-			return args;
-		}
+		Map<String, ParameterDescription<?>> params = getParameters();
+		Map<String, ?> args = loadLauncherArgsFromState(loadState(forPrompt), params);
+		saveLauncherArgs(args, params);
+		return args;
+	}
 
-		return new LinkedHashMap<>();
+	protected Map<String, ?> loadLauncherArgsFromState(SaveState state,
+			Map<String, ParameterDescription<?>> params) {
+		Map<String, ?> defaultArgs = generateDefaultLauncherArgs(params);
+		if (state == null) {
+			return defaultArgs;
+		}
+		List<String> names = List.of(state.getNames());
+		Map<String, Object> args = new LinkedHashMap<>();
+		for (ParameterDescription<?> param : params.values()) {
+			String key = "param_" + param.name;
+			Object configState =
+				names.contains(key) ? ConfigStateField.getState(state, param.type, key) : null;
+			if (configState != null) {
+				args.put(param.name, configState);
+			}
+			else {
+				args.put(param.name, defaultArgs.get(param.name));
+			}
+		}
+		return args;
+	}
+
+	protected SaveState loadState(boolean forPrompt) {
+		if (program == null) {
+			return plugin.readToolLaunchConfig(getConfigName());
+		}
+		return plugin.readProgramLaunchConfig(program, getConfigName(), forPrompt);
 	}
 
 	/**
 	 * Obtain the launcher args
 	 * 
 	 * <p>
-	 * This should either call {@link #promptLauncherArgs(Map))} or
-	 * {@link #loadLastLauncherArgs(Map, boolean))}. Note if choosing the latter, the user will not
-	 * be prompted to confirm.
+	 * This should either call {@link #promptLauncherArgs(LaunchConfigurator, Throwable)} or
+	 * {@link #loadLastLauncherArgs(boolean)}. Note if choosing the latter, the user will not be
+	 * prompted to confirm.
 	 * 
-	 * @param params the parameters of the model's launcher
+	 * @param prompt true to prompt the user, false to use saved arguments
 	 * @param configurator the rules for configuring the launcher
 	 * @param lastExc if retrying, the last exception to display as an error message
 	 * @return the chosen arguments, or null if the user cancels at the prompt
@@ -396,25 +435,31 @@ public abstract class AbstractTraceRmiLaunchOffer implements TraceRmiLaunchOffer
 	}
 
 	protected PtyTerminalSession runInTerminal(List<String> commandLine, Map<String, String> env,
-			Collection<TerminalSession> subordinates)
-			throws IOException {
+			File workingDirectory, Collection<TerminalSession> subordinates) throws IOException {
 		PtyFactory factory = getPtyFactory();
 		Pty pty = factory.openpty();
 
 		PtyParent parent = pty.getParent();
+		PtyChild child = pty.getChild();
 		Terminal terminal = terminalService.createWithStreams(Charset.forName("UTF-8"),
 			parent.getInputStream(), parent.getOutputStream());
 		terminal.setSubTitle(ShellUtils.generateLine(commandLine));
 		TerminalListener resizeListener = new TerminalListener() {
 			@Override
 			public void resized(short cols, short rows) {
-				parent.setWindowSize(cols, rows);
+				try {
+					child.setWindowSize(cols, rows);
+				}
+				catch (Exception e) {
+					Msg.error(this, "Could not resize pty: " + e);
+				}
 			}
 		};
 		terminal.addTerminalListener(resizeListener);
 
 		env.put("TERM", "xterm-256color");
-		PtySession session = pty.getChild().session(commandLine.toArray(String[]::new), env);
+		PtySession session =
+			pty.getChild().session(commandLine.toArray(String[]::new), env, workingDirectory);
 
 		Thread waiter = new Thread(() -> {
 			try {
@@ -445,12 +490,13 @@ public abstract class AbstractTraceRmiLaunchOffer implements TraceRmiLaunchOffer
 		Pty pty = factory.openpty();
 
 		PtyParent parent = pty.getParent();
+		PtyChild child = pty.getChild();
 		Terminal terminal = terminalService.createWithStreams(Charset.forName("UTF-8"),
 			parent.getInputStream(), parent.getOutputStream());
 		TerminalListener resizeListener = new TerminalListener() {
 			@Override
 			public void resized(short cols, short rows) {
-				parent.setWindowSize(cols, rows);
+				child.setWindowSize(cols, rows);
 			}
 		};
 		terminal.addTerminalListener(resizeListener);
@@ -469,85 +515,170 @@ public abstract class AbstractTraceRmiLaunchOffer implements TraceRmiLaunchOffer
 			Map<String, TerminalSession> sessions, Map<String, ?> args, SocketAddress address)
 			throws Exception;
 
-	@Override
-	public LaunchResult launchProgram(TaskMonitor monitor, LaunchConfigurator configurator) {
-		TraceRmiService service = tool.getService(TraceRmiService.class);
+	static class NoStaticMappingException extends Exception {
+		public NoStaticMappingException(String message) {
+			super(message);
+		}
+
+		@Override
+		public String toString() {
+			return getMessage();
+		}
+	}
+
+	protected void initializeMonitor(TaskMonitor monitor) {
+		if (requiresImage()) {
+			monitor.setMaximum(6);
+		}
+		else {
+			monitor.setMaximum(5);
+		}
+	}
+
+	protected void waitForModuleMapping(TaskMonitor monitor, TraceRmiHandler connection,
+			Trace trace) throws CancelledException, InterruptedException, ExecutionException,
+			NoStaticMappingException {
+		if (!requiresImage()) {
+			return;
+		}
 		DebuggerStaticMappingService mappingService =
 			tool.getService(DebuggerStaticMappingService.class);
+		monitor.setMessage("Waiting for module mapping");
+		try {
+			listenForMapping(mappingService, connection, trace).get(getTimeoutMillis(),
+				TimeUnit.MILLISECONDS);
+		}
+		catch (TimeoutException e) {
+			monitor.setMessage(
+				"Timed out waiting for module mapping. Invoking the mapper.");
+			Collection<ModuleMapEntry> mapped;
+			try {
+				mapped = invokeMapper(monitor, mappingService, trace);
+			}
+			catch (CancelledException ce) {
+				throw new CancellationException(e.getMessage());
+			}
+			if (mapped.isEmpty()) {
+				throw new NoStaticMappingException(
+					"The resulting target process has no mapping to the static image.");
+			}
+		}
+		monitor.increment();
+	}
+
+	@Override
+	public LaunchResult launchProgram(TaskMonitor monitor, LaunchConfigurator configurator) {
+		if (requiresImage() && program == null) {
+			throw new IllegalStateException("Offer requires image, but no program given.");
+		}
+		InternalTraceRmiService service = tool.getService(InternalTraceRmiService.class);
 		DebuggerTraceManagerService traceManager =
 			tool.getService(DebuggerTraceManagerService.class);
 		final PromptMode mode = configurator.getPromptMode();
 		boolean prompt = mode == PromptMode.ALWAYS;
 
-		TraceRmiAcceptor acceptor = null;
+		DefaultTraceRmiAcceptor acceptor = null;
 		Map<String, TerminalSession> sessions = new LinkedHashMap<>();
-		TraceRmiConnection connection = null;
+		TraceRmiHandler connection = null;
 		Trace trace = null;
 		Throwable lastExc = null;
 
-		monitor.setMaximum(5);
+		initializeMonitor(monitor);
 		while (true) {
-			monitor.setMessage("Gathering arguments");
-			Map<String, ?> args = getLauncherArgs(prompt, configurator, lastExc);
-			if (args == null) {
-				if (lastExc == null) {
-					lastExc = new CancelledException();
-				}
-				return new LaunchResult(program, sessions, connection, trace, lastExc);
-			}
-			acceptor = null;
-			sessions.clear();
-			connection = null;
-			trace = null;
-			lastExc = null;
-
 			try {
+				monitor.setMessage("Gathering arguments");
+				Map<String, ?> args = getLauncherArgs(prompt, configurator, lastExc);
+				if (args == null) {
+					if (lastExc == null) {
+						lastExc = new CancelledException();
+					}
+					return new LaunchResult(program, sessions, acceptor, connection, trace,
+						lastExc);
+				}
+				monitor.increment();
+
+				acceptor = null;
+				sessions.clear();
+				connection = null;
+				trace = null;
+				lastExc = null;
+
 				monitor.setMessage("Listening for connection");
 				acceptor = service.acceptOne(new InetSocketAddress("127.0.0.1", 0));
+				monitor.increment();
+
 				monitor.setMessage("Launching back-end");
 				launchBackEnd(monitor, sessions, args, acceptor.getAddress());
+				monitor.increment();
+
 				monitor.setMessage("Waiting for connection");
-				acceptor.setTimeout(getTimeoutMillis());
+				acceptor.setTimeout(getConnectionTimeoutMillis());
 				connection = acceptor.accept();
+				connection.registerTerminals(sessions.values());
+				monitor.increment();
+
 				monitor.setMessage("Waiting for trace");
 				trace = connection.waitForTrace(getTimeoutMillis());
 				traceManager.openTrace(trace);
-				traceManager.activateTrace(trace);
-				monitor.setMessage("Waiting for module mapping");
+				traceManager.activate(traceManager.resolveTrace(trace),
+					ActivationCause.START_RECORDING);
+				monitor.increment();
+
+				waitForModuleMapping(monitor, connection, trace);
+			}
+			catch (CancelledException e) {
+				lastExc = e;
+				LaunchResult result =
+					new LaunchResult(program, sessions, acceptor, connection, trace, lastExc);
 				try {
-					listenForMapping(mappingService, connection, trace).get(getTimeoutMillis(),
-						TimeUnit.MILLISECONDS);
+					result.close();
 				}
-				catch (TimeoutException e) {
-					monitor.setMessage(
-						"Timed out waiting for module mapping. Invoking the mapper.");
-					Collection<ModuleMapEntry> mapped;
-					try {
-						mapped = invokeMapper(monitor, mappingService, trace);
-					}
-					catch (CancelledException ce) {
-						throw new CancellationException(e.getMessage());
-					}
-					if (mapped.isEmpty()) {
-						monitor.setMessage(
-							"Could not formulate a mapping with the target program. " +
-								"Continuing without one.");
-						Msg.showWarn(this, null, "Launch " + program,
-							"The resulting target process has no mapping to the static image " +
-								program + ". Intervention is required before static and dynamic " +
-								"addresses can be translated. Check the target's module list.");
-					}
+				catch (Exception e1) {
+					Msg.error(this, "Could not close", e1);
 				}
+				return new LaunchResult(program, Map.of(), null, null, null, lastExc);
 			}
 			catch (Exception e) {
+				DebuggerConsoleService consoleService =
+					tool.getService(DebuggerConsoleService.class);
+				if (consoleService != null) {
+					consoleService.log(DebuggerResources.ICON_LOG_ERROR,
+						"Launch %s Failed".formatted(getTitle()), e);
+				}
 				lastExc = e;
 				prompt = mode != PromptMode.NEVER;
+				LaunchResult result =
+					new LaunchResult(program, sessions, acceptor, connection, trace, lastExc);
 				if (prompt) {
+					switch (promptError(result)) {
+						case KEEP:
+							return result;
+						case RETRY:
+							try {
+								result.close();
+							}
+							catch (Exception e1) {
+								Msg.error(this, "Could not close", e1);
+							}
+							continue;
+						case TERMINATE:
+							try {
+								result.close();
+							}
+							catch (Exception e1) {
+								Msg.error(this, "Could not close", e1);
+							}
+							return new LaunchResult(program, Map.of(), null, null, null, lastExc);
+					}
 					continue;
 				}
-				return new LaunchResult(program, sessions, connection, trace, lastExc);
+				return result;
 			}
-			return new LaunchResult(program, sessions, connection, trace, null);
+			return new LaunchResult(program, sessions, acceptor, connection, trace, null);
 		}
+	}
+
+	protected ErrPromptResponse promptError(LaunchResult result) {
+		return LaunchFailureDialog.show(result);
 	}
 }

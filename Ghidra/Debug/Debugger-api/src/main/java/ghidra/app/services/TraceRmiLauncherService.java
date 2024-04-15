@@ -16,9 +16,9 @@
 package ghidra.app.services;
 
 import java.util.Collection;
+import java.util.List;
 
 import ghidra.debug.api.tracermi.TraceRmiLaunchOffer;
-import ghidra.debug.api.tracermi.TraceRmiLaunchOpinion;
 import ghidra.framework.plugintool.ServiceInfo;
 import ghidra.program.model.listing.Program;
 
@@ -30,17 +30,18 @@ import ghidra.program.model.listing.Program;
 	defaultProviderName = "ghidra.app.plugin.core.debug.gui.tracermi.launcher.TraceRmiLauncherServicePlugin")
 public interface TraceRmiLauncherService {
 	/**
-	 * Get all of the installed opinions
-	 * 
-	 * @return the opinions
-	 */
-	Collection<TraceRmiLaunchOpinion> getOpinions();
-
-	/**
 	 * Get all offers for the given program
 	 * 
 	 * @param program the program
 	 * @return the offers
 	 */
 	Collection<TraceRmiLaunchOffer> getOffers(Program program);
+
+	/**
+	 * Get offers with a saved configuration, ordered by most-recently-saved
+	 * 
+	 * @param program the program
+	 * @return the offers
+	 */
+	List<TraceRmiLaunchOffer> getSavedOffers(Program program);
 }

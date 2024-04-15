@@ -22,8 +22,7 @@ import java.net.URL;
 import java.util.*;
 
 import generic.stl.Pair;
-import ghidra.GhidraApplicationLayout;
-import ghidra.GhidraLaunchable;
+import ghidra.*;
 import ghidra.app.util.opinion.Loader;
 import ghidra.framework.*;
 import ghidra.framework.model.DomainFolder;
@@ -117,6 +116,9 @@ public class AnalyzeHeadless implements GhidraLaunchable {
 		}
 		HeadlessOptions options = analyzer.getOptions();
 		parseOptions(options, args, optionStartIndex, ghidraURL, filesToImport);
+
+		Msg.info(AnalyzeHeadless.class,
+			"Headless startup complete (" + GhidraLauncher.getMillisecondsFromLaunch() + " ms)");
 
 		// Do the headless processing
 		try {
@@ -212,13 +214,21 @@ public class AnalyzeHeadless implements GhidraLaunchable {
 				options.setPropertiesFileDirectories(args[++argi]);
 			}
 			else if (checkArgument("-import", args, argi)) {
-				File inputFile = new File(args[++argi]).getAbsoluteFile();
+				File inputFile = null;
+				try {
+					inputFile = new File(args[++argi]);
+					inputFile = inputFile.getCanonicalFile();
+				}
+				catch (IOException e) {
+					throw new InvalidInputException(
+						"Failed to get canonical form of: " + inputFile);
+				}
 				if (!inputFile.isDirectory() && !inputFile.isFile()) {
 					throw new InvalidInputException(
 						inputFile + " is not a valid directory or file.");
 				}
 
-				HeadlessAnalyzer.checkValidFilename(inputFile);
+				HeadlessAnalyzer.checkValidFilename(inputFile.toString());
 
 				filesToImport.add(inputFile);
 
@@ -240,7 +250,7 @@ public class AnalyzeHeadless implements GhidraLaunchable {
 							otherFile + " is not a valid directory or file.");
 					}
 
-					HeadlessAnalyzer.checkValidFilename(otherFile);
+					HeadlessAnalyzer.checkValidFilename(otherFile.toString());
 
 					filesToImport.add(otherFile);
 				}
@@ -298,7 +308,21 @@ public class AnalyzeHeadless implements GhidraLaunchable {
 				options.setRunScriptsNoImport(true, processBinary);
 			}
 			else if ("-recursive".equals(args[argi])) {
-				options.enableRecursiveProcessing(true);
+				Integer depth = null;
+				if ((argi + 1) < args.length) {
+					arg = args[argi + 1];
+					if (!arg.startsWith("-")) {
+						// depth is optional argument after -recursive
+						try {
+							depth = Integer.parseInt(arg);
+						}
+						catch (NumberFormatException e) {
+							throw new InvalidInputException("Invalid recursion depth: " + depth);
+						}
+						++argi;
+					}
+				}
+				options.enableRecursiveProcessing(true, depth);
 			}
 			else if ("-readOnly".equalsIgnoreCase(args[argi])) {
 				options.enableReadOnlyProcessing(true);

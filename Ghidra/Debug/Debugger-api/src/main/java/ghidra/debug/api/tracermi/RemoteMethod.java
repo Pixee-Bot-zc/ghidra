@@ -24,6 +24,7 @@ import ghidra.async.AsyncUtils;
 import ghidra.dbg.target.TargetObject;
 import ghidra.dbg.target.schema.*;
 import ghidra.dbg.target.schema.TargetObjectSchema.SchemaName;
+import ghidra.debug.api.target.ActionName;
 import ghidra.trace.model.Trace;
 import ghidra.trace.model.target.TraceObject;
 
@@ -42,123 +43,6 @@ import ghidra.trace.model.target.TraceObject;
 public interface RemoteMethod {
 
 	/**
-	 * A "hint" for how to map the method to a common action.
-	 * 
-	 * <p>
-	 * Many common commands/actions have varying names across different back-end debuggers. We'd
-	 * like to present common idioms for these common actions, but allow them to keep the names used
-	 * by the back-end, because those names are probably better known to users of that back-end than
-	 * Ghidra's action names are known. The action hints will affect the icon and placement of the
-	 * action in the UI, but the display name will still reflect the name given by the back-end.
-	 * Note that the "stock" action names are not a fixed enumeration. These are just the ones that
-	 * might get special treatment from Ghidra. All methods should appear somewhere (at least, e.g.,
-	 * in context menus for applicable objects), even if the action name is unspecified or does not
-	 * match a stock name. This list may change over time, but that shouldn't matter much. Each
-	 * back-end should make its best effort to match its methods to these stock actions where
-	 * applicable, but ultimately, it is up to the UI to decide what is presented where.
-	 */
-	public record Action(String name) {
-		public static final Action REFRESH = new Action("refresh");
-		public static final Action ACTIVATE = new Action("activate");
-		/**
-		 * A weaker form of activate.
-		 * 
-		 * <p>
-		 * The user has expressed interest in an object, but has not activated it yet. This is often
-		 * used to communicate selection (i.e., highlight) of the object. Whereas, double-clicking
-		 * or pressing enter would more likely invoke 'activate.'
-		 */
-		public static final Action FOCUS = new Action("focus");
-		public static final Action TOGGLE = new Action("toggle");
-		public static final Action DELETE = new Action("delete");
-
-		/**
-		 * Forms: (cmd:STRING):STRING
-		 * 
-		 * Optional arguments: capture:BOOL
-		 */
-		public static final Action EXECUTE = new Action("execute");
-
-		/**
-		 * Forms: (spec:STRING)
-		 */
-		public static final Action CONNECT = new Action("connect");
-
-		/**
-		 * Forms: (target:Attachable), (pid:INT), (spec:STRING)
-		 */
-		public static final Action ATTACH = new Action("attach");
-		public static final Action DETACH = new Action("detach");
-
-		/**
-		 * Forms: (command_line:STRING), (file:STRING,args:STRING), (file:STRING,args:STRING_ARRAY),
-		 * (ANY*)
-		 */
-		public static final Action LAUNCH = new Action("launch");
-		public static final Action KILL = new Action("kill");
-
-		public static final Action RESUME = new Action("resume");
-		public static final Action INTERRUPT = new Action("interrupt");
-
-		/**
-		 * All of these will show in the "step" portion of the control toolbar, if present. The
-		 * difference in each "step_x" is minor. The icon will indicate which form, and the
-		 * positions will be shifted so they appear in a consistent order. The display name is
-		 * determined by the method name, not the action name. For stepping actions that don't fit
-		 * the standards, use {@link #STEP_EXT}. There should be at most one of each standard
-		 * applicable for any given context. (Multiple will appear, but may confuse the user.) You
-		 * can have as many extended step actions as you like. They will be ordered
-		 * lexicographically by name.
-		 */
-		public static final Action STEP_INTO = new Action("step_into");
-		public static final Action STEP_OVER = new Action("step_over");
-		public static final Action STEP_OUT = new Action("step_out");
-		/**
-		 * Skip is not typically available, except in emulators. If the back-end debugger does not
-		 * have a command for this action out-of-the-box, we do not recommend trying to implement it
-		 * yourself. The purpose of these actions just to expose/map each command to the UI, not to
-		 * invent new features for the back-end debugger.
-		 */
-		public static final Action STEP_SKIP = new Action("step_skip");
-		/**
-		 * Step back is not typically available, except in emulators and timeless (or time-travel)
-		 * debuggers.
-		 */
-		public static final Action STEP_BACK = new Action("step_back");
-		/**
-		 * The action for steps that don't fit one of the common stepping actions.
-		 */
-		public static final Action STEP_EXT = new Action("step_ext");
-
-		/**
-		 * Forms: (addr:ADDRESS), R/W(rng:RANGE), set(expr:STRING)
-		 * 
-		 * Optional arguments: condition:STRING, commands:STRING
-		 */
-		public static final Action BREAK_SW_EXECUTE = new Action("break_sw_execute");
-		public static final Action BREAK_HW_EXECUTE = new Action("break_hw_execute");
-		public static final Action BREAK_READ = new Action("break_read");
-		public static final Action BREAK_WRITE = new Action("break_write");
-		public static final Action BREAK_ACCESS = new Action("break_access");
-		public static final Action BREAK_EXT = new Action("break_ext");
-
-		/**
-		 * Forms: (rng:RANGE)
-		 */
-		public static final Action READ_MEM = new Action("read_mem");
-		/**
-		 * Forms: (addr:ADDRESS,data:BYTES)
-		 */
-		public static final Action WRITE_MEM = new Action("write_mem");
-
-		// NOTE: no read_reg. Use refresh(RegContainer), refresh(RegGroup), refresh(Register)
-		/**
-		 * Forms: (frame:Frame,name:STRING,value:BYTES), (register:Register,value:BYTES)
-		 */
-		public static final Action WRITE_REG = new Action("write_reg");
-	}
-
-	/**
 	 * The name of the method.
 	 * 
 	 * @return the name
@@ -170,7 +54,14 @@ public interface RemoteMethod {
 	 * 
 	 * @return the action
 	 */
-	Action action();
+	ActionName action();
+
+	/**
+	 * A title to display in the UI for this action.
+	 * 
+	 * @return the title
+	 */
+	String display();
 
 	/**
 	 * A description of the method.
@@ -215,23 +106,28 @@ public interface RemoteMethod {
 	 * primitive. We instead need {@link TraceObject}. I'd add the method to the schema, except that
 	 * trace stuff is not in its dependencies.
 	 * 
-	 * @param name the name of the parameter
+	 * @param paramName the name of the parameter
+	 * @param schName the name of the parameter's schema
 	 * @param sch the type of the parameter
 	 * @param arg the argument
 	 */
-	static void checkType(String name, TargetObjectSchema sch, Object arg) {
-		if (sch.getType() != TargetObject.class) {
-			if (sch.getType().isInstance(arg)) {
-				return;
+	static void checkType(String paramName, SchemaName schName, TargetObjectSchema sch,
+			Object arg) {
+		// if sch is null, it was definitely an object-type schema without context
+		if (sch != null) {
+			if (sch.getType() != TargetObject.class) {
+				if (sch.getType().isInstance(arg)) {
+					return;
+				}
 			}
-		}
-		else if (arg instanceof TraceObject obj) {
-			if (sch.equals(obj.getTargetSchema())) {
-				return;
+			else if (arg instanceof TraceObject obj) {
+				if (sch.isAssignableFrom(obj.getTargetSchema())) {
+					return;
+				}
 			}
 		}
 		throw new IllegalArgumentException(
-			"For parameter %s: argument %s is not a %s".formatted(name, arg, sch));
+			"For parameter %s: argument %s is not a %s".formatted(paramName, arg, schName));
 	}
 
 	/**
@@ -268,8 +164,9 @@ public interface RemoteMethod {
 						"All TraceObject parameters must come from the same trace");
 				}
 			}
-			TargetObjectSchema sch = ctx.getSchema(ent.getValue().type());
-			checkType(ent.getKey(), sch, arg);
+			SchemaName schName = ent.getValue().type();
+			TargetObjectSchema sch = ctx.getSchemaOrNull(schName);
+			checkType(ent.getKey(), schName, sch, arg);
 		}
 		for (Map.Entry<String, Object> ent : arguments.entrySet()) {
 			if (!parameters().containsKey(ent.getKey())) {
@@ -307,6 +204,7 @@ public interface RemoteMethod {
 	 * 
 	 * @param arguments the keyword arguments to the remote method
 	 * @throws IllegalArgumentException if the arguments are not valid
+	 * @return the returned value
 	 */
 	default Object invoke(Map<String, Object> arguments) {
 		try {

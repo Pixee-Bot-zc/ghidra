@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 
 import ghidra.async.AsyncReference;
+import ghidra.debug.api.target.Target;
 import ghidra.debug.api.tracemgr.DebuggerCoordinates;
 import ghidra.framework.model.DomainFile;
 import ghidra.framework.plugintool.ServiceInfo;
@@ -27,6 +28,7 @@ import ghidra.trace.model.Trace;
 import ghidra.trace.model.guest.TracePlatform;
 import ghidra.trace.model.program.TraceProgramView;
 import ghidra.trace.model.target.TraceObject;
+import ghidra.trace.model.target.TraceObjectKeyPath;
 import ghidra.trace.model.thread.TraceThread;
 import ghidra.trace.model.time.schedule.TraceSchedule;
 import ghidra.util.TriConsumer;
@@ -249,6 +251,18 @@ public interface DebuggerTraceManagerService {
 	void closeTrace(Trace trace);
 
 	/**
+	 * Close the given trace without confirmation
+	 * 
+	 * <p>
+	 * Ordinarily, {@link #closeTrace(Trace)} will prompt the user to confirm termination of live
+	 * targets associated with traces to be closed. Such prompts can cause issues during automated
+	 * tests.
+	 * 
+	 * @param trace the trace to close
+	 */
+	void closeTraceNoConfirm(Trace trace);
+
+	/**
 	 * Close all traces
 	 */
 	void closeAllTraces();
@@ -281,11 +295,10 @@ public interface DebuggerTraceManagerService {
 	 * 
 	 * @param coordinates the desired coordinates
 	 * @param cause the cause of the activation
-	 * @param syncTarget true synchronize the current target to the same coordinates
 	 * @return a future which completes when emulation and navigation is complete
 	 */
 	CompletableFuture<Void> activateAndNotify(DebuggerCoordinates coordinates,
-			ActivationCause cause, boolean syncTarget);
+			ActivationCause cause);
 
 	/**
 	 * Activate the given coordinates, caused by the user
@@ -302,7 +315,7 @@ public interface DebuggerTraceManagerService {
 	 * 
 	 * <p>
 	 * If asynchronous notification is needed, use
-	 * {@link #activateAndNotify(DebuggerCoordinates, boolean)}.
+	 * {@link #activateAndNotify(DebuggerCoordinates, ActivationCause)}.
 	 * 
 	 * @param coordinates the desired coordinates
 	 * @param cause the cause of activation
@@ -328,6 +341,24 @@ public interface DebuggerTraceManagerService {
 	 */
 	default void activateTrace(Trace trace) {
 		activate(resolveTrace(trace));
+	}
+
+	/**
+	 * Resolve coordinates for the given target using the manager's "best judgment"
+	 * 
+	 * @see #resolveTrace(Trace)
+	 * @param target the target
+	 * @return the best coordinates
+	 */
+	DebuggerCoordinates resolveTarget(Target target);
+
+	/**
+	 * Activate the given target
+	 * 
+	 * @param target the desired target
+	 */
+	default void activateTarget(Target target) {
+		activate(resolveTarget(target));
 	}
 
 	/**
@@ -430,6 +461,24 @@ public interface DebuggerTraceManagerService {
 	}
 
 	/**
+	 * Resolve coordinates for the given object path using the manager's "best judgment"
+	 * 
+	 * @see #resolveTrace(Trace)
+	 * @param path the path
+	 * @return the best coordinates
+	 */
+	DebuggerCoordinates resolvePath(TraceObjectKeyPath path);
+
+	/**
+	 * Activate the given canonical object path
+	 * 
+	 * @param path the desired path
+	 */
+	default void activatePath(TraceObjectKeyPath path) {
+		activate(resolvePath(path));
+	}
+
+	/**
 	 * Resolve coordinates for the given object using the manager's "best judgment"
 	 * 
 	 * @see #resolveTrace(Trace)
@@ -446,34 +495,6 @@ public interface DebuggerTraceManagerService {
 	default void activateObject(TraceObject object) {
 		activate(resolveObject(object));
 	}
-
-	/**
-	 * Control whether trace activation is synchronized with debugger activation
-	 * 
-	 * @param enabled true to synchronize, false otherwise
-	 */
-	void setSynchronizeActive(boolean enabled);
-
-	/**
-	 * Check whether trace activation is synchronized with debugger activation
-	 * 
-	 * @return true if synchronized, false otherwise
-	 */
-	boolean isSynchronizeActive();
-
-	/**
-	 * Add a listener for changes to activation synchronization enablement
-	 * 
-	 * @param listener the listener to receive change notifications
-	 */
-	void addSynchronizeActiveChangeListener(BooleanChangeAdapter listener);
-
-	/**
-	 * Remove a listener for changes to activation synchronization enablement
-	 * 
-	 * @param listener the listener receiving change notifications
-	 */
-	void removeSynchronizeActiveChangeListener(BooleanChangeAdapter listener);
 
 	/**
 	 * Control whether traces should be saved by default

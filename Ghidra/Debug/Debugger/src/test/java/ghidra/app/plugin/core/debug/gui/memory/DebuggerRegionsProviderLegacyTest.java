@@ -27,7 +27,7 @@ import org.junit.experimental.categories.Category;
 import db.Transaction;
 import generic.Unique;
 import generic.test.category.NightlyCategory;
-import ghidra.app.plugin.core.debug.gui.AbstractGhidraHeadedDebuggerGUITest;
+import ghidra.app.plugin.core.debug.gui.AbstractGhidraHeadedDebuggerTest;
 import ghidra.app.plugin.core.debug.gui.DebuggerBlockChooserDialog;
 import ghidra.app.plugin.core.debug.gui.DebuggerBlockChooserDialog.MemoryBlockRow;
 import ghidra.app.plugin.core.debug.gui.listing.DebuggerListingPlugin;
@@ -44,7 +44,7 @@ import ghidra.trace.model.memory.*;
 import ghidra.trace.model.modules.TraceStaticMapping;
 
 @Category(NightlyCategory.class)
-public class DebuggerRegionsProviderLegacyTest extends AbstractGhidraHeadedDebuggerGUITest {
+public class DebuggerRegionsProviderLegacyTest extends AbstractGhidraHeadedDebuggerTest {
 
 	DebuggerRegionsProvider provider;
 
@@ -242,7 +242,7 @@ public class DebuggerRegionsProviderLegacyTest extends AbstractGhidraHeadedDebug
 
 	@Test
 	public void testActionMapRegions() throws Exception {
-		assertFalse(provider.actionMapRegions.isEnabled());
+		assertDisabled(provider, provider.actionMapRegions);
 
 		createAndOpenTrace();
 		createAndOpenProgramFromTrace();
@@ -254,7 +254,7 @@ public class DebuggerRegionsProviderLegacyTest extends AbstractGhidraHeadedDebug
 		waitForSwing();
 
 		// Still
-		assertFalse(provider.actionMapRegions.isEnabled());
+		assertDisabled(provider, provider.actionMapRegions);
 
 		addBlocks();
 		try (Transaction tx = program.openTransaction("Change name")) {
