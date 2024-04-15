@@ -139,7 +139,7 @@ public class RecoverySnapshotMgrPlugin extends Plugin
 	@Override
 	public void optionsChanged(ToolOptions options, String optionName, Object oldValue,
 			Object newValue) {
-		if (optionName.equals(SNAPSHOT_PERIOD_OPTION)) {
+		if (SNAPSHOT_PERIOD_OPTION.equals(optionName)) {
 			synchronized (this) {
 				int oldSnapshotPeriod = snapshotPeriodMin;
 				int newSnapshotPeriodMin =

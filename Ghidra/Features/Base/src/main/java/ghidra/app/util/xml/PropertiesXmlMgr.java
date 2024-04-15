@@ -61,19 +61,19 @@ class PropertiesXmlMgr {
 			throws SAXParseException, CancelledException {
 
 		XmlElement element = parser.next();
-		if (!element.isStart() || !element.getName().equals("PROPERTIES")) {
+		if (!element.isStart() || !"PROPERTIES".equals(element.getName())) {
 			throw new SAXParseException("Expected PROPERTIES start tag", null, null,
 				parser.getLineNumber(), parser.getColumnNumber());
 		}
 		element = parser.next();
-		while (element.getName().equals("PROPERTY")) {
+		while ("PROPERTY".equals(element.getName())) {
 			if (monitor.isCancelled()) {
 				throw new CancelledException();
 			}
 			processProperty(element, parser, overwrite);
 			element = parser.next();
 		}
-		if (element.isStart() || !element.getName().equals("PROPERTIES")) {
+		if (element.isStart() || !"PROPERTIES".equals(element.getName())) {
 			throw new SAXParseException("Expected PROPERTY element or PROPERTIES end tag", null,
 				null, parser.getLineNumber(), parser.getColumnNumber());
 		}
@@ -109,7 +109,7 @@ class PropertiesXmlMgr {
 		}
 
 		element = parser.next();
-		if (element.isStart() || !element.getName().equals("PROPERTY")) {
+		if (element.isStart() || !"PROPERTY".equals(element.getName())) {
 			throw new SAXParseException("Expected PROPERTY end tag", null, null,
 				parser.getLineNumber(), parser.getColumnNumber());
 		}

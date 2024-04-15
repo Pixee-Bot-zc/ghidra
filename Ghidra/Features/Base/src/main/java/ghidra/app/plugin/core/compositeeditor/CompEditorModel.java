@@ -1279,7 +1279,7 @@ public abstract class CompEditorModel extends CompositeEditorModel {
 
 		String oldComment = getComponent(rowIndex).getComment();
 		String newComment = comment;
-		if (newComment.equals("")) {
+		if ("".equals(newComment)) {
 			newComment = null;
 		}
 

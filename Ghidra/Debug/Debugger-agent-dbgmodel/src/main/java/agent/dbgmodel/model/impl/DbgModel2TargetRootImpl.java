@@ -547,7 +547,7 @@ public class DbgModel2TargetRootImpl extends DbgModel2DefaultTargetModelRoot
 			tkey = PathUtils.makeKey("0x" + Long.toHexString(thread.getTid()));
 			pkey = PathUtils.makeKey("0x" + Long.toHexString(process.getPid()));
 			if (getManager().isKernelMode()) {
-				if (tkey.equals("[0x0]")) {
+				if ("[0x0]".equals(tkey)) {
 					// Weird, but necessary...
 					pkey = "[0x0]";
 				}

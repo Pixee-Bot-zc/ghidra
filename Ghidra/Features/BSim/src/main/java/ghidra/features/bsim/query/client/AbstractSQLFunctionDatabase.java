@@ -343,7 +343,7 @@ public abstract class AbstractSQLFunctionDatabase<VF extends LSHVectorFactory>
 			dbInfo.layout_version = 0; // In which case, we know it is version 0
 		}
 		dbInfo.dateColumnName = keyValueTable.getValue("datecolumn");
-		if (dbInfo.dateColumnName.equals("Ingest Date")) {
+		if ("Ingest Date".equals(dbInfo.dateColumnName)) {
 			// name
 			dbInfo.dateColumnName = null; // Don't bother holding it
 		}

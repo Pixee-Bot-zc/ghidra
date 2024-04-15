@@ -50,10 +50,10 @@ public class FridaClientImpl implements FridaClient {
 
 	public FridaTarget createTargetByType(String type) {
 		Integer typeid = 0;
-		if (type.equalsIgnoreCase("Remote")) {
+		if ("Remote".equalsIgnoreCase(type)) {
 			typeid = 1;
 		}
-		if (type.equalsIgnoreCase("USB")) {
+		if ("USB".equalsIgnoreCase(type)) {
 			typeid = 2;
 		}
 		FridaTarget target = FridaEng.createTargetByType(d, typeid);

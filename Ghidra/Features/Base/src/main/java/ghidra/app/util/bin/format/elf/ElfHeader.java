@@ -1296,7 +1296,7 @@ public class ElfHeader implements StructConverter {
 			int preLinkImageBaseInt = reader.readInt(fileLength - 8);
 			String preLinkMagicString = reader.readAsciiString(fileLength - 4, 4).trim();
 
-			if (preLinkMagicString.equals("PRE")) {
+			if ("PRE".equals(preLinkMagicString)) {
 				preLinkImageBase = Integer.toUnsignedLong(preLinkImageBaseInt);
 			}
 		}

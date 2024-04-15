@@ -102,7 +102,7 @@ public class RestoreDialog extends ReusableDialogComponentProvider {
 					projectNameField.setText(projectName);
 
 					String dir = restoreField.getText().trim();
-					if (dir.equals("")) {
+					if ("".equals(dir)) {
 						dir = archivePath.substring(0, archivePath.lastIndexOf(File.separator));
 						restoreField.setText(dir);
 					}
@@ -245,7 +245,7 @@ public class RestoreDialog extends ReusableDialogComponentProvider {
 		this.archivePathName = pathName;
 		this.restoreURL = projectLocator;
 		String projectName = projectNameField.getText();
-		if (projectName == null || projectName.equals("")) {
+		if (projectName == null || "".equals(projectName)) {
 			projectName = ArchivePlugin.getProjectName(pathName);
 		}
 		archiveField.setText(pathName);
@@ -296,17 +296,17 @@ public class RestoreDialog extends ReusableDialogComponentProvider {
 	 */
 	private boolean checkInput() {
 		String archiveName = getArchivePathName();
-		if ((archiveName == null) || archiveName.equals("")) {
+		if ((archiveName == null) || "".equals(archiveName)) {
 			setStatusText("Specify a valid archive file.");
 			return false;
 		}
 		String restoreDir = restoreField.getText().trim();
-		if (restoreDir == null || restoreDir.equals("") || !(new File(restoreDir)).isDirectory()) {
+		if (restoreDir == null || "".equals(restoreDir) || !(new File(restoreDir)).isDirectory()) {
 			setStatusText("Specify a valid project directory.");
 			return false;
 		}
 		String restoreProjectName = projectNameField.getText().trim();
-		if (restoreProjectName == null || restoreProjectName.equals("") ||
+		if (restoreProjectName == null || "".equals(restoreProjectName) ||
 			!NamingUtilities.isValidName(restoreProjectName)) {
 			setStatusText("Specify a valid project name.");
 			return false;

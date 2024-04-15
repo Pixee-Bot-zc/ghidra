@@ -81,18 +81,18 @@ public class IntelHexLoader extends AbstractProgramLoader {
 		for (Option option : options) {
 			String optName = option.getName();
 			try {
-				if (optName.equals(OPTION_NAME_BASE_ADDRESS)) {
+				if (OPTION_NAME_BASE_ADDRESS.equals(optName)) {
 					baseAddr = (Address) option.getValue();
 					if (baseAddr == null) {
 						return "Invalid base address";
 					}
 				}
-				else if (optName.equals(OPTION_NAME_BLOCK_NAME)) {
+				else if (OPTION_NAME_BLOCK_NAME.equals(optName)) {
 					if (!String.class.isAssignableFrom(option.getValueClass())) {
 						return OPTION_NAME_BLOCK_NAME + " must be a String";
 					}
 				}
-				else if (optName.equals(OPTION_NAME_IS_OVERLAY)) {
+				else if (OPTION_NAME_IS_OVERLAY.equals(optName)) {
 					if (!Boolean.class.isAssignableFrom(option.getValueClass())) {
 						return OPTION_NAME_IS_OVERLAY + " must be a boolean";
 					}
@@ -112,7 +112,7 @@ public class IntelHexLoader extends AbstractProgramLoader {
 		Address baseAddr = null;
 		for (Option option : options) {
 			String optName = option.getName();
-			if (optName.equals(OPTION_NAME_BASE_ADDRESS)) {
+			if (OPTION_NAME_BASE_ADDRESS.equals(optName)) {
 				baseAddr = (Address) option.getValue();
 			}
 		}
@@ -123,7 +123,7 @@ public class IntelHexLoader extends AbstractProgramLoader {
 		String blockName = "";
 		for (Option option : options) {
 			String optName = option.getName();
-			if (optName.equals(OPTION_NAME_BLOCK_NAME)) {
+			if (OPTION_NAME_BLOCK_NAME.equals(optName)) {
 				blockName = (String) option.getValue();
 			}
 		}
@@ -134,7 +134,7 @@ public class IntelHexLoader extends AbstractProgramLoader {
 		boolean isOverlay = false;
 		for (Option option : options) {
 			String optName = option.getName();
-			if (optName.equals(OPTION_NAME_IS_OVERLAY)) {
+			if (OPTION_NAME_IS_OVERLAY.equals(optName)) {
 				isOverlay = (Boolean) option.getValue();
 			}
 		}

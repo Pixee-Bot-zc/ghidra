@@ -398,10 +398,10 @@ public class ObjectContainer implements Comparable<ObjectContainer> {
 			}
 		}
 		if (targetObject != null) {
-			if (!targetObject.getTypeHint().equals("")) {
+			if (!"".equals(targetObject.getTypeHint())) {
 				XmlUtilities.setStringAttr(result, "Type", targetObject.getTypeHint());
 			}
-			if (!targetObject.getDisplay().equals("")) {
+			if (!"".equals(targetObject.getDisplay())) {
 				XmlUtilities.setStringAttr(result, "Value", targetObject.getDisplay());
 			}
 		}

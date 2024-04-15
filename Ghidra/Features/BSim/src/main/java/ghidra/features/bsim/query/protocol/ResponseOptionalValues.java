@@ -61,7 +61,7 @@ public class ResponseOptionalValues extends QueryResponseRecord {
 		resultArray = null;
 		List<Object> resValues = new ArrayList<Object>();
 		parser.start(name);
-		if (parser.peek().getName().equals("exists")) {
+		if ("exists".equals(parser.peek().getName())) {
 			parser.start("exists");
 			tableExists = SpecXmlUtils.decodeBoolean(parser.end().getText());
 		}

@@ -95,7 +95,7 @@ public final class ObjectiveC1_Constants {
 		if (MachoLoader.MACH_O_NAME.equals(format)) {
 			for (String objcSection : getObjectiveCSectionNames()) {
 				if (program.getMemory().getBlock(objcSection) != null) {
-					if( !objcSection.equals("__data")) {
+					if( !"__data".equals(objcSection)) {
 						return true;
 					}
 				}

@@ -54,13 +54,13 @@ class BookmarksXmlMgr {
 			throws SAXParseException, AddressFormatException, CancelledException {
 
 		XmlElement element = parser.next();
-		if (!element.isStart() || !element.getName().equals("BOOKMARKS")) {
+		if (!element.isStart() || !"BOOKMARKS".equals(element.getName())) {
 			throw new SAXParseException("Expected BOOKMARKS start tag", null, null,
 				parser.getLineNumber(), parser.getColumnNumber());
 		}
 
 		element = parser.next();
-		while (element.getName().equals("BOOKMARK")) {
+		while ("BOOKMARK".equals(element.getName())) {
 			if (monitor.isCancelled()) {
 				throw new CancelledException();
 			}
@@ -68,7 +68,7 @@ class BookmarksXmlMgr {
 			element = parser.next();
 		}
 
-		if (element.isStart() || !element.getName().equals("BOOKMARKS")) {
+		if (element.isStart() || !"BOOKMARKS".equals(element.getName())) {
 			throw new SAXParseException("Expected BOOKMARK element or BOOKMARKS end tag", null,
 				null, parser.getLineNumber(), parser.getColumnNumber());
 		}
@@ -118,7 +118,7 @@ class BookmarksXmlMgr {
 		}
 
 		element = parser.next();
-		if (element.isStart() || !element.getName().equals("BOOKMARK")) {
+		if (element.isStart() || !"BOOKMARK".equals(element.getName())) {
 			throw new SAXParseException("Expected BOOKMARK end tag", null, null,
 				parser.getLineNumber(), parser.getColumnNumber());
 		}

@@ -149,14 +149,14 @@ public class BrowserCodeUnitFormatOptions extends CodeUnitFormatOptions
 			notifyListeners();
 		}
 		else if (optionName.equals(GhidraOptions.SHOW_BLOCK_NAME_OPTION) ||
-			optionName.equals(REGISTER_VARIABLE_MARKUP_OPTION) ||
-			optionName.equals(STACK_VARIABLE_MARKUP_OPTION) ||
-			optionName.equals(INFERRED_VARIABLE_MARKUP_OPTION) ||
-			optionName.equals(ALWAYS_SHOW_PRIMARY_REFERENCE_MARKUP_OPTION) ||
-			optionName.equals(FOLLOW_POINTER_REFERENCE_MARKUP_OPTION) ||
-			optionName.equals(SCALAR_ADJUSTMENT_OPTION) || optionName.equals(NAMESPACE_OPTIONS) ||
-			optionName.equals(SHOW_MUTABILITY_OPTION) ||
-			optionName.equals(SHOW_OFFCUT_INFO_OPTION)) {
+			REGISTER_VARIABLE_MARKUP_OPTION.equals(optionName) ||
+			STACK_VARIABLE_MARKUP_OPTION.equals(optionName) ||
+			INFERRED_VARIABLE_MARKUP_OPTION.equals(optionName) ||
+			ALWAYS_SHOW_PRIMARY_REFERENCE_MARKUP_OPTION.equals(optionName) ||
+			FOLLOW_POINTER_REFERENCE_MARKUP_OPTION.equals(optionName) ||
+			SCALAR_ADJUSTMENT_OPTION.equals(optionName) || NAMESPACE_OPTIONS.equals(optionName) ||
+			SHOW_MUTABILITY_OPTION.equals(optionName) ||
+			SHOW_OFFCUT_INFO_OPTION.equals(optionName)) {
 			updateFormat();
 			notifyListeners();
 		}

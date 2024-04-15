@@ -171,13 +171,13 @@ public class AnalyzeHeadless implements GhidraLaunchable {
 				// Already processed
 				argi++;
 			}
-			else if (arg.equalsIgnoreCase("-overwrite")) {
+			else if ("-overwrite".equalsIgnoreCase(arg)) {
 				options.enableOverwriteOnConflict(true);
 			}
-			else if (arg.equalsIgnoreCase("-noanalysis")) {
+			else if ("-noanalysis".equalsIgnoreCase(arg)) {
 				options.enableAnalysis(false);
 			}
-			else if (arg.equalsIgnoreCase("-deleteproject")) {
+			else if ("-deleteproject".equalsIgnoreCase(arg)) {
 				options.setDeleteCreatedProjectOnClose(true);
 			}
 			else if (checkArgument("-loader", args, argi)) {
@@ -285,7 +285,7 @@ public class AnalyzeHeadless implements GhidraLaunchable {
 						keystore.getAbsolutePath() + " is not a valid keystore file.");
 				}
 			}
-			else if (arg.equalsIgnoreCase("-p")) {
+			else if ("-p".equalsIgnoreCase(arg)) {
 				allowPasswordPrompt = true;
 			}
 			else if ("-analysisTimeoutPerFile".equalsIgnoreCase(args[argi])) {

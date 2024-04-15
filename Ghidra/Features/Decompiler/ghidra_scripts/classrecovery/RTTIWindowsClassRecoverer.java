@@ -203,7 +203,7 @@ public class RTTIWindowsClassRecoverer extends RTTIClassRecoverer {
 
 		for (Symbol symbol : vftableSymbols) {
 			monitor.checkCancelled();
-			if (symbol.getParentNamespace().getName().equals("type_info")) {
+			if ("type_info".equals(symbol.getParentNamespace().getName())) {
 				return true;
 			}
 		}

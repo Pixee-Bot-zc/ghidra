@@ -257,7 +257,7 @@ public class GenSignatures {
 
 	private Date fillinDate() {
 		if ((dateColumnName == null) || dateColumnName.equals(Program.DATE_CREATED) ||
-			dateColumnName.equals("Ingest Date")) {
+			"Ingest Date".equals(dateColumnName)) {
 			return program.getCreationDate();
 		}
 		Options progoptions = program.getOptions(Program.PROGRAM_INFO);
@@ -587,7 +587,7 @@ public class GenSignatures {
 		}
 
 		ResourceFile moduleDataSubDirectory = Application.getModuleDataSubDirectory("");
-		if (split1[0].equals("Dalvik") || split1[0].equals("JVM")) {
+		if ("Dalvik".equals(split1[0]) || "JVM".equals(split1[0])) {
 			if (!split2[0].equals(split1[0])) {
 				return null;
 			}
@@ -597,19 +597,19 @@ public class GenSignatures {
 		String size1 = split1[2];		// Pull out the size
 		String size2 = split2[2];
 		if (!size1.equals(size2)) {		// If the two things we compare are from different processor sizes
-			if (!size1.equals("64") && !size1.equals("32")) {
+			if (!"64".equals(size1) && !"32".equals(size1)) {
 				return null;	// Differing sizes not 32 or 64
 			}
-			if (!size2.equals("64") && !size2.equals("32")) {
+			if (!"64".equals(size2) && !"32".equals(size2)) {
 				return null;	// We cannot do decent comparisons
 			}
 			basefile = "lshweights_nosize.xml";	// We use a special sizeless weights file
 		}
 		else {
-			if (size1.equals("32")) {
+			if ("32".equals(size1)) {
 				basefile = "lshweights_32.xml";
 			}
-			else if (size1.equals("64")) {
+			else if ("64".equals(size1)) {
 				basefile = "lshweights_64.xml";
 				if (split1.length > 3) {
 					String version = split1[3];

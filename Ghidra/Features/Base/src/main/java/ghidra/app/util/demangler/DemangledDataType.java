@@ -190,7 +190,7 @@ public class DemangledDataType extends DemangledType {
 					}
 				}
 			}
-			else if (isClass() || name.equals(STRING)) {
+			else if (isClass() || STRING.equals(name)) {
 				if (baseType == null || !(baseType instanceof Structure)) {
 					// try creating empty structures for unknown types instead.
 					dt = createPlaceHolderStructure(name, getNamespace());

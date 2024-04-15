@@ -282,7 +282,7 @@ public class MultiTabPlugin extends Plugin implements DomainObjectListener, Opti
 	@Override
 	public void optionsChanged(ToolOptions options, String optionName, Object oldValue,
 			Object newValue) throws OptionsVetoException {
-		if (optionName.equals(SHOW_TABS_ALWAYS)) {
+		if (SHOW_TABS_ALWAYS.equals(optionName)) {
 			tabPanel.setShowTabsAlways((Boolean) newValue);
 		}
 	}

@@ -102,7 +102,7 @@ class CodeXmlMgr implements DisassemblerMessageListener {
 
 		XmlElement element = parser.next();
 		element = parser.next();
-		while (element.getName().equals("CODE_BLOCK")) {
+		while ("CODE_BLOCK".equals(element.getName())) {
 			if (monitor.isCancelled()) {
 				throw new CancelledException();
 			}

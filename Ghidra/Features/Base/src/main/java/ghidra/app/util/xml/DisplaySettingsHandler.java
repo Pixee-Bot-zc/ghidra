@@ -64,7 +64,7 @@ class DisplaySettingsHandler {
 		}
 		if (element.hasAttribute("ENDIAN")) {
 			String endian = element.getAttribute("ENDIAN");
-			EndianSettingsDefinition.DEF.setBigEndian(settings, endian.equals("big"));
+			EndianSettingsDefinition.DEF.setBigEndian(settings, "big".equals(endian));
 		}
 		if (element.hasAttribute("SHOW_TERMINATOR")) {
 			boolean showTerminator = XmlUtilities.parseBoolean(element.getAttribute("SHOW_TERMINATOR"));

@@ -235,7 +235,7 @@ public class DbgModelTargetRootImpl extends DbgModelDefaultTargetModelRoot
 		}
 		String tkey = DbgModelTargetThreadImpl.keyThread(thread);
 		if (getManager().isKernelMode()) {
-			if (tkey.equals("[0x0]")) {
+			if ("[0x0]".equals(tkey)) {
 				// Weird, but necessary...
 				pkey = "[0x0]";
 			}

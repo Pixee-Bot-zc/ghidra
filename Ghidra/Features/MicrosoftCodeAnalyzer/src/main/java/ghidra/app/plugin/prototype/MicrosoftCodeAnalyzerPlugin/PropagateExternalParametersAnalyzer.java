@@ -62,7 +62,7 @@ public class PropagateExternalParametersAnalyzer extends AbstractAnalyzer {
 			}
 
 			String mnemonic = listing.getCodeUnitAt(fromAddr).getMnemonicString();
-			if ((mnemonic.equals("JMP") && (callingFunction.isThunk()))) {
+			if (("JMP".equals(mnemonic) && (callingFunction.isThunk()))) {
 				processThunkReference(listing, refMan, externalFunction, params, callingFunction);
 			}
 			else if ((mnemonic.equals("CALL"))) {// not a thunk
@@ -87,7 +87,7 @@ public class PropagateExternalParametersAnalyzer extends AbstractAnalyzer {
 			}
 
 			String thunkMnemonic = listing.getCodeUnitAt(thunkAddr).getMnemonicString();
-			if (!thunkMnemonic.equals("CALL")) {
+			if (!"CALL".equals(thunkMnemonic)) {
 				continue;
 			}
 
@@ -167,10 +167,10 @@ public class PropagateExternalParametersAnalyzer extends AbstractAnalyzer {
 			if (numSkips > 0) {
 				numSkips--;
 			}
-			else if (cu.getMnemonicString().equals("CALL")) {
+			else if ("CALL".equals(cu.getMnemonicString())) {
 				numParams += numParams(cu);
 			}
-			else if (cu.getMnemonicString().equals("PUSH")) {
+			else if ("PUSH".equals(cu.getMnemonicString())) {
 				numPushes++;
 			}
 		}
@@ -198,10 +198,10 @@ public class PropagateExternalParametersAnalyzer extends AbstractAnalyzer {
 			CodeUnit cu = iterator.next();
 			boolean isBranch = cu.getLabel() != null;
 
-			if (cu.getMnemonicString().equals("CALL")) {
+			if ("CALL".equals(cu.getMnemonicString())) {
 				numSkips += numParams(cu);
 			}
-			else if (cu.getMnemonicString().equals("PUSH")) {
+			else if ("PUSH".equals(cu.getMnemonicString())) {
 				if (numSkips > 0) {
 					numSkips--;
 				}

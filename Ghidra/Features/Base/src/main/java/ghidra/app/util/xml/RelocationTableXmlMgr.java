@@ -53,7 +53,7 @@ class RelocationTableXmlMgr {
 		while (true) {
 			monitor.checkCancelled();
 			element = parser.next();
-			if (!element.getName().equals("RELOCATION")) {
+			if (!"RELOCATION".equals(element.getName())) {
 				break;
 			}
 			try {

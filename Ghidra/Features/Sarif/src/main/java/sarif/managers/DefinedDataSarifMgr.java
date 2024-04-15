@@ -132,7 +132,7 @@ public class DefinedDataSarifMgr extends SarifMgr {
 				String value = (String) map.get("value");
 				Object existing = settings.getValue(name);
 				if (existing == null || !existing.toString().equals(value)) {
-					settings.setValue(name, kind.equals("long") ? Long.parseLong(value) : value);
+					settings.setValue(name, "long".equals(kind) ? Long.parseLong(value) : value);
 				}
 			}
 		}
@@ -162,7 +162,7 @@ public class DefinedDataSarifMgr extends SarifMgr {
 				String value = (String) lmap.get("value");
 				Object existing = data.getValue(name);
 				if (existing == null || !existing.toString().equals(value)) {
-					data.setValue(name, kind.equals("long") ? Long.parseLong(value) : value);
+					data.setValue(name, "long".equals(kind) ? Long.parseLong(value) : value);
 				}
 			}
 		}

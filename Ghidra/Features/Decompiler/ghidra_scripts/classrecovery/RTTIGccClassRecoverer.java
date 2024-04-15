@@ -482,8 +482,8 @@ public class RTTIGccClassRecoverer extends RTTIClassRecoverer {
 	private void setComponentOffset() {
 
 		String processor = program.getLanguage().getProcessor().toString();
-		if (processor.equals("x86") || processor.equals("MIPS") || processor.equals("PowerPC") ||
-			processor.equals("RISCV")) {
+		if ("x86".equals(processor) || "MIPS".equals(processor) || "PowerPC".equals(processor) ||
+			"RISCV".equals(processor)) {
 
 			if (defaultPointerSize == 4) {
 				componentOffset = 8;
@@ -494,11 +494,11 @@ public class RTTIGccClassRecoverer extends RTTIClassRecoverer {
 				return;
 			}
 		}
-		if (processor.equals("AARCH64")) {
+		if ("AARCH64".equals(processor)) {
 			componentOffset = 16;
 			return;
 		}
-		if (processor.equals("ARM")) {
+		if ("ARM".equals(processor)) {
 			componentOffset = 8;
 			return;
 		}
@@ -600,19 +600,19 @@ public class RTTIGccClassRecoverer extends RTTIClassRecoverer {
 
 		if (class_type_info != null) {
 			Symbol symbol = symbolTable.getPrimarySymbol(class_type_info);
-			if (symbol != null && symbol.getName().equals("typeinfo")) {
+			if (symbol != null && "typeinfo".equals(symbol.getName())) {
 				symbols.add(symbol);
 			}
 		}
 		if (si_class_type_info != null) {
 			Symbol symbol = symbolTable.getPrimarySymbol(si_class_type_info);
-			if (symbol != null && symbol.getName().equals("typeinfo")) {
+			if (symbol != null && "typeinfo".equals(symbol.getName())) {
 				symbols.add(symbol);
 			}
 		}
 		if (vmi_class_type_info != null) {
 			Symbol symbol = symbolTable.getPrimarySymbol(vmi_class_type_info);
-			if (symbol != null && symbol.getName().equals("typeinfo")) {
+			if (symbol != null && "typeinfo".equals(symbol.getName())) {
 				symbols.add(symbol);
 			}
 		}
@@ -1781,10 +1781,10 @@ public class RTTIGccClassRecoverer extends RTTIClassRecoverer {
 	private boolean isValidClassInfoStructure(Structure typeinfoStructure) {
 		String typeinfoStructureName = typeinfoStructure.getName();
 
-		if (typeinfoStructureName.equals(CLASS_TYPE_INFO_STRUCTURE)) {
+		if (CLASS_TYPE_INFO_STRUCTURE.equals(typeinfoStructureName)) {
 			return true;
 		}
-		if (typeinfoStructureName.equals(SI_CLASS_TYPE_INFO_STRUCTURE)) {
+		if (SI_CLASS_TYPE_INFO_STRUCTURE.equals(typeinfoStructureName)) {
 			return true;
 		}
 		if (typeinfoStructureName.contains(VMI_CLASS_TYPE_INFO_STRUCTURE)) {
@@ -2389,7 +2389,7 @@ public class RTTIGccClassRecoverer extends RTTIClassRecoverer {
 					}
 				}
 
-				if (typeinfoSymbol.getName().equals("typeinfo")) {
+				if ("typeinfo".equals(typeinfoSymbol.getName())) {
 					promoteToClassNamespace(typeinfoSymbol.getParentNamespace());
 					GccTypeinfo typeinfo = createGccTypeinfo(typeinfoSymbol, false);
 					if (specialTypeinfoNamespaceName == null) {
@@ -2460,18 +2460,18 @@ public class RTTIGccClassRecoverer extends RTTIClassRecoverer {
 			String namespaceName = typeinfo.getInheritedSpecialTypeinfoNamespace().getName();
 
 			// if typeinfo inherits class_type_info then no Base to update
-			if (namespaceName.equals(CLASS_TYPEINFO_NAMESPACE)) {
+			if (CLASS_TYPEINFO_NAMESPACE.equals(namespaceName)) {
 				continue;
 			}
 
-			if (namespaceName.equals(SI_CLASS_TYPEINFO_NAMESPACE)) {
+			if (SI_CLASS_TYPEINFO_NAMESPACE.equals(namespaceName)) {
 				if (!updateSiTypeinfo(typeinfo, typeinfoMap)) {
 					invalidTypeinfos.add(typeinfo);
 				}
 				continue;
 			}
 
-			if (namespaceName.equals(VMI_CLASS_TYPEINFO_NAMESPACE)) {
+			if (VMI_CLASS_TYPEINFO_NAMESPACE.equals(namespaceName)) {
 				if (!updateVmiTypeinfo(typeinfo, typeinfoMap)) {
 					invalidTypeinfos.add(typeinfo);
 				}
@@ -2972,7 +2972,7 @@ public class RTTIGccClassRecoverer extends RTTIClassRecoverer {
 			return false;
 		}
 
-		if (demangledObject.getName().equals("typeinfo-name")) {
+		if ("typeinfo-name".equals(demangledObject.getName())) {
 			return true;
 		}
 		return false;
@@ -4045,7 +4045,7 @@ public class RTTIGccClassRecoverer extends RTTIClassRecoverer {
 			// per docs those on this list have no bases (ie parents), and is also a base
 			// type
 			// for the other two class type representations ie (si and vmi)
-			if (typeinfoStructureType.equals(CLASS_TYPE_INFO_STRUCTURE)) {
+			if (CLASS_TYPE_INFO_STRUCTURE.equals(typeinfoStructureType)) {
 				nonInheritedClasses.add(recoveredClass);
 				recoveredClass.setHasSingleInheritance(true);
 				recoveredClass.setHasParentClass(false);
@@ -4055,7 +4055,7 @@ public class RTTIGccClassRecoverer extends RTTIClassRecoverer {
 
 			// per docs those on this list are
 			// classes containing only a single, public, non-virtual base at offset zero
-			if (typeinfoStructureType.equals(SI_CLASS_TYPE_INFO_STRUCTURE)) {
+			if (SI_CLASS_TYPE_INFO_STRUCTURE.equals(typeinfoStructureType)) {
 				singleInheritedClasses.add(recoveredClass);
 				recoveredClass.setHasSingleInheritance(true);
 				recoveredClass.setInheritsVirtualAncestor(false);
@@ -4064,7 +4064,7 @@ public class RTTIGccClassRecoverer extends RTTIClassRecoverer {
 
 			// not necessarily multiple - maybe just a single virtual ancestor or maybe a
 			// single non-public one
-			if (typeinfoStructureType.equals(VMI_CLASS_TYPE_INFO_STRUCTURE)) {
+			if (VMI_CLASS_TYPE_INFO_STRUCTURE.equals(typeinfoStructureType)) {
 				multiAndOrVirtuallyInheritedClasses.add(recoveredClass);
 			}
 		}

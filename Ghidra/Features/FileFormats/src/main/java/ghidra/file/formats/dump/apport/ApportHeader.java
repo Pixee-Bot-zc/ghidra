@@ -111,7 +111,7 @@ public class ApportHeader implements StructConverter {
 				key = line.substring(0, sep);
 				String value = line.substring(sep+1).trim();
 				keys.put(i, key);
-				useSubMap = value.equals("") || value.equals("base64");
+				useSubMap = "".equals(value) || "base64".equals(value);
 				if (useSubMap) {
 					submap = new HashMap<>();
 					smaps.put(key, submap);

@@ -133,7 +133,7 @@ public abstract class FieldFactory implements ExtensionPoint {
 	 */
 	public void displayOptionsChanged(Options options, String optionName, Object oldValue,
 			Object newValue) {
-		if (optionName.equals(FONT_OPTION_NAME)) {
+		if (FONT_OPTION_NAME.equals(optionName)) {
 			baseFont = (Font) newValue;
 			setMetrics(baseFont);
 		}

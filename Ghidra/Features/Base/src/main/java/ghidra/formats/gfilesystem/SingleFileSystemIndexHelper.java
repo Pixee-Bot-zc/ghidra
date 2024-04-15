@@ -155,7 +155,7 @@ public class SingleFileSystemIndexHelper {
 		if (baseDir != null && !baseDir.equals(rootDir)) {
 			return null;
 		}
-		if (path == null || path.equals("/")) {
+		if (path == null || "/".equals(path)) {
 			return rootDir;
 		}
 		nameComp = Objects.requireNonNullElse(nameComp, String::compareTo);

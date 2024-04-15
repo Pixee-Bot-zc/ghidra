@@ -88,7 +88,7 @@ class CommentsXmlMgr {
 				throw new CancelledException();
 			}
 			element = parser.next();
-			if (!element.getName().equals("COMMENT")) {
+			if (!"COMMENT".equals(element.getName())) {
 				break;
 			}
 			if (element.isStart()) {

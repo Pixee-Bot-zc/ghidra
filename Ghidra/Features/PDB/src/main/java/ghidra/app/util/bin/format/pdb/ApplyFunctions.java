@@ -54,7 +54,7 @@ class ApplyFunctions {
 				return;
 			}
 			XmlElement child = xmlParser.next();
-			if (child.isEnd() && child.getName().equals("functions")) {
+			if (child.isEnd() && "functions".equals(child.getName())) {
 				break;
 			}
 

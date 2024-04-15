@@ -79,11 +79,11 @@ public class InsertRequest extends BSimQuery<ResponseInsert> {
 		manage.restoreXml(parser,vectorFactory);
 		XmlElement subel = parser.peek();
 		while(subel.isStart()) {
-			if (subel.getName().equals("repository")) {		// Optional repository
+			if ("repository".equals(subel.getName())) {		// Optional repository
 				parser.start("repository");
 				repo_override = parser.end().getText();
 			}
-			else if (subel.getName().equals("path")) {		// Optional path
+			else if ("path".equals(subel.getName())) {		// Optional path
 				parser.start("path");
 				path_override = parser.end().getText();
 			}

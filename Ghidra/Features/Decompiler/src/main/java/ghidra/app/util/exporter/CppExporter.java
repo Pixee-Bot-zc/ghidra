@@ -353,22 +353,22 @@ public class CppExporter extends Exporter {
 		for (Option option : options) {
 			String optName = option.getName();
 			try {
-				if (optName.equals(CREATE_HEADER_FILE)) {
+				if (CREATE_HEADER_FILE.equals(optName)) {
 					isCreateHeaderFile = ((Boolean) option.getValue()).booleanValue();
 				}
-				else if (optName.equals(CREATE_C_FILE)) {
+				else if (CREATE_C_FILE.equals(optName)) {
 					isCreateCFile = ((Boolean) option.getValue()).booleanValue();
 				}
-				else if (optName.equals(USE_CPP_STYLE_COMMENTS)) {
+				else if (USE_CPP_STYLE_COMMENTS.equals(optName)) {
 					isUseCppStyleComments = ((Boolean) option.getValue()).booleanValue();
 				}
-				else if (optName.equals(EMIT_TYPE_DEFINITONS)) {
+				else if (EMIT_TYPE_DEFINITONS.equals(optName)) {
 					emitDataTypeDefinitions = ((Boolean) option.getValue()).booleanValue();
 				}
-				else if (optName.equals(FUNCTION_TAG_FILTERS)) {
+				else if (FUNCTION_TAG_FILTERS.equals(optName)) {
 					tagOptions = (String) option.getValue();
 				}
-				else if (optName.equals(FUNCTION_TAG_EXCLUDE)) {
+				else if (FUNCTION_TAG_EXCLUDE.equals(optName)) {
 					excludeMatchingTags = ((Boolean) option.getValue()).booleanValue();
 				}
 				else {

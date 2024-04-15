@@ -74,7 +74,7 @@ public class VTSessionContentHandler extends DBContentHandler<VTSessionDB> {
 
 	private void checkContentAndExclusiveCheckout(FolderItem item) throws IOException {
 		String contentType = item.getContentType();
-		if (!contentType.equals(CONTENT_TYPE)) {
+		if (!CONTENT_TYPE.equals(contentType)) {
 			throw new IOException("Unsupported content type: " + contentType);
 		}
 

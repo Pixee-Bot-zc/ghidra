@@ -1251,7 +1251,7 @@ public class DockingWindowManager implements PropertyChangeListener, Placeholder
 		}
 
 		String text = menu.getText();
-		return text.equals(COMPONENT_MENU_NAME);
+		return COMPONENT_MENU_NAME.equals(text);
 	}
 
 	private JMenu getMenuForSelection(MenuElement[] selectedPath) {

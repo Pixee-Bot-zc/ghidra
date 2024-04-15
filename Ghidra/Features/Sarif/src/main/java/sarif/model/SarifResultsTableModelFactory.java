@@ -82,7 +82,7 @@ public class SarifResultsTableModelFactory {
 		protected TableColumnDescriptor<Map<String, Object>> createTableColumnDescriptor() {
 			TableColumnDescriptor<Map<String, Object>> descriptor = new TableColumnDescriptor<>();
 			for (SarifColumnKey column : sColumns) {
-				if (column.getName().equals("Address")) {
+				if ("Address".equals(column.getName())) {
 					descriptor.addVisibleColumn(new Column<Address>(column.getName(), Address.class));
 				} else if (column.isHidden()) {
 					descriptor.addHiddenColumn(new Column<String>(column.getName(), String.class));

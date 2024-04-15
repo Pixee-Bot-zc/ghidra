@@ -58,12 +58,12 @@ class RegisterValuesXmlMgr {
 	void read(XmlPullParser parser, TaskMonitor monitor) throws SAXParseException, CancelledException { 
 		undefinedRegisterNames = new HashSet<String>();
 		XmlElement element = parser.next();
-		if (!element.isStart() || !element.getName().equals("REGISTER_VALUES")) {
+		if (!element.isStart() || !"REGISTER_VALUES".equals(element.getName())) {
 			throw new SAXParseException("Expected REGISTER_VALUES start tag", null, null, parser.getLineNumber(), parser.getColumnNumber());
 		}
 		
 		element = parser.next();
-		while (element != null && element.isStart() && element.getName().equals("REGISTER_VALUE_RANGE")) {
+		while (element != null && element.isStart() && "REGISTER_VALUE_RANGE".equals(element.getName())) {
 			if (monitor.isCancelled()) {
 				throw new CancelledException();	
 			}
@@ -79,7 +79,7 @@ class RegisterValuesXmlMgr {
 			element = parser.next();
 		}
 		
-		if (element != null && !element.getName().equals("REGISTER_VALUES")) {
+		if (element != null && !"REGISTER_VALUES".equals(element.getName())) {
 			throw new SAXParseException("Expected REGISTER_VALUES end tag", null, null, parser.getLineNumber(), parser.getColumnNumber());
 		}
 	}

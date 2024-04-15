@@ -185,7 +185,7 @@ public class NextPreviousBookmarkAction extends MultiStateDockingAction<String> 
 		// do something reasonable, which is to find the next code unit without a bookmark.  Users
 		// are not likely to use this option.
 		//
-		if (bookmarkType.equals(ALL_BOOKMARK_TYPES)) {
+		if (ALL_BOOKMARK_TYPES.equals(bookmarkType)) {
 			return getNextPreviousCuWithoutBookmarkAddress(program, address, forward);
 		}
 
@@ -274,10 +274,10 @@ public class NextPreviousBookmarkAction extends MultiStateDockingAction<String> 
 				continue;
 			}
 
-			if (bookmarkType.equals(ALL_BOOKMARK_TYPES)) {
+			if (ALL_BOOKMARK_TYPES.equals(bookmarkType)) {
 				return nextBookmark;
 			}
-			else if (bookmarkType.equals("Custom") &&
+			else if ("Custom".equals(bookmarkType) &&
 				isNotBuiltInType(address, nextBookmark, nextAddress)) {
 				return nextBookmark;
 			}

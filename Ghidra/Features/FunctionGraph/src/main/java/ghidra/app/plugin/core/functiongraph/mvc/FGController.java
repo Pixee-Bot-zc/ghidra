@@ -196,19 +196,19 @@ public class FGController implements ProgramLocationListener, ProgramSelectionLi
 				for (int col = allRowFactories.length - 1; col >= 0; col--) {
 					FieldFactory fieldFactory = allRowFactories[col];
 
-					if (fieldFactory.getFieldName().equals("Operands")) {
+					if ("Operands".equals(fieldFactory.getFieldName())) {
 						fieldFactory.setWidth(195);
 						formatModel.updateRow(row);
 					}
-					else if (fieldFactory.getFieldName().equals("Label")) {
+					else if ("Label".equals(fieldFactory.getFieldName())) {
 						fieldFactory.setWidth(150);
 						formatModel.updateRow(row);
 					}
-					else if (fieldFactory.getFieldName().equals("Address")) {
+					else if ("Address".equals(fieldFactory.getFieldName())) {
 						fieldFactory.setWidth(50);
 						formatModel.updateRow(row);
 					}
-					else if (fieldFactory.getFieldName().equals("Mnemonic")) {
+					else if ("Mnemonic".equals(fieldFactory.getFieldName())) {
 						fieldFactory.setWidth(37);
 						formatModel.updateRow(row);
 					}
@@ -220,10 +220,10 @@ public class FGController implements ProgramLocationListener, ProgramSelectionLi
 						formatModel.updateRow(row);
 					}
 					// function header stuff
-					else if (fieldFactory.getFieldName().equals("Function Signature") ||
-						fieldFactory.getFieldName().equals("Variable Type") ||
-						fieldFactory.getFieldName().equals("Variable Location") ||
-						fieldFactory.getFieldName().equals("Variable Name")) {
+					else if ("Function Signature".equals(fieldFactory.getFieldName()) ||
+						"Variable Type".equals(fieldFactory.getFieldName()) ||
+						"Variable Location".equals(fieldFactory.getFieldName()) ||
+						"Variable Name".equals(fieldFactory.getFieldName())) {
 						// we need this block so that the default case below doesn't delete
 					}
 					else if (isSpacerBeforeVariables(fieldFactory, allRowFactories, col)) {
@@ -232,8 +232,8 @@ public class FGController implements ProgramLocationListener, ProgramSelectionLi
 						formatModel.updateRow(row);
 					}
 					// remove any other fields
-					else if (!fieldFactory.getFieldName().equals("Address") &&
-						!fieldFactory.getFieldName().equals("Mnemonic")) {
+					else if (!"Address".equals(fieldFactory.getFieldName()) &&
+						!"Mnemonic".equals(fieldFactory.getFieldName())) {
 						formatModel.removeFactory(row, col);
 					}
 				}
@@ -257,7 +257,7 @@ public class FGController implements ProgramLocationListener, ProgramSelectionLi
 	private boolean isSpacerBeforeLabel(FieldFactory fieldFactory, FieldFactory[] allRowFactories,
 			int column) {
 
-		if (!fieldFactory.getFieldName().equals("Spacer")) {
+		if (!"Spacer".equals(fieldFactory.getFieldName())) {
 			return false;
 		}
 
@@ -272,13 +272,13 @@ public class FGController implements ProgramLocationListener, ProgramSelectionLi
 		}
 
 		FieldFactory previousFactory = allRowFactories[1];
-		return previousFactory.getFieldName().equals("Label");
+		return "Label".equals(previousFactory.getFieldName());
 	}
 
 	private boolean isSpacerBeforeVariables(FieldFactory fieldFactory,
 			FieldFactory[] allRowFactories, int column) {
 
-		if (!fieldFactory.getFieldName().equals("Spacer")) {
+		if (!"Spacer".equals(fieldFactory.getFieldName())) {
 			return false;
 		}
 
@@ -293,7 +293,7 @@ public class FGController implements ProgramLocationListener, ProgramSelectionLi
 		}
 
 		FieldFactory previousFactory = allRowFactories[1];
-		return previousFactory.getFieldName().equals("Variable Type");
+		return "Variable Type".equals(previousFactory.getFieldName());
 	}
 
 	/**

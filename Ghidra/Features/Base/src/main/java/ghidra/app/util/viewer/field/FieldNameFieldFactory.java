@@ -94,7 +94,7 @@ public class FieldNameFieldFactory extends FieldFactory {
 		super.fieldOptionsChanged(options, optionName, oldValue, newValue);
 
 		if (options.getName().equals(GhidraOptions.CATEGORY_BROWSER_FIELDS)) {
-			if (optionName.equals(ARRAY_INDEX_FORMAT_NAME)) {
+			if (ARRAY_INDEX_FORMAT_NAME.equals(optionName)) {
 				format = (IndexFormat) newValue;
 				model.update();
 			}

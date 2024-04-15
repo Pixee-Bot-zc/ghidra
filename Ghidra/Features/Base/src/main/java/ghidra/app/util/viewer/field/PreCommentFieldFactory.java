@@ -188,18 +188,18 @@ public class PreCommentFieldFactory extends FieldFactory {
 	public void fieldOptionsChanged(Options options, String optionName, Object oldValue,
 			Object newValue) {
 
-		if (optionName.equals(FLAG_FUNCTION_ENTRY_OPTION)) {
+		if (FLAG_FUNCTION_ENTRY_OPTION.equals(optionName)) {
 			flagFunctionEntry = ((Boolean) newValue).booleanValue();
 			model.update();
 		}
-		else if (optionName.equals(FLAG_SUBROUTINE_ENTRY_OPTION)) {
+		else if (FLAG_SUBROUTINE_ENTRY_OPTION.equals(optionName)) {
 			flagSubroutineEntry = ((Boolean) newValue).booleanValue();
 			model.update();
 		}
-		else if (optionName.equals(ENABLE_WORD_WRAP_MSG)) {
+		else if (ENABLE_WORD_WRAP_MSG.equals(optionName)) {
 			isWordWrap = ((Boolean) newValue).booleanValue();
 		}
-		else if (optionName.equals(ENABLE_ALWAYS_SHOW_AUTOMATIC_MSG)) {
+		else if (ENABLE_ALWAYS_SHOW_AUTOMATIC_MSG.equals(optionName)) {
 			alwaysShowAutomatic = ((Boolean) newValue).booleanValue();
 		}
 	}

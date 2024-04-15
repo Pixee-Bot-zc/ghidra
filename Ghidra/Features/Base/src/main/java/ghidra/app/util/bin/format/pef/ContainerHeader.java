@@ -81,7 +81,7 @@ public class ContainerHeader implements StructConverter {
 		instSectionCount = _reader.readNextShort();
 		reservedA        = _reader.readNextInt();
 
-		if (!tag1.equals(TAG1) || !tag2.equals(TAG2)) {
+		if (!TAG1.equals(tag1) || !TAG2.equals(tag2)) {
 			throw new PefException("Invalid PEF file.");
 		}
 		if (!ARCHITECTURE_68k.equals(architecture) && !ARCHITECTURE_PPC.equals(architecture)) {

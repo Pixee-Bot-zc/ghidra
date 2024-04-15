@@ -2290,7 +2290,7 @@ public class ElasticDatabase implements FunctionDatabase {
 			SpecXmlUtils.decodeBoolean(getCriticalValue("trackcallgraph", keyValue));
 		config.info.layout_version = SpecXmlUtils.decodeInt(getCriticalValue("layout", keyValue));
 		config.info.dateColumnName = getCriticalValue("datecolumn", keyValue);
-		if (config.info.dateColumnName.equals("Ingest Date")) {
+		if ("Ingest Date".equals(config.info.dateColumnName)) {
 			// name
 			config.info.dateColumnName = null; // Don't bother holding it
 		}

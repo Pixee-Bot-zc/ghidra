@@ -481,7 +481,7 @@ public class GhidraPythonInterpreter extends InteractiveInterpreter {
 				((List<?>) getCallTipJava.__call__(command, locals)).listIterator();
 			while (iter.hasNext()) {
 				String completion_portion = iter.next().toString();
-				if (!completion_portion.equals("")) {
+				if (!"".equals(completion_portion)) {
 					String[] substrings = completion_portion.split("\n");
 					for (String substring : substrings) {
 						completion_list.add(new CodeCompletion(substring, null, null));

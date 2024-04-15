@@ -303,15 +303,15 @@ public class BSimControlLaunchable implements GhidraLaunchable {
 				case AUTH_OPTION:
 					authConfigPresent = true;
 					String type = value;
-					if (type.equals("pki")) {
+					if ("pki".equals(type)) {
 						hostAuthentication = AUTHENTICATION_PKI;
 						localAuthentication = AUTHENTICATION_PKI;
 					}
-					else if (type.equals("password")) {
+					else if ("password".equals(type)) {
 						hostAuthentication = AUTHENTICATION_PASSWORD;
 						localAuthentication = AUTHENTICATION_PASSWORD;
 					}
-					else if (type.equals("trust") || type.equals("none")) {
+					else if ("trust".equals(type) || "none".equals(type)) {
 						hostAuthentication = AUTHENTICATION_NONE;
 						localAuthentication = AUTHENTICATION_NONE;
 					}
@@ -408,7 +408,7 @@ public class BSimControlLaunchable implements GhidraLaunchable {
 		try {
 			LdapName ldapName = new LdapName(distinguishedName);
 			for (Rdn rdn : ldapName.getRdns()) {
-				if (rdn.getType().equalsIgnoreCase("CN")) {
+				if ("CN".equalsIgnoreCase(rdn.getType())) {
 					commonName = rdn.getValue().toString();
 					break;
 				}
@@ -806,23 +806,23 @@ public class BSimControlLaunchable implements GhidraLaunchable {
 
 		serverConfig.scanConnect(hbaFile);
 		String localMethod = serverConfig.getLocalAuthentication();
-		if (localMethod == null || localMethod.equals(TRUST_METHOD)) {
+		if (localMethod == null || TRUST_METHOD.equals(localMethod)) {
 			localAuthentication = AUTHENTICATION_NONE;
 		}
-		else if (localMethod.equals(PASSWORD_METHOD)) {
+		else if (PASSWORD_METHOD.equals(localMethod)) {
 			localAuthentication = AUTHENTICATION_PASSWORD;
 		}
-		else if (localMethod.equals(CERTIFICATE_METHOD)) {
+		else if (CERTIFICATE_METHOD.equals(localMethod)) {
 			localAuthentication = AUTHENTICATION_PKI;
 		}
 		String hostMethod = serverConfig.getHostAuthentication();
-		if (hostMethod == null || hostMethod.equals(TRUST_METHOD)) {
+		if (hostMethod == null || TRUST_METHOD.equals(hostMethod)) {
 			hostAuthentication = AUTHENTICATION_NONE;
 		}
-		else if (hostMethod.equals(PASSWORD_METHOD)) {
+		else if (PASSWORD_METHOD.equals(hostMethod)) {
 			hostAuthentication = AUTHENTICATION_PASSWORD;
 		}
-		else if (hostMethod.equals(CERTIFICATE_METHOD)) {
+		else if (CERTIFICATE_METHOD.equals(hostMethod)) {
 			hostAuthentication = AUTHENTICATION_PKI;
 		}
 	}
@@ -971,10 +971,10 @@ public class BSimControlLaunchable implements GhidraLaunchable {
 		if (params.length <= slot) {
 			throw new IllegalArgumentException("Missing desired privilege (admin or user)");
 		}
-		if (params[slot].equals("admin")) {
+		if ("admin".equals(params[slot])) {
 			adminPrivilegeRequested = true;
 		}
-		else if (params[slot].equals("user")) {
+		else if ("user".equals(params[slot])) {
 			adminPrivilegeRequested = false;
 		}
 		else {

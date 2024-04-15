@@ -282,7 +282,7 @@ public class RecoveredClassHelper {
 		while (vftableSymbols.hasNext()) {
 			monitor.checkCancelled();
 			Symbol vftableSymbol = vftableSymbols.next();
-			if (vftableSymbol.getName().equals("vftable")) {
+			if ("vftable".equals(vftableSymbol.getName())) {
 				vftableSymbolList.add(vftableSymbol);
 			}
 			// check for ones that are pdb that start with ' and may or may not end with '
@@ -1045,7 +1045,7 @@ public class RecoveredClassHelper {
 		Parameter[] parameters = function.getParameters();
 		for (int i = 0; i < parameters.length; i++) {
 			monitor.checkCancelled();
-			if (parameters[i].getName().equals("this")) {
+			if ("this".equals(parameters[i].getName())) {
 				continue;
 			}
 			if (!parameters[i].getDataType().equals(originalTypes[i])) {
@@ -1239,7 +1239,7 @@ public class RecoveredClassHelper {
 
 			// if this call - temporarily put in global namespace to remove class structure
 			// in order to get unbiased pcode store information
-			if (function.getParameter(i).getName().equals("this")) {
+			if ("this".equals(function.getParameter(i).getName())) {
 				function.setParentNamespace(globalNamespace);
 				continue;
 			}
@@ -3302,7 +3302,7 @@ public class RecoveredClassHelper {
 				returnType = constructorFunction.getReturnType().getDisplayName();
 			}
 
-			if (returnType.equals("void")) {
+			if ("void".equals(returnType)) {
 				constructorFunction.setReturnType(VoidDataType.dataType, SourceType.ANALYSIS);
 			}
 			else if (returnType.contains("*")) {
@@ -3824,7 +3824,7 @@ public class RecoveredClassHelper {
 			if (baseDataType != null && badStructureDataTypes.contains(baseDataType)) {
 
 				// To remove from this param we have to remove the function from its namespace
-				if (function.getParameter(i).getName().equals("this")) {
+				if ("this".equals(function.getParameter(i).getName())) {
 					function.setParentNamespace(globalNamespace);
 
 				}
@@ -3965,7 +3965,7 @@ public class RecoveredClassHelper {
 			if (namespace.isGlobal() && symbol.getName().equals(name)) {
 				sameNameSymbols.add(symbol);
 			}
-			else if (namespace.isGlobal() && name.equals(DELETING_DESTRUCTOR_LABEL) &&
+			else if (namespace.isGlobal() && DELETING_DESTRUCTOR_LABEL.equals(name) &&
 				symbol.getName().contains(DELETING_DESTRUCTOR_LABEL)) {
 				sameNameSymbols.add(symbol);
 			}
@@ -5700,7 +5700,7 @@ public class RecoveredClassHelper {
 					numberParams = params.length;
 				}
 
-				if (numberParams == 0 && returnDataName.equals("void")) {
+				if (numberParams == 0 && "void".equals(returnDataName)) {
 
 					Address firstVftableReference =
 						getFirstVftableReferenceInFunction(indeterminateFunction);
@@ -7696,7 +7696,7 @@ public class RecoveredClassHelper {
 
 			// keep the original function definition's this param if there is one hard coded
 			// if only the this is different then don't update changed flag
-			if (currentArgs[0].getName().equals("this")) {
+			if ("this".equals(currentArgs[0].getName())) {
 				changedArgs[0] = currentArgs[0];
 			}
 			// if other than hard-coded this is different then change 
@@ -8272,7 +8272,7 @@ public class RecoveredClassHelper {
 
 			monitor.checkCancelled();
 			Symbol symbol = symbols.next();
-			if (symbol.getName().equals("vftable") ||
+			if ("vftable".equals(symbol.getName()) ||
 				symbol.getName().substring(1).startsWith("vftable") ||
 				symbol.getName().contains("vftable_for_")) {
 				vftableSymbols.add(symbol);

@@ -87,7 +87,7 @@ public class QueryChildren extends BSimQuery<ResponseChildren> {
 		throws LSHException {
 		parser.start(name);
 		XmlElement el = parser.start();
-		if (el.getName().equals("md5")) {
+		if ("md5".equals(el.getName())) {
 			md5sum = parser.end().getText();
 			name_exec = null;
 			arch = null;

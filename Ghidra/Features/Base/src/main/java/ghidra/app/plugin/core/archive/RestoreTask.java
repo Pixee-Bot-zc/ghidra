@@ -114,7 +114,7 @@ class RestoreTask extends AbstractFileExtractorTask {
 	}
 
 	private void verifyArchive(GFileSystem fs, TaskMonitor monitor) throws IOException {
-		if (!fs.getFSRL().getProtocol().equals("zip")) {
+		if (!"zip".equals(fs.getFSRL().getProtocol())) {
 			throw new IOException("Not a zip file: " + fs.getFSRL());
 		}
 		GFile magicFile = fs.lookup("/" + ArchivePlugin.JAR_VERSION_TAG);

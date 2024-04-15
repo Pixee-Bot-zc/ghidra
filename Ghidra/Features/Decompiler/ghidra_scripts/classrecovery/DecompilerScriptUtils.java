@@ -155,7 +155,7 @@ public class DecompilerScriptUtils {
 				monitor.checkCancelled();
 				ParameterDefinition param = parameterDefinitions[i];
 
-				if (param.getName().equals("this")) {
+				if ("this".equals(param.getName())) {
 					continue;
 				}
 

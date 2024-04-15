@@ -108,7 +108,7 @@ class EquateTableModel extends GDynamicColumnTableModel<Equate, Object> {
 	@Override
 	public boolean isCellEditable(int row, int column) {
 
-		if (!getColumnName(column).equals(EquateNameColumn.NAME)) {
+		if (!EquateNameColumn.NAME.equals(getColumnName(column))) {
 			// only the name
 			return false;
 		}
@@ -119,7 +119,7 @@ class EquateTableModel extends GDynamicColumnTableModel<Equate, Object> {
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 
-		if (!getColumnName(columnIndex).equals(EquateNameColumn.NAME)) {
+		if (!EquateNameColumn.NAME.equals(getColumnName(columnIndex))) {
 			return;
 		}
 

@@ -118,25 +118,25 @@ public class DatabaseInformation {
 		dateColumnName = null;
 		while (parser.peek().isStart()) {
 			XmlElement el = parser.start();
-			if (el.getName().equals("readonly"))
+			if ("readonly".equals(el.getName()))
 				readonly = SpecXmlUtils.decodeBoolean(parser.end().getText());
-			else if (el.getName().equals("trackcallgraph"))
+			else if ("trackcallgraph".equals(el.getName()))
 				trackcallgraph = SpecXmlUtils.decodeBoolean(parser.end().getText());
-			else if (el.getName().equals("layout"))
+			else if ("layout".equals(el.getName()))
 				layout_version = SpecXmlUtils.decodeInt(parser.end().getText());
-			else if (el.getName().equals("execategory")) {
+			else if ("execategory".equals(el.getName())) {
 				if (execats == null)
 					execats = new ArrayList<String>();
 				String cat = parser.end().getText();
 				execats.add(cat);
 			}
-			else if (el.getName().equals("functiontag")) {
+			else if ("functiontag".equals(el.getName())) {
 				if (functionTags == null)
 					functionTags = new ArrayList<String>();
 				String tag = parser.end().getText();
 				functionTags.add(tag);
 			}
-			else if (el.getName().equals("datename")) {
+			else if ("datename".equals(el.getName())) {
 				dateColumnName = parser.end().getText();
 			}
 		}

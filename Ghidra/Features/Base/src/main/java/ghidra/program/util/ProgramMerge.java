@@ -3858,7 +3858,7 @@ public class ProgramMerge {
 		propNames = origPropertyMgr.propertyManagers();
 		while (propNames.hasNext()) {
 			String propertyName = propNames.next();
-			if (propertyName.equals("Bookmarks")) {
+			if ("Bookmarks".equals(propertyName)) {
 				continue; // ignore bookmarks as properties, since the bookmark merge gets these.
 			}
 			PropertyMap<?> origPropertyMap = origPropertyMgr.getPropertyMap(propertyName);

@@ -122,7 +122,7 @@ public class ProgramXmlMgr {
 		while (parser.hasNext()) {
 			XmlElement element = parser.next();
 			String name = element.getName();
-			if (name.equals("PROGRAM") && element.isStart()) {
+			if ("PROGRAM".equals(name) && element.isStart()) {
 				isFileValid = true;
 
 				info.programName = element.getAttribute("NAME");
@@ -130,7 +130,7 @@ public class ProgramXmlMgr {
 				info.exeFormat = element.getAttribute("EXE_FORMAT");
 				info.imageBase = element.getAttribute("IMAGE_BASE");
 			}
-			else if (name.equals("INFO_SOURCE") && element.isStart()) {
+			else if ("INFO_SOURCE".equals(name) && element.isStart()) {
 				info.user = element.getAttribute("USER");
 				info.setTool(element.getAttribute("TOOL"));
 				info.timestamp = element.getAttribute("TIMESTAMP");
@@ -140,7 +140,7 @@ public class ProgramXmlMgr {
 					info.programName = element.getAttribute("FILE");
 				}
 			}
-			else if (name.equals("PROCESSOR") && element.isStart()) {
+			else if ("PROCESSOR".equals(name) && element.isStart()) {
 				String languageString = element.getAttribute("LANGUAGE_PROVIDER");
 				LanguageCompilerSpecPair pair =
 					OldLanguageMappingService.processXmlLanguageString(languageString);
@@ -174,7 +174,7 @@ public class ProgramXmlMgr {
 		while (parser.hasNext()) {
 			XmlElement element = parser.next();
 			String name = element.getName();
-			if (name.equals("COMPILER") && element.isStart()) {
+			if ("COMPILER".equals(name) && element.isStart()) {
 				returnValue = element.getAttribute("NAME");
 				break;
 			}
@@ -255,89 +255,89 @@ public class ProgramXmlMgr {
 				XmlElement element = parser.peek();
 				String name = element.getName();
 
-				if (options.isData() && name.equals("DATATYPES")) {
+				if (options.isData() && "DATATYPES".equals(name)) {
 					monitor.setMessage("Processing DATA TYPES ...");
 					DataTypesXmlMgr mgr =
 						new DataTypesXmlMgr(program.getListing().getDataTypeManager(), log);
 					mgr.read(parser, monitor);
 				}
-				else if (options.isMemoryBlocks() && name.equals("MEMORY_MAP")) {
+				else if (options.isMemoryBlocks() && "MEMORY_MAP".equals(name)) {
 					monitor.setMessage("Processing MEMORY MAP ...");
 					MemoryMapXmlMgr mgr = new MemoryMapXmlMgr(program, log);
 					mgr.read(parser, options.isOverwriteMemoryConflicts(), monitor,
 						file.getParent());
 				}
-				else if (options.isRegisters() && name.equals("REGISTER_VALUES")) {
+				else if (options.isRegisters() && "REGISTER_VALUES".equals(name)) {
 					monitor.setMessage("Processing REGISTER VALUES ...");
 					RegisterValuesXmlMgr mgr = new RegisterValuesXmlMgr(program, log);
 					mgr.read(parser, monitor);
 				}
-				else if (options.isInstructions() && name.equals("CODE")) {
+				else if (options.isInstructions() && "CODE".equals(name)) {
 					monitor.setMessage("Processing CODE ...");
 					CodeXmlMgr mgr = new CodeXmlMgr(program, log);
 					mgr.read(parser, monitor);
 				}
-				else if (options.isData() && name.equals("DATA")) {
+				else if (options.isData() && "DATA".equals(name)) {
 					monitor.setMessage("Processing DATA ...");
 					DefinedDataXmlMgr mgr = new DefinedDataXmlMgr(program, log);
 					mgr.read(parser, options.isOverwriteDataConflicts(), monitor);
 				}
-				else if (options.isEquates() && name.equals("EQUATES")) {
+				else if (options.isEquates() && "EQUATES".equals(name)) {
 					monitor.setMessage("Processing EQUATES ...");
 					EquatesXmlMgr mgr = new EquatesXmlMgr(program, log);
 					mgr.read(parser, monitor);
 				}
-				else if (options.isComments() && name.equals("COMMENTS")) {
+				else if (options.isComments() && "COMMENTS".equals(name)) {
 					monitor.setMessage("Processing COMMENTS ...");
 					CommentsXmlMgr mgr = new CommentsXmlMgr(program, log);
 					mgr.read(parser, monitor);
 				}
-				else if (options.isProperties() && name.equals("PROPERTIES")) {
+				else if (options.isProperties() && "PROPERTIES".equals(name)) {
 					monitor.setMessage("Processing PROPERTIES ...");
 					PropertiesXmlMgr mgr = new PropertiesXmlMgr(program, log);
 					mgr.read(parser, options.isOverwritePropertyConflicts(), monitor);
 				}
-				else if (options.isBookmarks() && name.equals("BOOKMARKS")) {
+				else if (options.isBookmarks() && "BOOKMARKS".equals(name)) {
 					monitor.setMessage("Processing BOOKMARKS ...");
 					BookmarksXmlMgr mgr = new BookmarksXmlMgr(program, log);
 					mgr.read(parser, options.isOverwriteBookmarkConflicts(), monitor);
 				}
-				else if (options.isTrees() && name.equals("PROGRAM_TREES")) {
+				else if (options.isTrees() && "PROGRAM_TREES".equals(name)) {
 					monitor.setMessage("Processing PROGRAM TREES ...");
 					ProgramTreeXmlMgr mgr = new ProgramTreeXmlMgr(program, log);
 					mgr.read(parser, monitor, options.isAddToProgram());
 				}
-				else if (options.isEntryPoints() && name.equals("PROGRAM_ENTRY_POINTS")) {
+				else if (options.isEntryPoints() && "PROGRAM_ENTRY_POINTS".equals(name)) {
 					monitor.setMessage("Processing PROGRAM ENTRY POINTS ...");
 					ExtEntryPointXmlMgr mgr = new ExtEntryPointXmlMgr(program, log);
 					mgr.read(parser, monitor);
 				}
-				else if (options.isRelocationTable() && name.equals("RELOCATION_TABLE")) {
+				else if (options.isRelocationTable() && "RELOCATION_TABLE".equals(name)) {
 					monitor.setMessage("Processing RELOCATION TABLE ...");
 					RelocationTableXmlMgr mgr = new RelocationTableXmlMgr(program, log);
 					mgr.read(parser, monitor);
 				}
-				else if (options.isSymbols() && name.equals("SYMBOL_TABLE")) {
+				else if (options.isSymbols() && "SYMBOL_TABLE".equals(name)) {
 					monitor.setMessage("Processing SYMBOL TABLE ...");
 					SymbolTableXmlMgr mgr = new SymbolTableXmlMgr(program, log);
 					mgr.read(parser, options.isOverwriteSymbolConflicts(), monitor);
 					secondPassRequired = mgr.isSecondPassRequired();
 				}
-				else if (options.isFunctions() && name.equals("FUNCTIONS")) {
+				else if (options.isFunctions() && "FUNCTIONS".equals(name)) {
 					monitor.setMessage("Processing FUNCTIONS ...");
 					FunctionsXmlMgr mgr = new FunctionsXmlMgr(program, log);
 					mgr.read(parser,
 						!options.isAddToProgram() || options.isOverwriteSymbolConflicts(), false,
 						monitor);
 				}
-				else if (options.isReferences() && name.equals("MARKUP")) {
+				else if (options.isReferences() && "MARKUP".equals(name)) {
 					monitor.setMessage("Processing MARKUP ...");
 					MarkupXmlMgr mgr = new MarkupXmlMgr(program, log);
 					mgr.read(parser, options.isOverwriteReferenceConflicts(),
 						options.isExternalLibraries(), options.isFunctions(),
 						info.shouldProcessStack(), monitor);
 				}
-				else if (options.isExternalLibraries() && name.equals("EXT_LIBRARY_TABLE")) {
+				else if (options.isExternalLibraries() && "EXT_LIBRARY_TABLE".equals(name)) {
 					monitor.setMessage("Processing EXT LIBRARY TABLE ...");
 					ExternalLibXmlMgr mgr = new ExternalLibXmlMgr(program, log);
 					mgr.read(parser, monitor);
@@ -363,10 +363,10 @@ public class ProgramXmlMgr {
 				while (parser.hasNext() && !monitor.isCancelled()) {
 					XmlElement element = parser.peek();
 					String name = element.getName();
-					if (name.equals("PROGRAM")) {
+					if ("PROGRAM".equals(name)) {
 						parser.next();
 					}
-					else if (options.isSymbols() && name.equals("SYMBOL_TABLE")) {
+					else if (options.isSymbols() && "SYMBOL_TABLE".equals(name)) {
 						monitor.setMessage("Re-processing SYMBOL TABLE ...");
 						SymbolTableXmlMgr mgr = new SymbolTableXmlMgr(program, log);
 						mgr.readPass2(parser, options.isOverwriteSymbolConflicts(), monitor);

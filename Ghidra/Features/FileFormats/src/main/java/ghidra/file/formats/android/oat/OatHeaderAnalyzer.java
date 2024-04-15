@@ -276,7 +276,7 @@ public class OatHeaderAnalyzer extends FileFormatAnalyzer {
 
 		for (int i = 0; i < headerData.getNumComponents(); ++i) {
 			monitor.checkCancelled();
-			if (!headerData.getComponent(i).getFieldName().equals("executable_offset_") &&
+			if (!"executable_offset_".equals(headerData.getComponent(i).getFieldName()) &&
 				headerData.getComponent(i).getFieldName().endsWith("_offset_")) {
 				Scalar scalar = headerData.getComponent(i).getScalar(0);
 				if (scalar.getUnsignedValue() > 0) {

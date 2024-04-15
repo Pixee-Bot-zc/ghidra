@@ -147,7 +147,7 @@ public class FridaModelTargetMemoryContainerImpl extends FridaModelTargetObjectI
 				"Cannot process command readMemory while engine is waiting for events");
 		}
 		ByteBuffer buf = ByteBuffer.allocate(length);
-		if (!manager.isKernelMode() || address.getAddressSpace().getName().equals("ram")) {
+		if (!manager.isKernelMode() || "ram".equals(address.getAddressSpace().getName())) {
 			return manager
 					.execute(new FridaReadMemoryCommand(manager, address, buf, buf.remaining()))
 					.thenApply(set -> {
@@ -169,7 +169,7 @@ public class FridaModelTargetMemoryContainerImpl extends FridaModelTargetObjectI
 				"Cannot process command writeMemory while engine is waiting for events");
 		}
 		ByteBuffer buf = ByteBuffer.wrap(data);
-		if (!manager.isKernelMode() || address.getAddressSpace().getName().equals("ram")) {
+		if (!manager.isKernelMode() || "ram".equals(address.getAddressSpace().getName())) {
 			return manager
 					.execute(new FridaWriteMemoryCommand(manager, address, buf, buf.remaining()))
 					.thenAccept(___ -> {

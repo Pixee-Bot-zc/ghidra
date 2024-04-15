@@ -175,7 +175,7 @@ class FunctionsXmlMgr {
 					}
 					else {
 						while (parser.peek().isStart() &&
-							parser.peek().getName().equals("STACK_FRAME")) {
+							"STACK_FRAME".equals(parser.peek().getName())) {
 							parser.discardSubTree("STACK_FRAME");
 						}
 					}
@@ -314,7 +314,7 @@ class FunctionsXmlMgr {
 
 	private DataType readReturnType(XmlPullParser parser, String funcName) {
 		XmlElement element = parser.peek();
-		if (element.getName().equals("RETURN_TYPE")) {
+		if ("RETURN_TYPE".equals(element.getName())) {
 			element = parser.next();
 
 			DataType dt = findDataType(element);
@@ -333,7 +333,7 @@ class FunctionsXmlMgr {
 			throws AddressFormatException, AddressOutOfBoundsException {
 
 		XmlElement element = parser.peek();
-		while (element.getName().equals("ADDRESS_RANGE")) {
+		while ("ADDRESS_RANGE".equals(element.getName())) {
 			element = parser.next();
 
 			String startStr = element.getAttribute("START");
@@ -360,7 +360,7 @@ class FunctionsXmlMgr {
 	private void readStackFrame(XmlPullParser parser, Function func, boolean overwriteConflicts,
 			List<Variable> stackVariables, List<Variable> stackParams) {
 		XmlElement element = parser.peek();
-		if (element.getName().equals("STACK_FRAME")) {
+		if ("STACK_FRAME".equals(element.getName())) {
 			element = parser.next();
 
 			StackFrame frame = func.getStackFrame();
@@ -393,7 +393,7 @@ class FunctionsXmlMgr {
 			boolean overwriteConflicts, List<Variable> stackVariables, List<Variable> stackParams) {
 
 		XmlElement element = parser.peek();
-		while (element.getName().equals("STACK_VAR")) {
+		while ("STACK_VAR".equals(element.getName())) {
 			element = parser.next();
 			String stackPtrStringValue = element.getAttribute("STACK_PTR_OFFSET");
 			if (stackPtrStringValue == null) {
@@ -470,7 +470,7 @@ class FunctionsXmlMgr {
 	private void readRegisterVars(XmlPullParser parser, Function func,
 			List<Variable> registerParams) {
 		XmlElement element = parser.peek();
-		while (element.getName().equals("REGISTER_VAR")) {
+		while ("REGISTER_VAR".equals(element.getName())) {
 			element = parser.next();
 			try {
 				String name = element.getAttribute("NAME");

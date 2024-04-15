@@ -59,7 +59,7 @@ public class ResponseVectorId extends QueryResponseRecord {
 		throws LSHException {
 		parser.start();
 		while (parser.peek().isStart()) {
-			if (parser.peek().getName().equals("null")) {
+			if ("null".equals(parser.peek().getName())) {
 				parser.discardSubTree();
 				vectorResults.add(null);
 			}

@@ -108,7 +108,7 @@ public class LldbModelTargetMemoryContainerImpl extends LldbModelTargetObjectImp
 				"Cannot process command readMemory while engine is waiting for events");
 		}
 		ByteBuffer buf = ByteBuffer.allocate(length);
-		if (!manager.isKernelMode() || address.getAddressSpace().getName().equals("ram")) {
+		if (!manager.isKernelMode() || "ram".equals(address.getAddressSpace().getName())) {
 			return manager
 					.execute(new LldbReadMemoryCommand(manager, process.getProcess(), address, buf,
 						buf.remaining()))
@@ -131,7 +131,7 @@ public class LldbModelTargetMemoryContainerImpl extends LldbModelTargetObjectImp
 				"Cannot process command writeMemory while engine is waiting for events");
 		}
 		ByteBuffer buf = ByteBuffer.wrap(data);
-		if (!manager.isKernelMode() || address.getAddressSpace().getName().equals("ram")) {
+		if (!manager.isKernelMode() || "ram".equals(address.getAddressSpace().getName())) {
 			return manager
 					.execute(new LldbWriteMemoryCommand(manager, process.getProcess(), address, buf,
 						buf.remaining()))

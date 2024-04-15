@@ -202,7 +202,7 @@ class SymbolTableXmlMgr {
 			String primary = element.getAttribute("PRIMARY");
 			String sourceTypeString = element.getAttribute("SOURCE_TYPE");
 
-			boolean isPrimary = (primary == null) || primary.equalsIgnoreCase("y");
+			boolean isPrimary = (primary == null) || "y".equalsIgnoreCase(primary);
 
 			SourceType sourceType = SourceType.USER_DEFINED;
 			try {

@@ -61,7 +61,7 @@ public class DiffApplyTestAdapter extends DiffTestAdapter {
 		runSwing(() -> {
 			ComboBoxModel<?> model = comboBox.getModel();
 			for (int i = 0; i < model.getSize(); i++) {
-				if (model.getElementAt(i).toString().equals("Ignore")) {
+				if ("Ignore".equals(model.getElementAt(i).toString())) {
 					comboBox.setSelectedIndex(i);
 					break;
 				}
@@ -78,7 +78,7 @@ public class DiffApplyTestAdapter extends DiffTestAdapter {
 		runSwing(() -> {
 			ComboBoxModel<?> model = comboBox.getModel();
 			for (int i = 0; i < model.getSize(); i++) {
-				if (model.getElementAt(i).toString().equals("Replace")) {
+				if ("Replace".equals(model.getElementAt(i).toString())) {
 					comboBox.setSelectedIndex(i);
 					break;
 				}
@@ -95,7 +95,7 @@ public class DiffApplyTestAdapter extends DiffTestAdapter {
 		runSwing(() -> {
 			ComboBoxModel<?> model = comboBox.getModel();
 			for (int i = 0; i < model.getSize(); i++) {
-				if (model.getElementAt(i).toString().equals("Merge")) {
+				if ("Merge".equals(model.getElementAt(i).toString())) {
 					comboBox.setSelectedIndex(i);
 					break;
 				}
@@ -112,7 +112,7 @@ public class DiffApplyTestAdapter extends DiffTestAdapter {
 		runSwing(() -> {
 			ComboBoxModel<?> model = comboBox.getModel();
 			for (int i = 0; i < model.getSize(); i++) {
-				if (model.getElementAt(i).toString().equals("Merge & Set Primary")) {
+				if ("Merge & Set Primary".equals(model.getElementAt(i).toString())) {
 					comboBox.setSelectedIndex(i);
 					break;
 				}

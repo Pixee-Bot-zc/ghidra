@@ -716,7 +716,7 @@ public class VersionTrackingPluginScreenShots extends GhidraScreenShotGenerator 
 		int columnCount = model.getColumnCount();
 		for (int i = 0; i < columnCount; i++) {
 			String columnName = model.getColumnName(i);
-			if (columnName.equals("Source Label")) {
+			if ("Source Label".equals(columnName)) {
 				sourceLabelColumn = i;
 				break;
 			}

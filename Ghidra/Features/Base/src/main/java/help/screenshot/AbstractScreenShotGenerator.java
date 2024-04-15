@@ -438,7 +438,7 @@ public abstract class AbstractScreenShotGenerator extends AbstractGhidraHeadedIn
 	public void captureMenu() {
 		Set<Window> allWindows = getAllWindows();
 		for (Window window : allWindows) {
-			if (window.getClass().getSimpleName().equals("HeavyWeightWindow")) {
+			if ("HeavyWeightWindow".equals(window.getClass().getSimpleName())) {
 				captureComponent(window);
 			}
 		}
@@ -448,7 +448,7 @@ public abstract class AbstractScreenShotGenerator extends AbstractGhidraHeadedIn
 	public JPopupMenu getPopupMenu() {
 		Set<Window> allWindows = getAllWindows();
 		for (Window window : allWindows) {
-			if (window.getClass().getSimpleName().equals("HeavyWeightWindow")) {
+			if ("HeavyWeightWindow".equals(window.getClass().getSimpleName())) {
 				return findComponent(window, JPopupMenu.class);
 			}
 		}

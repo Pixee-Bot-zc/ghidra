@@ -168,7 +168,7 @@ public class FunctionsSarifMgr extends SarifMgr {
 				String key = (String) result.get("Message");
 				boolean isThunk = (boolean) result.get("isThunk");
 				boolean process = (firstPass && !isThunk) || (!firstPass && isThunk);
-				if (!key.equals("Function") || !process) {
+				if (!"Function".equals(key) || !process) {
 					return true;
 				}
 
@@ -187,7 +187,7 @@ public class FunctionsSarifMgr extends SarifMgr {
 				}
 
 				String source = (String) result.get("sourceType");
-				SourceType sourceType = source.equals("DEFAULT") ? SourceType.IMPORTED : getSourceType(source);
+				SourceType sourceType = "DEFAULT".equals(source) ? SourceType.IMPORTED : getSourceType(source);
 				String typeInfoComment = setProperties(result, func, entryPoint);
 
 				// Process stack
@@ -288,7 +288,7 @@ public class FunctionsSarifMgr extends SarifMgr {
 					if (parent != null && !parent.getName().equals(ns.getName())) {
 						Boolean isClass = (Boolean) result.get("namespaceIsClass");
 						String source = (String) result.get("sourceType");
-						SourceType sourceType = source.equals("DEFAULT") ? SourceType.IMPORTED : getSourceType(source);
+						SourceType sourceType = "DEFAULT".equals(source) ? SourceType.IMPORTED : getSourceType(source);
 						ns = walkNamespace(program.getGlobalNamespace(), parent.getPath() + "::", entryPoint,
 								sourceType, isClass);
 						symbol.setNameAndNamespace(name, ns, getSourceType("DEFAULT"));

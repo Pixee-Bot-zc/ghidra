@@ -170,7 +170,7 @@ public class ErrLogDialog extends AbstractErrDialog {
 		detailsButton = new JButton(isShowingDetails ? CLOSE : DETAIL);
 		detailsButton.addActionListener(e -> {
 			String label = detailsButton.getText();
-			showDetails(label.equals(DETAIL));
+			showDetails(DETAIL.equals(label));
 		});
 
 		detailsPane = new ErrorDetailsSplitPane();

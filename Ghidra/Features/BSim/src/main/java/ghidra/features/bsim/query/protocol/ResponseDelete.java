@@ -93,7 +93,7 @@ public class ResponseDelete extends QueryResponseRecord {
 		parser.start(name);
 		while (parser.peek().isStart()) {
 			XmlElement el = parser.peek();
-			if (el.getName().equals("delrec")) {
+			if ("delrec".equals(el.getName())) {
 				DeleteResult res = new DeleteResult();
 				res.restoreXml(parser);
 				reslist.add(res);

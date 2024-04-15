@@ -305,7 +305,7 @@ public class ArchivePlugin extends Plugin implements ApplicationLevelOnlyPlugin,
 		String format = entry.getName();
 		jarIn.close();
 
-		if (format.equalsIgnoreCase(ArchivePlugin.JAR_VERSION_TAG)) {
+		if (ArchivePlugin.JAR_VERSION_TAG.equalsIgnoreCase(format)) {
 			return true;
 		}
 		return false;

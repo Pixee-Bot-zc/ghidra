@@ -119,7 +119,7 @@ public class AddressRangeBytesTableColumn
 			sb.append("]");
 		}
 		String offset = MemoryOffsetSettingsDefinition.DEF.getValueString(settings);
-		if (!offset.equals("0")) {
+		if (!"0".equals(offset)) {
 			sb.append(offset);
 		}
 		return sb.toString();

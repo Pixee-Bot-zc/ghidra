@@ -300,40 +300,40 @@ public class DecompInterface {
 			decompProcess.setMaxResultSize(options.getMaxPayloadMBytes());
 			decompProcess.sendCommand1Param("setOptions", baseEncodingSet.mainQuery,
 				stringResponse);
-			if (!stringResponse.toString().equals("t")) {
+			if (!"t".equals(stringResponse.toString())) {
 				throw new IOException("Did not accept decompiler options");
 			}
 		}
 		if (actionname == null) {
 			throw new IOException("Decompile action not specified");
 		}
-		if (!actionname.equals("decompile")) {
+		if (!"decompile".equals(actionname)) {
 			decompProcess.sendCommand2Params("setAction", actionname, "", stringResponse);
-			if (!stringResponse.toString().equals("t")) {
+			if (!"t".equals(stringResponse.toString())) {
 				throw new IOException("Could not set decompile action");
 			}
 		}
 		if (!printSyntaxTree) {
 			decompProcess.sendCommand2Params("setAction", "", "notree", stringResponse);
-			if (!stringResponse.toString().equals("t")) {
+			if (!"t".equals(stringResponse.toString())) {
 				throw new IOException("Could not turn off syntax tree");
 			}
 		}
 		if (!printCCode) {
 			decompProcess.sendCommand2Params("setAction", "", "noc", stringResponse);
-			if (!stringResponse.toString().equals("t")) {
+			if (!"t".equals(stringResponse.toString())) {
 				throw new IOException("Could not turn off C printing");
 			}
 		}
 		if (sendParamMeasures) {
 			decompProcess.sendCommand2Params("setAction", "", "parammeasures", stringResponse);
-			if (!stringResponse.toString().equals("t")) {
+			if (!"t".equals(stringResponse.toString())) {
 				throw new IOException("Could not turn on sending of parameter measures");
 			}
 		}
 		if (jumpLoad) {
 			decompProcess.sendCommand2Params("setAction", "", "jumpload", stringResponse);
-			if (!stringResponse.toString().equals("t")) {
+			if (!"t".equals(stringResponse.toString())) {
 				throw new IOException("Could not turn on jumptable loads");
 			}
 		}
@@ -347,7 +347,7 @@ public class DecompInterface {
 				}
 				throw new DecompileException("Decompiler", decompCallback.getNativeMessage());
 			}
-			if (!stringResponse.toString().equals("t")) {
+			if (!"t".equals(stringResponse.toString())) {
 				throw new IOException("Could not set signature settings");
 			}
 		}
@@ -497,7 +497,7 @@ public class DecompInterface {
 		try {
 			verifyProcess();
 			decompProcess.sendCommand2Params("setAction", actionstring, "", stringResponse);
-			return stringResponse.toString().equals("t");
+			return "t".equals(stringResponse.toString());
 		}
 		catch (IOException e) {
 			// don't care
@@ -534,7 +534,7 @@ public class DecompInterface {
 		try {
 			verifyProcess();
 			decompProcess.sendCommand2Params("setAction", "", printstring, stringResponse);
-			return stringResponse.toString().equals("t");
+			return "t".equals(stringResponse.toString());
 		}
 		catch (IOException e) {
 			// don't care
@@ -572,7 +572,7 @@ public class DecompInterface {
 		try {
 			verifyProcess();
 			decompProcess.sendCommand2Params("setAction", "", printstring, stringResponse);
-			return stringResponse.toString().equals("t");
+			return "t".equals(stringResponse.toString());
 		}
 		catch (IOException e) {
 			// don't care
@@ -609,7 +609,7 @@ public class DecompInterface {
 		try {
 			verifyProcess();
 			decompProcess.sendCommand2Params("setAction", "", printstring, stringResponse);
-			return stringResponse.toString().equals("t");
+			return "t".equals(stringResponse.toString());
 		}
 		catch (IOException e) {
 			// don't care
@@ -639,7 +639,7 @@ public class DecompInterface {
 		try {
 			verifyProcess();
 			decompProcess.sendCommand2Params("setAction", "", jumpstring, stringResponse);
-			return stringResponse.toString().equals("t");
+			return "t".equals(stringResponse.toString());
 		}
 		catch (IOException e) {
 			// don't care
@@ -682,7 +682,7 @@ public class DecompInterface {
 			decompProcess.setMaxResultSize(options.getMaxPayloadMBytes());
 			decompProcess.sendCommand1Param("setOptions", baseEncodingSet.mainQuery,
 				stringResponse);
-			return stringResponse.toString().equals("t");
+			return "t".equals(stringResponse.toString());
 		}
 		catch (IOException e) {
 			// don't care
@@ -1002,7 +1002,7 @@ public class DecompInterface {
 			verifyProcess();
 			decompProcess.sendCommand1Param("setSignatureSettings", Integer.toString(sigSettings),
 				stringResponse);
-			return stringResponse.toString().equals("t");
+			return "t".equals(stringResponse.toString());
 		}
 		catch (IOException e) {
 			// don't care

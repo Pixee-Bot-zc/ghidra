@@ -163,7 +163,7 @@ public class DmgClientFileSystem extends AbstractFileSystem<Object> {
 		List<GFile> results = new ArrayList<>();
 		for (int i = 0; i < childInfo.size(); i += 3) {
 			String name = childInfo.get(i + 0);
-			boolean isDirectory = childInfo.get(i + 1).equals("true");
+			boolean isDirectory = "true".equals(childInfo.get(i + 1));
 			long length = Long.parseLong(childInfo.get(i + 2));
 
 			GFileImpl gFile = GFileImpl.fromFilename(this, dir, name, isDirectory, length, null);

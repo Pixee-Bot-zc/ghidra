@@ -130,7 +130,7 @@ public class CoffArchiveMemberHeader implements StructConverter {
 		 */
 		String endOfHeader = reader.readAsciiString(headerOffset + CAMH_EOH_OFF, CAMH_EOH_LEN);
 		
-		if (!endOfHeader.equals(CAMH_EOH_MAGIC)) {
+		if (!CAMH_EOH_MAGIC.equals(endOfHeader)) {
 			throw new IOException("Bad EOH magic string: " + endOfHeader);
 		}
 
@@ -283,8 +283,8 @@ public class CoffArchiveMemberHeader implements StructConverter {
 	 * @return true if this header contains a COFF file
 	 */
 	public boolean isCOFF() {
-		return !name.equals(CoffArchiveMemberHeader.SLASH) &&
-			!name.equals(CoffArchiveMemberHeader.SLASH_SLASH);
+		return !CoffArchiveMemberHeader.SLASH.equals(name) &&
+			!CoffArchiveMemberHeader.SLASH_SLASH.equals(name);
 	}
 
 	@Override

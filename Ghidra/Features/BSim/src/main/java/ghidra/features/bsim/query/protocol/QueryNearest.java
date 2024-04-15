@@ -124,15 +124,15 @@ public class QueryNearest extends BSimQuery<ResponseNearest> {
 		max = SpecXmlUtils.decodeInt(parser.end().getText());
 		while (parser.peek().isStart()) {
 			XmlElement el = parser.peek();
-			if (el.getName().equals("vectormax")) {
+			if ("vectormax".equals(el.getName())) {
 				parser.start();
 				vectormax = SpecXmlUtils.decodeInt(parser.end().getText());
 			}
-			else if (el.getName().equals("categories")) {
+			else if ("categories".equals(el.getName())) {
 				parser.start();
 				fillinCategories = SpecXmlUtils.decodeBoolean(parser.end().getText());
 			}
-			else if (el.getName().equals("exefilter")) {
+			else if ("exefilter".equals(el.getName())) {
 				bsimFilter = new BSimFilter();
 				bsimFilter.restoreXml(parser);
 			}

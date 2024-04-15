@@ -265,7 +265,7 @@ public class AutoVersionTrackingScript extends GhidraScript {
 			monitor.checkCancelled();
 
 			if (file.getName().equals(name)) {
-				if (file.getContentType().equals("VersionTracking")) {
+				if ("VersionTracking".equals(file.getContentType())) {
 					return true;
 				}
 			}

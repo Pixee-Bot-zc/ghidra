@@ -117,7 +117,7 @@ public class Pagedump extends DumpFile {
 			CREATE_MEMORY_BLOCKS_OPTION_DEFAULT);
 		String pdbLocation = OptionUtils.getOption(DEBUG_DATA_PATH_OPTION_NAME, options,
 			DEBUG_DATA_PATH_OPTION_DEFAULT);
-		if (!pdbLocation.equals("")) {
+		if (!"".equals(pdbLocation)) {
 			loadKernelPDB(pdbLocation, monitor);
 		}
 

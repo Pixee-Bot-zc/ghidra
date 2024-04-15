@@ -87,7 +87,7 @@ public class MnemonicFieldFactory extends FieldFactory {
 	@Override
 	public void fieldOptionsChanged(Options options, String optionName, Object oldValue,
 			Object newValue) {
-		if (optionName.equals(SHOW_UNDERLINE_FOR_REFERENCES)) {
+		if (SHOW_UNDERLINE_FOR_REFERENCES.equals(optionName)) {
 			underliningEnabled = ((Boolean) newValue).booleanValue();
 			model.update();
 		}

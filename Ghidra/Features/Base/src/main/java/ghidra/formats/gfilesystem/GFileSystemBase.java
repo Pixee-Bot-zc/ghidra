@@ -165,7 +165,7 @@ public abstract class GFileSystemBase implements GFileSystem {
 
 	@Override
 	public GFile lookup(String path) throws IOException {
-		if (path == null || path.equals("/")) {
+		if (path == null || "/".equals(path)) {
 			return root;
 		}
 		Comparator<String> nameComp = getFilenameComparator();

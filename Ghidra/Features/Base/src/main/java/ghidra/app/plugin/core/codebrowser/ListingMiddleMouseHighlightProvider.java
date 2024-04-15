@@ -925,7 +925,7 @@ public class ListingMiddleMouseHighlightProvider
 	public void optionsChanged(ToolOptions options, String optionName, Object oldValue,
 			Object newValue) {
 
-		if (optionName.equals(DISPLAY_HIGHLIGHT_NAME)) {
+		if (DISPLAY_HIGHLIGHT_NAME.equals(optionName)) {
 			displayHighlight = ((Boolean) newValue).booleanValue();
 			if (!displayHighlight) {
 				clearHighlight();
@@ -934,17 +934,17 @@ public class ListingMiddleMouseHighlightProvider
 		else if (optionName.equals(HIGHLIGHT_COLOR_NAME)) {
 			textMatchingHighlightColor = (Color) newValue;
 		}
-		else if (optionName.equals(SCOPED_WRITE_HIGHLIGHT_COLOR)) {
+		else if (SCOPED_WRITE_HIGHLIGHT_COLOR.equals(optionName)) {
 			scopeWriteHighlightColor = (Color) newValue;
 		}
-		else if (optionName.equals(SCOPED_READ_HIGHLIGHT_COLOR)) {
+		else if (SCOPED_READ_HIGHLIGHT_COLOR.equals(optionName)) {
 			scopeReadHighlightColor = (Color) newValue;
 		}
 		else if (optionName.equals(CURSOR_HIGHLIGHT_BUTTON_NAME)) {
 			CURSOR_MOUSE_BUTTON_NAMES mouseButton = (CURSOR_MOUSE_BUTTON_NAMES) newValue;
 			highlightButtonOption = mouseButton.getMouseEventID();
 		}
-		else if (optionName.equals(SCOPE_REGISTER_OPERAND)) {
+		else if (SCOPE_REGISTER_OPERAND.equals(optionName)) {
 			scopeRegisterHighlight = ((Boolean) newValue).booleanValue();
 		}
 	}

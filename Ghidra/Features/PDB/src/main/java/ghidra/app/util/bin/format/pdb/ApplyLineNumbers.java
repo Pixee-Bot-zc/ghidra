@@ -43,7 +43,7 @@ class ApplyLineNumbers {
 				return;
 			}
 			XmlElement elem = xmlParser.peek();
-			if (elem.isEnd() && elem.getName().equals("function")) {
+			if (elem.isEnd() && "function".equals(elem.getName())) {
 				break;
 			}
 			elem = xmlParser.next();//line number start tag

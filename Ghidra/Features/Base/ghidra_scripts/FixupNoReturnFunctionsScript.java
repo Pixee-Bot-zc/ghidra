@@ -316,7 +316,7 @@ public class FixupNoReturnFunctionsScript extends GhidraScript {
 		}
 
 		public boolean isFixed() {
-			return getStatus().equals("fixed");
+			return "fixed".equals(getStatus());
 		}
 
 		public void setStatus(String status) {

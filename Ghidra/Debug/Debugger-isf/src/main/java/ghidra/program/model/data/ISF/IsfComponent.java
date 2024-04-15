@@ -41,7 +41,7 @@ public class IsfComponent extends AbstractIsfObject {
 		type = typeObj;
 
 		field_name = component.getFieldName();
-		if (field_name == null || field_name.equals("")) {
+		if (field_name == null || "".equals(field_name)) {
 			noFieldName = true;
 		}
 		ordinal = component.getOrdinal();

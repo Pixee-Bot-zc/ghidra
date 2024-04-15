@@ -86,7 +86,7 @@ public class BSimFilter {
 				if (type instanceof FunctionTagBSimFilterType) {			// If this is a function tag filter
 					int flag = ((FunctionTagBSimFilterType) type).getFlag();
 					filterflags_mask |= flag;						// Accumulate the mask/value pair here
-					if (newatom.value.equals("true")) {
+					if ("true".equals(newatom.value)) {
 						filterflags_value |= flag;
 					}
 				}
@@ -143,12 +143,12 @@ public class BSimFilter {
 		atoms.clear();
 		while (parser.peek().isStart()) {
 			XmlElement el = parser.peek();
-			if (el.getName().equals("flags")) {
+			if ("flags".equals(el.getName())) {
 				el = parser.start();
 				filterflags_mask = SpecXmlUtils.decodeInt(el.getAttribute("mask"));
 				filterflags_value = SpecXmlUtils.decodeInt(parser.end().getText());
 			}
-			else if (el.getName().equals("childatom")) {
+			else if ("childatom".equals(el.getName())) {
 				ChildAtom newatom = new ChildAtom();
 				newatom.restoreXml(parser);
 				atoms.add(newatom);

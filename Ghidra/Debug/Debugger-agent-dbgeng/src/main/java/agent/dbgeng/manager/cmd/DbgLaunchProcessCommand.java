@@ -97,7 +97,7 @@ public class DbgLaunchProcessCommand extends AbstractDbgCommand<DbgThread> {
 	}
 
 	private String fixPath(String input) {
-		if (input == null || input.equals("")) {
+		if (input == null || "".equals(input)) {
 			return null;
 		}
 		String output = input;

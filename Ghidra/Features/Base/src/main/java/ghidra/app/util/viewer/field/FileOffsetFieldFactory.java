@@ -103,7 +103,7 @@ public class FileOffsetFieldFactory extends FieldFactory {
 	@Override
 	public void fieldOptionsChanged(Options options, String optionsName, Object oldValue,
 			Object newValue) {
-		if (optionsName.equals(FILE_OFFSET_DISPLAY_OPTIONS_NAME)) {
+		if (FILE_OFFSET_DISPLAY_OPTIONS_NAME.equals(optionsName)) {
 			FileOffsetFieldOptionsWrappedOption fofowo =
 				(FileOffsetFieldOptionsWrappedOption) newValue;
 			showFilename = fofowo.showFilename();

@@ -110,7 +110,7 @@ public class PropagateX86ConstantReferences extends GhidraScript {
 					@Override
 					public boolean evaluateContext(VarnodeContext context, Instruction instr) {
 						String mnemonic = instr.getMnemonicString();
-						if (mnemonic.equals("LEA")) {
+						if ("LEA".equals(mnemonic)) {
 							Register reg = instr.getRegister(0);
 							if (reg != null) {
 								BigInteger val = context.getValue(reg, false);

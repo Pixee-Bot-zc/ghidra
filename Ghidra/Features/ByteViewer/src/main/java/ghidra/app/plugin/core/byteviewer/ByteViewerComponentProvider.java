@@ -172,8 +172,8 @@ public abstract class ByteViewerComponentProvider extends ComponentProviderAdapt
 	@Override
 	public void optionsChanged(ToolOptions options, String optionName, Object oldValue,
 			Object newValue) {
-		if (options.getName().equals("ByteViewer")) {
-			if (optionName.equals(OPTION_FONT)) {
+		if ("ByteViewer".equals(options.getName())) {
+			if (OPTION_FONT.equals(optionName)) {
 				setFont((Font) newValue);
 			}
 		}

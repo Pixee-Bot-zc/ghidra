@@ -41,7 +41,7 @@ public class MarkupWallaceSrcScript extends GhidraScript {
 	@Override
 	public void run() throws Exception {
 		
-		if(!currentProgram.getName().contains("WallaceSrc") || (!currentProgram.getExecutableMD5().equals("2527c463a079c81af7b3bc1d26bd3b5d"))) {
+		if(!currentProgram.getName().contains("WallaceSrc") || (!"2527c463a079c81af7b3bc1d26bd3b5d".equals(currentProgram.getExecutableMD5()))) {
 			println("This script is only meant to work on the WallaceSrc executable with md5 hash 2527c463a079c81af7b3bc1d26bd3b5d.");
 			return;
 		}																							

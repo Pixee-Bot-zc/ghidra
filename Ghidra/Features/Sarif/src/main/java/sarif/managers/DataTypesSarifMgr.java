@@ -162,25 +162,25 @@ public class DataTypesSarifMgr extends SarifMgr {
 		String name = (String) result.get("Message");
 
 		try {
-			if (name.equals("DT.Struct")) {
+			if ("DT.Struct".equals(name)) {
 				return processStructure(result);
 			}
-			if (name.equals("DT.Union")) {
+			if ("DT.Union".equals(name)) {
 				return processUnion(result);
 			}
-			if (name.equals("DT.Enum")) {
+			if ("DT.Enum".equals(name)) {
 				return processEnum(result);
 			}
-			if (name.equals("DT.Typedef")) {
+			if ("DT.Typedef".equals(name)) {
 				return processTypeDef(result);
 			}
-			if (name.equals("DT.TypedObject")) {
+			if ("DT.TypedObject".equals(name)) {
 				return processTypedObject(result);
 			}
-			if (name.equals("DT.Builtin")) {
+			if ("DT.Builtin".equals(name)) {
 				return processBuiltin(result);
 			}
-			if (name.equals("DT.Function")) {
+			if ("DT.Function".equals(name)) {
 				return processFunctionDef(result);
 			}
 			log.appendMsg("Unrecognized datatype tag: " + name);
@@ -391,7 +391,7 @@ public class DataTypesSarifMgr extends SarifMgr {
 		Map<String, Object> type = (Map<String, Object>) result.get("type");
 		DataType baseType = findDataType(type, cp);
 		if (baseType != null) {
-			if (kind.equals("pointer")) {
+			if ("pointer".equals(kind)) {
 				DataType p = new PointerDataType(baseType, size, dataManager);
 				addDataType(getPath(p), p);
 				return true;
@@ -539,7 +539,7 @@ public class DataTypesSarifMgr extends SarifMgr {
 					} catch (NumberFormatException nfe) {
 						Msg.error(this, nfe);
 					}
-					if (!settingName.equals("ptr_type")) {
+					if (!"ptr_type".equals(settingName)) {
 						defaultSettings.setLong(settingName, val);
 					}
 				} else {
@@ -568,7 +568,7 @@ public class DataTypesSarifMgr extends SarifMgr {
 		if (kind == null) {
 			return null;
 		}
-		if (kind.equals("pointer") || (kind.equals("array"))) {
+		if ("pointer".equals(kind) || (kind.equals("array"))) {
 			DataType byName = findExistingDataType(cp, kind, name);
 			if (byName != null) {
 				if (byName instanceof FunctionDefinition) {
@@ -583,7 +583,7 @@ public class DataTypesSarifMgr extends SarifMgr {
 					return null;
 					// throw new RuntimeException("Subtype not found: " + subtype);
 				}
-				if (kind.equals("pointer")) {
+				if ("pointer".equals(kind)) {
 					return new PointerDataType(base, dataManager);
 				} else {
 					int count = (int) (double) type.get("count");
@@ -594,7 +594,7 @@ public class DataTypesSarifMgr extends SarifMgr {
 		if (name == null) {
 			return null;
 		}
-		if (kind.equals("typedef")) {
+		if ("typedef".equals(kind)) {
 			Map<String, Object> subtype = (Map<String, Object>) type.get("type");
 			String typeName = (String) type.get("typeName");
 			if (typeName != null) {
@@ -608,7 +608,7 @@ public class DataTypesSarifMgr extends SarifMgr {
 				return base;
 			}
 		}
-		if (kind.equals("bitfield")) {
+		if ("bitfield".equals(kind)) {
 			Map<String, Object> subtype = (Map<String, Object>) type.get("type");
 			String typeName = (String) type.get("typeName");
 			if (typeName != null) {
@@ -634,7 +634,7 @@ public class DataTypesSarifMgr extends SarifMgr {
 			return dt;
 		}
 		dt = dataTypes.get(getPath(cp, name));
-		if (dt == null && kind.equals("typedef")) {
+		if (dt == null && "typedef".equals(kind)) {
 			dt = dataTypes.get(cp + "/functions/" + name);
 		}
 		if (dt != null) {
@@ -665,7 +665,7 @@ public class DataTypesSarifMgr extends SarifMgr {
 	private String getPath(DataType dt) {
 		String displayName = dt.getPathName();
 		String path = dt.getCategoryPath().getPath();
-		if (!path.equals("/")) {
+		if (!"/".equals(path)) {
 			path += "/";
 		}
 		return path + displayName;
@@ -673,7 +673,7 @@ public class DataTypesSarifMgr extends SarifMgr {
 
 	private String getPath(CategoryPath cp, String displayName) {
 		String path = cp.getPath();
-		if (!path.equals("/")) {
+		if (!"/".equals(path)) {
 			path += "/";
 		}
 		return path + displayName;

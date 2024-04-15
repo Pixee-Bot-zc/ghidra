@@ -56,14 +56,14 @@ class MemoryMapXmlMgr {
 
 		XmlElement element = parser.next();
 		element = parser.next();
-		while (element.getName().equals("MEMORY_SECTION")) {
+		while ("MEMORY_SECTION".equals(element.getName())) {
 			if (monitor.isCancelled()) {
 				throw new CancelledException();
 			}
 			processMemoryBlock(element, parser, directory, program, monitor);
 			element = parser.next();
 		}
-		if (element.isStart() || !element.getName().equals("MEMORY_MAP")) {
+		if (element.isStart() || !"MEMORY_MAP".equals(element.getName())) {
 			throw new SAXParseException("Expected MEMORY_MAP end tag, got " + element.getName(),
 				null, null, parser.getLineNumber(), parser.getColumnNumber());
 		}
@@ -97,11 +97,11 @@ class MemoryMapXmlMgr {
 		try {
 			XmlElement element = parser.peek();
 
-			if (element.getName().equals("MEMORY_CONTENTS")) {
+			if ("MEMORY_CONTENTS".equals(element.getName())) {
 				byte[] bytes = new byte[length];
 				Arrays.fill(bytes, (byte) 0xff);
 
-				while (element.getName().equals("MEMORY_CONTENTS")) {
+				while ("MEMORY_CONTENTS".equals(element.getName())) {
 					element = parser.next();
 					Address startAddr = addr;
 					if (element.hasAttribute("START_ADDR")) {
@@ -146,7 +146,7 @@ class MemoryMapXmlMgr {
 					}
 				}
 			}
-			else if (element.getName().equals("BIT_MAPPED")) {
+			else if ("BIT_MAPPED".equals(element.getName())) {
 				Address sourceAddr = factory.getAddress(element.getAttribute("SOURCE_ADDRESS"));
 
 				MemoryBlock block = MemoryBlockUtils.createBitMappedBlock(program, overlayName,
@@ -156,7 +156,7 @@ class MemoryMapXmlMgr {
 				}
 				parser.next(); // consume end of Bit_mapped
 			}
-			else if (element.getName().equals("BYTE_MAPPED")) {
+			else if ("BYTE_MAPPED".equals(element.getName())) {
 				Address sourceAddr = factory.getAddress(element.getAttribute("SOURCE_ADDRESS"));
 
 				MemoryBlock block = MemoryBlockUtils.createByteMappedBlock(program, overlayName,

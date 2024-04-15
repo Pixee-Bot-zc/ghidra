@@ -102,7 +102,7 @@ public class FindPotentialDecompilerProblems extends GhidraScript {
 			if (!(highVar instanceof HighLocal)) {
 				continue;
 			}
-			if (sym.getName().startsWith("in_") && !sym.getName().equals("in_FS_OFFSET")) {
+			if (sym.getName().startsWith("in_") && !"in_FS_OFFSET".equals(sym.getName())) {
 				// Has an input variable that is not a parameter
 				String possible =
 					"Function signature missing register param, called function passed too many register params, or only a subpiece" +
@@ -134,7 +134,7 @@ public class FindPotentialDecompilerProblems extends GhidraScript {
 
 			if (sym.getName().startsWith("unaff_")) {
 				Address firstAddr = getFirstCalledFunction(func);
-				if (sym.getName().equals("unaff_EBP")) {
+				if ("unaff_EBP".equals(sym.getName())) {
 					problems.add(
 						new ProblemLocation(currentProgram, firstAddr, func.getEntryPoint(),
 							sym.getName(), "Suspect function is EH_PROLOG/EH_EPILOG"));

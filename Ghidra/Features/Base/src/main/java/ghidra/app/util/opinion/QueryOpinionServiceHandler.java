@@ -59,7 +59,7 @@ public class QueryOpinionServiceHandler {
 
         XmlElement root = parser.start("opinions");
 
-        while (parser.peek().getName().equals("constraint")) {
+        while ("constraint".equals(parser.peek().getName())) {
         	XmlElement element = parser.next();
 
         	if (element.isStart()) {

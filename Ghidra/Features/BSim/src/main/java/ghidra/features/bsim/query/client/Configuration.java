@@ -84,7 +84,7 @@ public class Configuration {
 		weightfactory = new WeightFactory();
 		idflookup = new IDFLookup();
 		
-		if (weightsfile.equals("default")) {
+		if ("default".equals(weightsfile)) {
 			return;								// Use the default weights
 		}
 		file = new ResourceFile(rootPath, weightsfile);

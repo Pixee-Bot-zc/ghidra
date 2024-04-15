@@ -267,7 +267,7 @@ public class PythonCodeCompletionFactory {
 	 */
 	public static void changeOptions(Options options, String name, Object oldValue,
 			Object newValue) {
-		if (name.equals(INCLUDE_TYPES_LABEL)) {
+		if (INCLUDE_TYPES_LABEL.equals(name)) {
 			includeTypes = ((Boolean) newValue).booleanValue();
 		}
 		else {
@@ -291,7 +291,7 @@ public class PythonCodeCompletionFactory {
 		Method[] declaredMethods = obj.getClass().getDeclaredMethods();
 
 		for (Method declaredMethod : declaredMethods) {
-			if (declaredMethod.getName().equals("__call__")) {
+			if ("__call__".equals(declaredMethod.getName())) {
 				callMethodList.add(declaredMethod);
 			}
 		}

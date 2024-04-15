@@ -402,11 +402,11 @@ public class InterpreterPanel extends JPanel implements OptionsChangeListener {
 	@Override
 	public void optionsChanged(ToolOptions options, String optionName, Object oldValue,
 			Object newValue) {
-		if (optionName.equals(FONT_OPTION_LABEL)) {
+		if (FONT_OPTION_LABEL.equals(optionName)) {
 			Font font = Gui.getFont(FONT_ID);
 			updateFontAttributes(font);
 		}
-		else if (optionName.equals(COMPLETION_WINDOW_TRIGGER_LABEL)) {
+		else if (COMPLETION_WINDOW_TRIGGER_LABEL.equals(optionName)) {
 			completionWindowTrigger = (CompletionWindowTrigger) newValue;
 		}
 // TODO

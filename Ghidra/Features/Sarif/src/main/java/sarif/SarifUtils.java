@@ -115,7 +115,7 @@ public class SarifUtils {
 			if (fqn == null) {
 				return longToAddress(base, addr);
 			}
-			if (fqn.equals("NO ADDRESS")) {
+			if ("NO ADDRESS".equals(fqn)) {
 				return null;
 			}
 

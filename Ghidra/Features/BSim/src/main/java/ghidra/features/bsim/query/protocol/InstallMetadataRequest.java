@@ -69,11 +69,11 @@ public class InstallMetadataRequest extends BSimQuery<ResponseInfo> {
 			XmlElement start = parser.start();
 			String elname = start.getName();
 			String val = parser.end().getText();
-			if (elname.equals("name"))
+			if ("name".equals(elname))
 				dbname = val;
-			else if (elname.equals("owner"))
+			else if ("owner".equals(elname))
 				owner = val;
-			else if (elname.equals("description"))
+			else if ("description".equals(elname))
 				description = val;
 		}
 		parser.end();

@@ -102,7 +102,7 @@ public class ClipboardPlugin extends ProgramPlugin
 	@Override
 	public void optionsChanged(ToolOptions options, String optionName, Object oldValue,
 			Object newValue) throws OptionsVetoException {
-		if (optionName.equals(REMOVE_QUOTES_OPTION)) {
+		if (REMOVE_QUOTES_OPTION.equals(optionName)) {
 			removeQuotes = options.getBoolean(REMOVE_QUOTES_OPTION, false);
 		}
 	}

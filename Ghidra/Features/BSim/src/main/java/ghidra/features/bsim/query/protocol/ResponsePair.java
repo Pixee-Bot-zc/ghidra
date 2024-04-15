@@ -127,7 +127,7 @@ public class ResponsePair extends QueryResponseRecord {
 			if (!note.isStart()) {
 				break;
 			}
-			if (!note.getName().equals("note")) {
+			if (!"note".equals(note.getName())) {
 				break;
 			}
 			PairNote pairNote = new PairNote();

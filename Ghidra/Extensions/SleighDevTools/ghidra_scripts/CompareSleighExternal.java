@@ -264,7 +264,7 @@ public class CompareSleighExternal extends GhidraScript {
 					}
 				}
 				extOp = extOp.trim();
-				if (extOp.length() > 0 && !extOp.startsWith(";") && !extOp.startsWith("//") && !extOp.equals("#") && !extOp.matches("[0x]+")) {
+				if (extOp.length() > 0 && !extOp.startsWith(";") && !extOp.startsWith("//") && !"#".equals(extOp) && !extOp.matches("[0x]+")) {
 					markBad(addr,"Missing characters", extOp);
 				}
 			}

@@ -298,16 +298,16 @@ public class NGramUtils {
 
 					charInfo = convertToAsciiNums(charInfo);
 
-					if (charInfo[0].equals("[^]")) {
+					if ("[^]".equals(charInfo[0])) {
 
 						// Ignore the ^ 0 $ case, if somehow one-character strings were ingested during model creation
-						if (!charInfo[2].equals("[$]")) {
+						if (!"[$]".equals(charInfo[2])) {
 							// Beginning of string
 							beginTrigramCounts[Integer.parseInt(charInfo[1])][Integer.parseInt(charInfo[2])] +=
 								currCount;
 						}
 					}
-					else if (charInfo[2].equals("[$]")) {
+					else if ("[$]".equals(charInfo[2])) {
 						endTrigramCounts[Integer.parseInt(charInfo[0])][Integer.parseInt(charInfo[1])] +=
 							currCount;
 					}

@@ -142,7 +142,7 @@ public class HDMAUtil {
 				indexStr = str.substring(str.indexOf("[") + 1, str.indexOf("]"));
 				str = str.substring(0, str.indexOf("["));
 			}
-			if (!str.equals("")) {
+			if (!"".equals(str)) {
 				ModelObject keyValue = target.getKeyValueByEnum(str);
 				if (keyValue != null) {
 					target = keyValue;

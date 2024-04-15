@@ -89,7 +89,7 @@ public class DataTypesXmlMgr {
 					throw new CancelledException();
 				}
 				element = parser.peek();
-				if (element.isEnd() && element.getName().equals("DATATYPES")) {
+				if (element.isEnd() && "DATATYPES".equals(element.getName())) {
 					parser.next();
 					break;
 				}
@@ -160,19 +160,19 @@ public class DataTypesXmlMgr {
 		String name = element.getName();
 
 		try {
-			if (name.equals("STRUCTURE")) {
+			if ("STRUCTURE".equals(name)) {
 				return processStructure(root, firstPass);
 			}
-			else if (name.equals("UNION")) {
+			else if ("UNION".equals(name)) {
 				return processUnion(root, firstPass);
 			}
-			else if (name.equals("FUNCTION_DEF")) {
+			else if ("FUNCTION_DEF".equals(name)) {
 				return processFunctionDef(root, firstPass);
 			}
-			else if (name.equals("ENUM")) {
+			else if ("ENUM".equals(name)) {
 				return processEnum(root);
 			}
-			else if (name.equals("TYPE_DEF")) {
+			else if ("TYPE_DEF".equals(name)) {
 				return processTypeDef(root, firstPass);
 			}
 			log.appendMsg("Unrecognized datatype tag: " + name);

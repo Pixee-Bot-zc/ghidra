@@ -118,8 +118,8 @@ public interface DbgModelTargetBreakpointSpec extends //
 				map.put(EXPRESSION_ATTRIBUTE_NAME, addstr);
 				map.put(KINDS_ATTRIBUTE_NAME, getKinds());
 				//map.put(BPT_INDEX_ATTRIBUTE_NAME, Long.decode(idstr));
-				map.put(ENABLED_ATTRIBUTE_NAME, enstr.equals("-1"));
-				setEnabled(enstr.equals("-1"), "Refreshed");
+				map.put(ENABLED_ATTRIBUTE_NAME, "-1".equals(enstr));
+				setEnabled("-1".equals(enstr), "Refreshed");
 				int size = getBreakpointInfo().getSize();
 				//map.put(LENGTH_ATTRIBUTE_NAME, size);
 				if (address != null) {

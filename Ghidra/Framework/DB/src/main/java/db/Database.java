@@ -222,7 +222,7 @@ public abstract class Database {
 				if (fname.startsWith(DATABASE_FILE_PREFIX)) {
 //					bufferFileFound = true;
 				}
-				else if (fname.equals(CUMULATIVE_CHANGE_FILENAME)) {
+				else if (CUMULATIVE_CHANGE_FILENAME.equals(fname)) {
 // TODO: This check is not reliable
 // If the detabase is checked-out and not yet modified, this file will not yet exist
 					isCheckOutCopy = true;

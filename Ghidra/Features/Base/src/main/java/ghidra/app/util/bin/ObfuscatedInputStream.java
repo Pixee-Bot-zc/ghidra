@@ -71,7 +71,7 @@ public class ObfuscatedInputStream extends InputStream {
 	 * @throws IOException if error
 	 */
 	public static void main(String[] args) throws IOException {
-		if (args.length != 2 || (args.length > 1 && args[0].equals("--help"))) {
+		if (args.length != 2 || (args.length > 1 && "--help".equals(args[0]))) {
 			System.err.println("De-Obfuscator Usage:");
 			System.err.println("\t" + ObfuscatedInputStream.class.getName() +
 				" obfuscated_input_filename_path plain_dest_output_filename_path");

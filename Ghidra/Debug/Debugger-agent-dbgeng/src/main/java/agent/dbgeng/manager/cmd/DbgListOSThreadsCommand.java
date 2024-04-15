@@ -71,7 +71,7 @@ public class DbgListOSThreadsCommand extends AbstractDbgCommand<Map<DebugThreadI
 			String line = lines[i];
 			if (line.contains("THREAD")) {
 				String[] fields = line.trim().split("\\s+");
-				if (fields.length > 4 && fields[0].equals("THREAD")) {
+				if (fields.length > 4 && "THREAD".equals(fields[0])) {
 					BigInteger val = new BigInteger(fields[1], 16);
 					offset = val.longValue();
 					String[] split = fields[3].split("\\.");

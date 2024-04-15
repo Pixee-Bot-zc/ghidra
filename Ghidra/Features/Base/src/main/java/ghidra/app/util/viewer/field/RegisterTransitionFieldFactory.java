@@ -71,7 +71,7 @@ public class RegisterTransitionFieldFactory extends FieldFactory {
 			Object newValue) {
 		super.fieldOptionsChanged(options, optionName, oldValue, newValue);
 
-		if (optionName.equals(DISPLAY_HIDDEN_REGISTERS_OPTION_NAME)) {
+		if (DISPLAY_HIDDEN_REGISTERS_OPTION_NAME.equals(optionName)) {
 			showContextRegisters = (Boolean) newValue;
 			model.update();
 		}

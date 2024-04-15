@@ -49,7 +49,7 @@ public class WildSleighAssemblerInfo extends GhidraScript {
 		String instruction = askChoice("Instruction to assemble", "Assemble this instruction:",
 			sampleInstructions, "Custom");
 
-		if (instruction.equals("Custom")) {
+		if ("Custom".equals(instruction)) {
 			instruction = askString("Instruction",
 				"Instruction to assemble and print information about.",
 				"MOV RDI,qword ptr [`Q1` + -0x30]");
@@ -73,7 +73,7 @@ public class WildSleighAssemblerInfo extends GhidraScript {
 		// Make sure that if one of the example instructions was chosen the current binary has the
 		// correct architecture.
 		if (sampleInstructions.contains(wildcardedInstruction) &&
-			!language.getLanguageID().toString().equals("x86:LE:64:default")) {
+			!"x86:LE:64:default".equals(language.getLanguageID().toString())) {
 			popup("""
 					The current program is not a \"x86:LE:64:default\" binary that the example was \
 					designed for. This script will continue and try anyway, but the results might \

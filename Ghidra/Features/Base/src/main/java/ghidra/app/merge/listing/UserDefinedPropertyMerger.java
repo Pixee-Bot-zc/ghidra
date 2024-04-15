@@ -233,7 +233,7 @@ class UserDefinedPropertyMerger extends AbstractListingMerger {
 		while (myProps.hasNext()) {
 			String propName = myProps.next();
 			// Only add the names we don't have yet.
-			if (!list.contains(propName) && !propName.equals("Bookmarks")) {
+			if (!list.contains(propName) && !"Bookmarks".equals(propName)) {
 				list.add(propName);
 			}
 		}

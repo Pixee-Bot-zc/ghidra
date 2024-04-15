@@ -145,19 +145,19 @@ public class EolCommentFieldFactory extends FieldFactory {
 	@Override
 	public void fieldOptionsChanged(Options options, String optionName, Object oldValue,
 			Object newValue) {
-		if (optionName.equals(MAX_DISPLAY_LINES_KEY)) {
+		if (MAX_DISPLAY_LINES_KEY.equals(optionName)) {
 			setMaximumLinesToDisplay(((Integer) newValue).intValue(), options);
 		}
-		else if (optionName.equals(ENABLE_WORD_WRAP_KEY)) {
+		else if (ENABLE_WORD_WRAP_KEY.equals(optionName)) {
 			isWordWrap = ((Boolean) newValue).booleanValue();
 		}
-		else if (optionName.equals(ENABLE_SHOW_SEMICOLON_KEY)) {
+		else if (ENABLE_SHOW_SEMICOLON_KEY.equals(optionName)) {
 			showSemicolon = ((Boolean) newValue).booleanValue();
 		}
-		else if (optionName.equals(EXTRA_COMMENT_KEY)) {
+		else if (EXTRA_COMMENT_KEY.equals(optionName)) {
 			extraCommentsOption = (EolExtraCommentsOption) newValue;
 		}
-		else if (optionName.equals(ENABLE_PREPEND_REF_ADDRESS_KEY)) {
+		else if (ENABLE_PREPEND_REF_ADDRESS_KEY.equals(optionName)) {
 			prependRefAddress = ((Boolean) newValue).booleanValue();
 		}
 	}

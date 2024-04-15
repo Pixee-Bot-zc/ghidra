@@ -133,7 +133,7 @@ public class ModelObjectImpl implements ModelObjectInternal {
 		PointerByReference ppMetadata = new PointerByReference();
 		HRESULT hr = jnaData.GetKeyValue(new WString(searchKey), ppObject, ppMetadata);
 		if (!hr.equals(new HRESULT(0)) &&
-			(searchKey.equals("Parameters") || searchKey.equals("LocalVariables"))) {
+			("Parameters".equals(searchKey) || "LocalVariables".equals(searchKey))) {
 			return null;
 		}
 		if (hr.equals(COMUtilsExtra.E_FAIL)) {
@@ -985,7 +985,7 @@ public class ModelObjectImpl implements ModelObjectInternal {
 	public void setIndexer(ModelObject indexer) {
 		this.indexer = indexer;
 		String str = "0x" + indexer.getValueString();
-		if (!str.equals("")) {
+		if (!"".equals(str)) {
 			key = str;
 		}
 	}

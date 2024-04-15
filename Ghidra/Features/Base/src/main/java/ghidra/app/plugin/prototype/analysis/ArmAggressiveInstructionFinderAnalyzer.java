@@ -542,11 +542,11 @@ public class ArmAggressiveInstructionFinderAnalyzer extends AbstractAnalyzer {
 	private boolean isFillerInstruction(PseudoInstruction instr) {
 		String mnemonic= instr.getMnemonicString();
 		
-		if (mnemonic.equals("nop")) {
+		if ("nop".equals(mnemonic)) {
 			return true;
 		}
 		
-		if (mnemonic.equals("mov") || mnemonic.equals("movs")) {
+		if ("mov".equals(mnemonic) || "movs".equals(mnemonic)) {
 			// if input and output register are the same is filler
 			if (instr.getNumOperands() == 2) {
 				Register reg1 = instr.getRegister(0);

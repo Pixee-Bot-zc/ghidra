@@ -90,8 +90,8 @@ public class RegisterTouchesPerFunction extends GhidraScript
 
                     if (inst.getMnemonicString().equalsIgnoreCase("pop"))
                     {
-                        if (!name.equalsIgnoreCase("mult_addr")
-                                && !name.equalsIgnoreCase("sp"))
+                        if (!"mult_addr".equalsIgnoreCase(name)
+                                && !"sp".equalsIgnoreCase(name))
                         {
                             if (pushPops.size() > 0)
                             {
@@ -118,8 +118,8 @@ public class RegisterTouchesPerFunction extends GhidraScript
                     String name = ((Register) o[i]).getName();
                     if (inst.getMnemonicString().equalsIgnoreCase("push"))
                     {
-                        if (!name.equalsIgnoreCase("mult_addr")
-                                && !name.equalsIgnoreCase("sp"))
+                        if (!"mult_addr".equalsIgnoreCase(name)
+                                && !"sp".equalsIgnoreCase(name))
                         {
                             pushPops.push(name);
                         }

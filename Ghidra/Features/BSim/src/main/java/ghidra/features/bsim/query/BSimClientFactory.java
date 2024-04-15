@@ -49,12 +49,12 @@ public class BSimClientFactory {
 	 */
 	public static void checkBSimServerURL(URL url) throws MalformedURLException {
 		String protocol = url.getProtocol();
-		if (!protocol.equals("postgresql") && !protocol.equals("https") &&
-			!protocol.equals("elastic") && !protocol.equals("file")) {
+		if (!"postgresql".equals(protocol) && !"https".equals(protocol) &&
+			!"elastic".equals(protocol) && !"file".equals(protocol)) {
 			throw new MalformedURLException("Protocol not permissable for BSim URL");
 		}
 		String path = url.getPath();
-		if (path == null || path.length() == 0 || path.equals("/")) {
+		if (path == null || path.length() == 0 || "/".equals(path)) {
 			throw new MalformedURLException("BSim URL missing DB name/path");
 		}
 		if (!"file".equals(protocol) && path.indexOf('/', 1) >= 0) {
@@ -88,7 +88,7 @@ public class BSimClientFactory {
 			throw new IllegalArgumentException("Unable to infer BSim URL from: " + url);
 		}
 		String path = url.getPath();							// Get the full path of the URL
-		if (path == null || path.length() == 0 || path.equals("/")) {		// There must always be some kind of path, so we can derive the repository
+		if (path == null || path.length() == 0 || "/".equals(path)) {		// There must always be some kind of path, so we can derive the repository
 			throw new MalformedURLException("URL is missing a repository path");
 		}
 		int endrepos = path.indexOf('/', 1);	// Find the end of the first level of the path
@@ -146,10 +146,10 @@ public class BSimClientFactory {
 			throws MalformedURLException {
 
 		String protocol = bsimURL.getProtocol();
-		if (protocol.equals("postgresql")) {
+		if ("postgresql".equals(protocol)) {
 			return new PostgresFunctionDatabase(bsimURL, async);
 		}
-		if (protocol.equals("https") || protocol.equals("elastic")) {
+		if ("https".equals(protocol) || "elastic".equals(protocol)) {
 			return new ElasticDatabase(bsimURL);
 		}
 		if ("file".equals(protocol)) {

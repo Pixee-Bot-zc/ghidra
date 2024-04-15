@@ -55,7 +55,7 @@ class ExtEntryPointXmlMgr {
 				throw new CancelledException();	
 			}
 			element = parser.peek();
-			if (!element.getName().equals("PROGRAM_ENTRY_POINT")) {
+			if (!"PROGRAM_ENTRY_POINT".equals(element.getName())) {
 				break;
 			}
 			element = parser.next();    	

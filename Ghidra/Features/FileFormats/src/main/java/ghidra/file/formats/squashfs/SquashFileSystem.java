@@ -186,7 +186,7 @@ public class SquashFileSystem extends AbstractFileSystem<SquashedFile> {
 			String currentPart = iterator.next();
 
 			// If the link references up a directory
-			if (currentPart.equals("..")) {
+			if ("..".equals(currentPart)) {
 
 				// Move up a directory
 				currentFile = currentFile.getParentFile();

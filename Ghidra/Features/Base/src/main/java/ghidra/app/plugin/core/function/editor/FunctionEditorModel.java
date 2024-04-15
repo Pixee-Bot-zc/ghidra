@@ -506,7 +506,7 @@ public class FunctionEditorModel {
 			return;
 		}
 		this.callFixupName = callFixupName;
-		if (!callFixupName.equals(NONE_CHOICE)) {
+		if (!NONE_CHOICE.equals(callFixupName)) {
 			isInLine = false;
 		}
 		notifyDataChanged();
@@ -762,7 +762,7 @@ public class FunctionEditorModel {
 	boolean canMoveParameterUp() {
 		// remember first row (return type) and auto-params cannot be moved.
 		int minRowToMoveUp = 2 + autoParamCount;
-		if (parameters.size() > 0 && parameters.get(0).getName().equals("this")) {
+		if (parameters.size() > 0 && "this".equals(parameters.get(0).getName())) {
 			minRowToMoveUp++;
 		}
 		return selectedFunctionRows.length == 1 && selectedFunctionRows[0] >= minRowToMoveUp;
@@ -774,7 +774,7 @@ public class FunctionEditorModel {
 		}
 		// remember first row (return type) and auto-params cannot be moved.
 		int minRowToMoveDown = 1 + autoParamCount;
-		if (parameters.size() > 0 && parameters.get(0).getName().equals("this")) {
+		if (parameters.size() > 0 && "this".equals(parameters.get(0).getName())) {
 			minRowToMoveDown++;
 		}
 		int selectedRow = selectedFunctionRows[0];
@@ -1045,7 +1045,7 @@ public class FunctionEditorModel {
 			function.setNoReturn(isNoReturn);
 		}
 
-		String fixupName = callFixupName.equals(NONE_CHOICE) ? null : callFixupName;
+		String fixupName = NONE_CHOICE.equals(callFixupName) ? null : callFixupName;
 		if (!SystemUtilities.isEqual(fixupName, function.getCallFixup())) {
 			function.setCallFixup(fixupName);
 		}

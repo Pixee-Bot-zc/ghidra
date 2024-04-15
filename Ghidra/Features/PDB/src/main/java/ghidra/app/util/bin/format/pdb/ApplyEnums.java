@@ -46,7 +46,7 @@ class ApplyEnums {
 			monitor.checkCancelled();
 			XmlElement elem = xmlParser.next();
 
-			if (elem.isEnd() && elem.getName().equals("enums")) {
+			if (elem.isEnd() && "enums".equals(elem.getName())) {
 				break;
 			}
 
@@ -59,7 +59,7 @@ class ApplyEnums {
 					break;
 				}
 				elem = xmlParser.next();
-				if (elem.isEnd() && elem.getName().equals("enum")) {
+				if (elem.isEnd() && "enum".equals(elem.getName())) {
 					break;
 				}
 				applyEnumMember(enumdt, elem, monitor, log);

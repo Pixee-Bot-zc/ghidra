@@ -47,7 +47,7 @@ public class GdbInJvmDebuggerModelFactory implements DebuggerModelFactory {
 	public final Property<Boolean> useExistingOption =
 		Property.fromAccessors(boolean.class, this::isUseExisting, this::setUseExisting);
 
-	private boolean useCrlf = System.lineSeparator().equals("\r\n");;
+	private boolean useCrlf = "\r\n".equals(System.lineSeparator());;
 	@FactoryOption("Use DOS line endings (unchecked for UNIX and Cygwin))")
 	public final Property<Boolean> crlfNewLineOption =
 		Property.fromAccessors(Boolean.class, this::isUseCrlf, this::setUseCrlf);

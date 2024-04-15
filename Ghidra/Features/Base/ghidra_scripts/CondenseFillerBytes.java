@@ -52,7 +52,7 @@ public class CondenseFillerBytes extends GhidraScript {
 				"Auto");
 
 		// Check response
-		if (fillValue.equalsIgnoreCase("auto")) {
+		if ("auto".equalsIgnoreCase(fillValue)) {
 			filler = "0x" + determineFillerValue();
 		}
 		else {

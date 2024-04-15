@@ -665,7 +665,7 @@ public class RecoverClassesFromRTTIScript extends GhidraScript {
 
 		ghidraVersion = getVersionOfGhidra();
 
-		if (ghidraVersion.compareTo("9.3") <= 0 && !ghidraVersion.equals("9.2.1")) {
+		if (ghidraVersion.compareTo("9.3") <= 0 && !"9.2.1".equals(ghidraVersion)) {
 			return true;
 		}
 		return false;

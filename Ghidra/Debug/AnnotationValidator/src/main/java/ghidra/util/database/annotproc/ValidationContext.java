@@ -257,7 +257,7 @@ class FormatVisitor implements TypeVisitor<Void, Void> {
 			visit(lower);
 		}
 		TypeMirror upper = t.getUpperBound();
-		if (!upper.toString().equals("java.lang.Object")) {
+		if (!"java.lang.Object".equals(upper.toString())) {
 			buf.append(" extends ");
 			visit(upper);
 		}

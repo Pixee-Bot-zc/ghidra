@@ -386,7 +386,7 @@ public class ProgramDiffPlugin extends ProgramPlugin
 			Object newValue) {
 		boolean diffHighlightChanged = false;
 		if (options.getName().equals(GhidraOptions.CATEGORY_BROWSER_FIELDS)) {
-			if (optionsName.equals(DIFF_HIGHLIGHT_COLOR_NAME)) {
+			if (DIFF_HIGHLIGHT_COLOR_NAME.equals(optionsName)) {
 				diffHighlightChanged = true;
 			}
 			else if (optionsName.equals(GhidraOptions.HIGHLIGHT_CURSOR_LINE_COLOR)) {

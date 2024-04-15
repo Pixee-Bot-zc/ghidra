@@ -612,14 +612,14 @@ public class ListingCodeComparisonPanel
 
 		ArrayList<AddressRangeIterator> iteratorList = new ArrayList<>();
 
-		if (currentUserData.equals(ALL_AREA_MARKERS) || currentUserData.equals(DIFF_AREA_MARKERS)) {
+		if (ALL_AREA_MARKERS.equals(currentUserData) || DIFF_AREA_MARKERS.equals(currentUserData)) {
 			// DIFF Area Markers
 			AddressSetView focusDiffs =
 				leftHasFocus ? listingDiff.getListing1Diffs() : listingDiff.getListing2Diffs();
 			iteratorList.add(focusDiffs.getAddressRanges(focusAddress, forward));
 		}
-		if (currentUserData.equals(ALL_AREA_MARKERS) ||
-			currentUserData.equals(UNMATCHED_AREA_MARKERS)) {
+		if (ALL_AREA_MARKERS.equals(currentUserData) ||
+			UNMATCHED_AREA_MARKERS.equals(currentUserData)) {
 			// UNMATCHED CODE Area Markers
 			AddressSetView unmatchedCode = leftHasFocus ? listingDiff.getListing1UnmatchedCode()
 					: listingDiff.getListing2UnmatchedCode();
@@ -657,10 +657,10 @@ public class ListingCodeComparisonPanel
 
 	private String getCurrentAreaMarkerType() {
 		String type = "Highlighted";
-		if (nextPreviousAreaType.equals(UNMATCHED_AREA_MARKERS)) {
+		if (UNMATCHED_AREA_MARKERS.equals(nextPreviousAreaType)) {
 			type = "Unmatched";
 		}
-		else if (nextPreviousAreaType.equals(DIFF_AREA_MARKERS)) {
+		else if (DIFF_AREA_MARKERS.equals(nextPreviousAreaType)) {
 			type = "Difference";
 		}
 		return type;

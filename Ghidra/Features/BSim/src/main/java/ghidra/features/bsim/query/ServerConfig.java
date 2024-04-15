@@ -190,7 +190,7 @@ public class ServerConfig {
 		 * @return true if the connection is local in this sense
 		 */
 		public boolean isLocal() {
-			if (type.equals("local")) {		// UNIX socket
+			if ("local".equals(type)) {		// UNIX socket
 				return true;
 			}
 			if (address != null) {
@@ -218,7 +218,7 @@ public class ServerConfig {
 			database = split[1];
 			user = split[2];
 			int nextPos = 3;
-			if (type.equals("local")) {		// "local" type has no address
+			if ("local".equals(type)) {		// "local" type has no address
 				address = null;
 			}
 			else {
@@ -456,12 +456,12 @@ public class ServerConfig {
 		parser.start("serverconfig");
 		while (parser.peek().isStart()) {
 			XmlElement el = parser.start();
-			if (el.getName().equals("config")) {
+			if ("config".equals(el.getName())) {
 				String key = el.getAttribute("key");
 				String val = parser.end().getText();
 				keyValue.put(key, val);
 			}
-			else if (el.getName().equals("connect")) {
+			else if ("connect".equals(el.getName())) {
 				ConnectLine connLine = new ConnectLine();
 				connLine.isMatched = false;
 				connLine.restoreXml(el);
@@ -763,7 +763,7 @@ public class ServerConfig {
 
 	public String getHostAuthentication() {
 		for (ConnectLine connLine : connectSet) {
-			if (connLine.type.equals("hostssl") && !connLine.isLocal()) {
+			if ("hostssl".equals(connLine.type) && !connLine.isLocal()) {
 				return connLine.method;
 			}
 		}
@@ -772,7 +772,7 @@ public class ServerConfig {
 
 	public void setHostAuthentication(String val, String options) {
 		for (ConnectLine connLine : connectSet) {
-			if (connLine.type.equals("hostssl") && !connLine.isLocal()) {
+			if ("hostssl".equals(connLine.type) && !connLine.isLocal()) {
 				connLine.method = val;
 				connLine.options = options;
 			}

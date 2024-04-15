@@ -196,20 +196,20 @@ public abstract class AbstractLibrarySupportLoader extends AbstractProgramLoader
 		if (options != null) {
 			for (Option option : options) {
 				String name = option.getName();
-				if (name.equals(LINK_EXISTING_OPTION_NAME) ||
-					name.equals(LOCAL_LIBRARY_OPTION_NAME) ||
-					name.equals(SYSTEM_LIBRARY_OPTION_NAME)) {
+				if (LINK_EXISTING_OPTION_NAME.equals(name) ||
+					LOCAL_LIBRARY_OPTION_NAME.equals(name) ||
+					SYSTEM_LIBRARY_OPTION_NAME.equals(name)) {
 					if (!Boolean.class.isAssignableFrom(option.getValueClass())) {
 						return "Invalid type for option: " + name + " - " + option.getValueClass();
 					}
 				}
-				else if (name.equals(DEPTH_OPTION_NAME)) {
+				else if (DEPTH_OPTION_NAME.equals(name)) {
 					if (!Integer.class.isAssignableFrom(option.getValueClass())) {
 						return "Invalid type for option: " + name + " - " + option.getValueClass();
 					}
 				}
-				else if (name.equals(LINK_SEARCH_FOLDER_OPTION_NAME) ||
-					name.equals(LIBRARY_DEST_FOLDER_OPTION_NAME)) {
+				else if (LINK_SEARCH_FOLDER_OPTION_NAME.equals(name) ||
+					LIBRARY_DEST_FOLDER_OPTION_NAME.equals(name)) {
 					if (!String.class.isAssignableFrom(option.getValueClass())) {
 						return "Invalid type for option: " + name + " - " + option.getValueClass();
 					}

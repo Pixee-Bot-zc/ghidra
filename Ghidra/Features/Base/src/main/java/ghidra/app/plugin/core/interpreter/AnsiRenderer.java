@@ -252,7 +252,7 @@ public class AnsiRenderer {
 		@Override
 		public void handleCSI(String param, String inter, String finalChar)
 				throws BadLocationException {
-			if (finalChar.equals("m")) {
+			if ("m".equals(finalChar)) {
 				/* Select Graphic Rendition */
 				if (param.isEmpty()) {
 					param = "0";

@@ -115,13 +115,13 @@ public class BSimServerInfo implements Comparable<BSimServerInfo> {
 		DBType t = null;
 		String path = url.getPath();
 		String protocol = url.getProtocol();
-		if (protocol.equals("postgresql")) {
+		if ("postgresql".equals(protocol)) {
 			t = DBType.postgres;
 			host = checkURLField(url.getHost(), "host");
 			int p = url.getPort();
 			port = p <= 0 ? DEFAULT_POSTGRES_PORT : p;
 		}
-		else if (protocol.equals("https") || protocol.equals("elastic")) {
+		else if ("https".equals(protocol) || "elastic".equals(protocol)) {
 			t = DBType.elastic;
 			host = checkURLField(url.getHost(), "host");
 			int p = url.getPort();

@@ -268,10 +268,10 @@ public class AskDialog<T> extends DialogComponentProvider {
 		if (text == null) {
 			return null;
 		}
-		if (text.equalsIgnoreCase("pi")) {
+		if ("pi".equalsIgnoreCase(text)) {
 			return Math.PI;
 		}
-		if (text.equalsIgnoreCase("e")) {
+		if ("e".equalsIgnoreCase(text)) {
 			return Math.E;
 		}
 		return Double.valueOf(text);

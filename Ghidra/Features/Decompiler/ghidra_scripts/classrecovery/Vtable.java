@@ -243,7 +243,7 @@ public class Vtable {
 		// if it has an existing label that is exactly "vtable" then set it true and
 		// return
 		Symbol primarySymbol = symbolTable.getPrimarySymbol(vtableAddress);
-		if (primarySymbol != null && primarySymbol.getName().equals("vtable")) {
+		if (primarySymbol != null && "vtable".equals(primarySymbol.getName())) {
 			isPrimary = true;
 			return;
 
@@ -667,7 +667,7 @@ public class Vtable {
 			listing.clearCodeUnits(vtableAddress, vtableAddress, false);
 		}
 
-		if (dataAt != null && !dataAt.getDataType().getName().equals("long")) {
+		if (dataAt != null && !"long".equals(dataAt.getDataType().getName())) {
 			listing.clearCodeUnits(vtableAddress, vtableAddress, false);
 		}
 

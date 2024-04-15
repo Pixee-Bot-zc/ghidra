@@ -37,7 +37,7 @@ public class SwiftDataTypeUtils {
 	 * @return True if the given namespace is the standard Swift namespace; otherwise, false
 	 */
 	public static boolean isSwiftNamespace(Demangled namespace) {
-		return namespace != null && namespace.getName().equals("Swift");
+		return namespace != null && "Swift".equals(namespace.getName());
 	}
 
 	/**

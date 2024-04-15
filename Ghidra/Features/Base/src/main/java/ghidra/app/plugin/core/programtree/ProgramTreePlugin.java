@@ -757,7 +757,7 @@ public class ProgramTreePlugin extends ProgramPlugin
 	 * @return boolean
 	 */
 	private boolean treeExists(String treeName) {
-		if (currentProgram == null && treeName.equals(DEFAULT_TREE_NAME)) {
+		if (currentProgram == null && DEFAULT_TREE_NAME.equals(treeName)) {
 			return true;
 		}
 		else if (currentProgram == null) {

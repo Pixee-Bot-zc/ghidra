@@ -76,15 +76,15 @@ public class ResponseName extends QueryResponseRecord {
 		printselfsig = false;
 		printjustexe = false;
 		parser.start(name);
-		if (parser.peek().getName().equals("uniqueexe")) {
+		if ("uniqueexe".equals(parser.peek().getName())) {
 			parser.start();
 			uniqueexecutable = SpecXmlUtils.decodeBoolean(parser.end().getText());
 		}
-		if (parser.peek().getName().equals("printselfsig")) {
+		if ("printselfsig".equals(parser.peek().getName())) {
 			parser.start();
 			printselfsig = SpecXmlUtils.decodeBoolean(parser.end().getText());
 		}
-		if (parser.peek().getName().equals("printjustexe")) {
+		if ("printjustexe".equals(parser.peek().getName())) {
 			parser.start();
 			printjustexe = SpecXmlUtils.decodeBoolean(parser.end().getText());
 		}

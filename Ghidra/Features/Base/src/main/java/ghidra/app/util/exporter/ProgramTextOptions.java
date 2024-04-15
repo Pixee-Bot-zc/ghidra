@@ -149,81 +149,81 @@ class ProgramTextOptions {
 			String groupName = option.getGroup();
 			String optionName = option.getName();
 			try {
-				if (groupName.equals(OPTION_FIELD_WIDTHS)) {
+				if (OPTION_FIELD_WIDTHS.equals(groupName)) {
 					int value = ((Integer) option.getValue()).intValue();
 
-					if (optionName.equals(OPTION_WIDTH_LABEL)) {
+					if (OPTION_WIDTH_LABEL.equals(optionName)) {
 						labelWidth = value;
 					}
-					else if (optionName.equals(OPTION_WIDTH_ADDR)) {
+					else if (OPTION_WIDTH_ADDR.equals(optionName)) {
 						addrWidth = value;
 					}
-					else if (optionName.equals(OPTION_WIDTH_BYTES)) {
+					else if (OPTION_WIDTH_BYTES.equals(optionName)) {
 						bytesWidth = value;
 					}
-					else if (optionName.equals(OPTION_WIDTH_PREMNEMONIC)) {
+					else if (OPTION_WIDTH_PREMNEMONIC.equals(optionName)) {
 						preMnemonicWidth = value;
 					}
-					else if (optionName.equals(OPTION_WIDTH_MNEMONIC)) {
+					else if (OPTION_WIDTH_MNEMONIC.equals(optionName)) {
 						mnemonicWidth = value;
 					}
-					else if (optionName.equals(OPTION_WIDTH_OPERAND)) {
+					else if (OPTION_WIDTH_OPERAND.equals(optionName)) {
 						operandWidth = value;
 					}
-					else if (optionName.equals(OPTION_WIDTH_EOL)) {
+					else if (OPTION_WIDTH_EOL.equals(optionName)) {
 						eolWidth = value;
 					}
-					else if (optionName.equals(OPTION_WIDTH_REF)) {
+					else if (OPTION_WIDTH_REF.equals(optionName)) {
 						refWidth = value;
 					}
-					else if (optionName.equals(OPTION_WIDTH_DATA_FIELD)) {
+					else if (OPTION_WIDTH_DATA_FIELD.equals(optionName)) {
 						dataFieldNameWidth = value;
 					}
 					else {
 						wasOptionHandled = false;
 					}
 				}
-				else if (groupName.equals(OPTION_INCLUDED_TYPES)) {
+				else if (OPTION_INCLUDED_TYPES.equals(groupName)) {
 					boolean value = ((Boolean) option.getValue()).booleanValue();
 
-					if (optionName.equals(OPTION_SHOW_COMMENTS)) {
+					if (OPTION_SHOW_COMMENTS.equals(optionName)) {
 						showComments = value;
 					}
-					else if (optionName.equals(OPTION_SHOW_PROPERTIES)) {
+					else if (OPTION_SHOW_PROPERTIES.equals(optionName)) {
 						showProperties = value;
 					}
-					else if (optionName.equals(OPTION_SHOW_STRUCTURES)) {
+					else if (OPTION_SHOW_STRUCTURES.equals(optionName)) {
 						showStructures = value;
 					}
-					else if (optionName.equals(OPTION_SHOW_UNDEFINED)) {
+					else if (OPTION_SHOW_UNDEFINED.equals(optionName)) {
 						showUndefinedData = value;
 					}
-					else if (optionName.equals(OPTION_SHOW_REF_HEADER)) {
+					else if (OPTION_SHOW_REF_HEADER.equals(optionName)) {
 						showReferenceHeaders = value;
 					}
-					else if (optionName.equals(OPTION_SHOW_BACK_REFS)) {
+					else if (OPTION_SHOW_BACK_REFS.equals(optionName)) {
 						showBackReferences = value;
 					}
-					else if (optionName.equals(OPTION_SHOW_FORWARD_REFS)) {
+					else if (OPTION_SHOW_FORWARD_REFS.equals(optionName)) {
 						showForwardReferences = value;
 					}
-					else if (optionName.equals(OPTION_SHOW_FUNCTIONS)) {
+					else if (OPTION_SHOW_FUNCTIONS.equals(optionName)) {
 						showFunctions = value;
 					}
-					else if (optionName.equals(OPTION_SHOW_BLOCK_NAMES)) {
+					else if (OPTION_SHOW_BLOCK_NAMES.equals(optionName)) {
 						showBlockNameInOperands = value;
 					}
 					else {
 						wasOptionHandled = false;
 					}
 				}
-				else if (groupName.equals(OPTION_PREFIXES)) {
+				else if (OPTION_PREFIXES.equals(groupName)) {
 					String value = (String) option.getValue();
 
-					if (optionName.equals(OPTION_ADV_COMMENT_SUFFIX)) {
+					if (OPTION_ADV_COMMENT_SUFFIX.equals(optionName)) {
 						commentPrefix = value;
 					}
-					else if (optionName.equals(OPTION_ADV_LABEL_SUFFIX)) {
+					else if (OPTION_ADV_LABEL_SUFFIX.equals(optionName)) {
 						labelSuffix = value;
 					}
 					else {

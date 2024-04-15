@@ -78,7 +78,7 @@ public abstract class AbstractFridaCommand<T> implements FridaCommand<T> {
 		JsonObject jobj = JsonParser.parseString(result).getAsJsonObject();
 		if (jobj.has("type")) {
 			String type = jobj.get("type").getAsString();
-			if (type.equals("error")) {
+			if ("error".equals(type)) {
 				String desc = jobj.get("description").getAsString();
 				manager.getEventListeners().invoke().consoleOutput(desc+"\n", 0);		
 				Msg.error(this, desc);

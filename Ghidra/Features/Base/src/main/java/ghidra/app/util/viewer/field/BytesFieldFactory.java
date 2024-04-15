@@ -116,27 +116,27 @@ public class BytesFieldFactory extends FieldFactory {
 	public void fieldOptionsChanged(Options options, String optionName, Object oldValue,
 			Object newValue) {
 
-		if (optionName.equals(MAX_DISPLAY_LINES_MSG)) {
+		if (MAX_DISPLAY_LINES_MSG.equals(optionName)) {
 			setDisplayLines(((Integer) newValue).intValue(), options);
 			model.update();
 		}
-		else if (optionName.equals(DELIMITER_MSG)) {
+		else if (DELIMITER_MSG.equals(optionName)) {
 			setDelim((String) newValue, options);
 			model.update();
 		}
-		else if (optionName.equals(BYTE_GROUP_SIZE_MSG)) {
+		else if (BYTE_GROUP_SIZE_MSG.equals(optionName)) {
 			setGroupSize(((Integer) newValue).intValue(), options);
 			model.update();
 		}
-		else if (optionName.equals(DISPLAY_UCASE_MSG)) {
+		else if (DISPLAY_UCASE_MSG.equals(optionName)) {
 			displayUpperCase = ((Boolean) newValue).booleanValue();
 			model.update();
 		}
-		else if (optionName.equals(REVERSE_INSTRUCTION_BYTE_ORDERING)) {
+		else if (REVERSE_INSTRUCTION_BYTE_ORDERING.equals(optionName)) {
 			reverseInstByteOrdering = ((Boolean) newValue).booleanValue();
 			model.update();
 		}
-		else if (optionName.equals(DISPLAY_STRUCTURE_ALIGNMENT_BYTES_MSG)) {
+		else if (DISPLAY_STRUCTURE_ALIGNMENT_BYTES_MSG.equals(optionName)) {
 			displayStructureAlignmentBytes = ((Boolean) newValue).booleanValue();
 			model.update();
 		}

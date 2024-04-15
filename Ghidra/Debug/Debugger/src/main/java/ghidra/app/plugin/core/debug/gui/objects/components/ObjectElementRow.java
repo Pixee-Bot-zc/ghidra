@@ -70,7 +70,7 @@ public class ObjectElementRow {
 	}
 
 	public Object getValue() {
-		if (currentKey.equals("Accessor")) {
+		if ("Accessor".equals(currentKey)) {
 			return getTargetObject().getName();
 		}
 		if (map == null) {

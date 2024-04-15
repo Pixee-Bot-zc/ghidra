@@ -194,8 +194,8 @@ public abstract class AbstractProgramLoader implements Loader {
 		if (options != null) {
 			for (Option option : options) {
 				String name = option.getName();
-				if (name.equals(APPLY_LABELS_OPTION_NAME) ||
-					name.equals(ANCHOR_LABELS_OPTION_NAME)) {
+				if (APPLY_LABELS_OPTION_NAME.equals(name) ||
+					ANCHOR_LABELS_OPTION_NAME.equals(name)) {
 					if (!Boolean.class.isAssignableFrom(option.getValueClass())) {
 						return "Invalid type for option: " + name + " - " + option.getValueClass();
 					}

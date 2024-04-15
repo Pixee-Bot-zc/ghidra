@@ -120,7 +120,7 @@ public class PatternPairSet {
 			parser.start("postpatterns");
 			el = parser.peek();
 			ArrayList<DittedBitSequence> postdit = new ArrayList<DittedBitSequence>();
-			while (el.isStart() && el.getName().equals("data")) {
+			while (el.isStart() && "data".equals(el.getName())) {
 				DittedBitSequence postseq = new DittedBitSequence();
 				postseq.restoreXmlData(parser);
 				if (postseq.getNumFixedBits() >= postBitsOfCheck) {

@@ -566,7 +566,7 @@ public class FormatStringParser {
 		List<DataType> dataTypeList = formatArguments.stream().map(argument -> {
 			String conversionSpecifier = argument.getConversionSpecifier();
 			DataType dt = convertPairToDataType(argument.getLengthModifier(),
-				conversionSpecifier.equals("*") ? "d" : conversionSpecifier);
+				"*".equals(conversionSpecifier) ? "d" : conversionSpecifier);
 			return dt;
 		}).collect(Collectors.toList());
 		return dataTypeList.contains(null) ? null
@@ -582,8 +582,8 @@ public class FormatStringParser {
 		for (int i = 0; i < formatArguments.size(); i++) {
 			FormatArgument argument = formatArguments.get(i);
 			// * means to skip
-			if (argument.getConversionSpecifier().equals("*")) {
-				if (formatArguments.get(i + 1).getConversionSpecifier().equals("*")) {
+			if ("*".equals(argument.getConversionSpecifier())) {
+				if ("*".equals(formatArguments.get(i + 1).getConversionSpecifier())) {
 					return null;
 				}
 				++i;
@@ -606,11 +606,11 @@ public class FormatStringParser {
 	}
 
 	private boolean verifyConversionPair(String lengthModifier, String conversionSpecifier) {
-		if (lengthModifier == null || lengthModifier.equals("l")) {
+		if (lengthModifier == null || "l".equals(lengthModifier)) {
 			return true;
 		}
-		if ((lengthModifier.equals("L") && isDouble(conversionSpecifier)) ||
-			(!lengthModifier.equals("L") &&
+		if (("L".equals(lengthModifier) && isDouble(conversionSpecifier)) ||
+			(!"L".equals(lengthModifier) &&
 				(isInteger(conversionSpecifier) || isIntegerPointer(conversionSpecifier)))) {
 			return true;
 		}
@@ -619,10 +619,10 @@ public class FormatStringParser {
 
 	private DataType convertPairToDataType(String lengthModifier, String conversionSpecifier) {
 
-		if (lengthModifier == null || conversionSpecifier.equals("c") ||
-			conversionSpecifier.equals("s") ||
-			conversionSpecifier.equals("C") ||
-			conversionSpecifier.equals("S")) {
+		if (lengthModifier == null || "c".equals(conversionSpecifier) ||
+			"s".equals(conversionSpecifier) ||
+			"C".equals(conversionSpecifier) ||
+			"S".equals(conversionSpecifier)) {
 			return conversionSpecifierToDataType(conversionSpecifier);
 		}
 		switch (lengthModifier) {
@@ -859,8 +859,8 @@ public class FormatStringParser {
 	}
 
 	private String extendLengthModifier(String lengthModifier, char nextChar) {
-		if ((lengthModifier.equals("h") && nextChar == 'h') ||
-			(lengthModifier.equals("l") && nextChar == 'l')) {
+		if (("h".equals(lengthModifier) && nextChar == 'h') ||
+			("l".equals(lengthModifier) && nextChar == 'l')) {
 			return lengthModifier + Character.toString(nextChar);
 		}
 		return null;

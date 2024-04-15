@@ -98,7 +98,7 @@ public class DumpMissedStarts extends GhidraScript implements PatternFactory {
 
 	@Override
 	public PostRule getPostRuleByName(String nm) {
-		if (nm.equals("align"))
+		if ("align".equals(nm))
 			return new AlignRule();
 		return null;
 	}

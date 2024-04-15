@@ -185,31 +185,31 @@ public class XRefFieldFactory extends FieldFactory {
 	public void fieldOptionsChanged(Options options, String optionName, Object oldValue,
 			Object newValue) {
 		super.fieldOptionsChanged(options, optionName, oldValue, newValue);
-		if (optionName.equals(DELIMITER_KEY)) {
+		if (DELIMITER_KEY.equals(optionName)) {
 			delim = (String) newValue;
 			model.update();
 		}
-		else if (optionName.equals(DISPLAY_BLOCK_NAME_KEY)) {
+		else if (DISPLAY_BLOCK_NAME_KEY.equals(optionName)) {
 			displayBlockName = (Boolean) newValue;
 			model.update();
 		}
-		else if (optionName.equals(DISPLAY_REFERENCE_TYPE_KEY)) {
+		else if (DISPLAY_REFERENCE_TYPE_KEY.equals(optionName)) {
 			displayRefType = (Boolean) newValue;
 			model.update();
 		}
-		else if (optionName.equals(MAX_XREFS_KEY)) {
+		else if (MAX_XREFS_KEY.equals(optionName)) {
 			setMaxSize(((Integer) newValue).intValue(), options);
 			model.update();
 		}
-		else if (optionName.equals(SORT_OPTION_KEY)) {
+		else if (SORT_OPTION_KEY.equals(optionName)) {
 			sortChoice = (SORT_CHOICE) newValue;
 			model.update();
 		}
-		else if (optionName.equals(NAMESPACE_OPTIONS_KEY)) {
+		else if (NAMESPACE_OPTIONS_KEY.equals(optionName)) {
 			setupNamespaceOptions(options);
 			model.update();
 		}
-		else if (optionName.equals(GROUP_BY_FUNCTION_KEY)) {
+		else if (GROUP_BY_FUNCTION_KEY.equals(optionName)) {
 			groupByFunction = (Boolean) newValue;
 			model.update();
 		}

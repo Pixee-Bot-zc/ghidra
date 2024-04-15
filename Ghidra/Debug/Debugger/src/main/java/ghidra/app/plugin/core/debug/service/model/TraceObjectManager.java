@@ -226,9 +226,9 @@ public class TraceObjectManager {
 	}
 
 	public boolean isRequired(TargetObject obj) {
-		if (obj.getName().equals("Debug"))
+		if ("Debug".equals(obj.getName()))
 			return true;
-		if (obj.getName().equals("Stack"))
+		if ("Stack".equals(obj.getName()))
 			return true;
 
 		Set<Class<? extends TargetObject>> interfaces = obj.getSchema().getInterfaces();

@@ -84,12 +84,12 @@ public class ResponseUpdate extends QueryResponseRecord {
 		parser.start();
 		while (parser.peek().isStart()) {
 			XmlElement el = parser.start();
-			if (el.getName().equals("badexe")) {
+			if ("badexe".equals(el.getName())) {
 				int id = SpecXmlUtils.decodeInt(el.getAttribute("id"));
 				ExecutableRecord exe = exeMap.get(id);
 				badexe.add(exe);
 			}
-			else if (el.getName().equals("badfunc")) {
+			else if ("badfunc".equals(el.getName())) {
 				int id = SpecXmlUtils.decodeInt(el.getAttribute("id"));
 				long address = SpecXmlUtils.decodeLong(el.getAttribute("addr"));
 				ExecutableRecord exe = exeMap.get(id);

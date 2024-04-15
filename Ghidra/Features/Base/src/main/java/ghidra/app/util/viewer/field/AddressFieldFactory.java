@@ -94,7 +94,7 @@ public class AddressFieldFactory extends FieldFactory {
 	@Override
 	public void fieldOptionsChanged(Options options, String optionsName, Object oldValue,
 			Object newValue) {
-		if (optionsName.equals(ADDRESS_DISPLAY_OPTIONS_NAME)) {
+		if (ADDRESS_DISPLAY_OPTIONS_NAME.equals(optionsName)) {
 			AddressFieldOptionsWrappedOption afowo = (AddressFieldOptionsWrappedOption) newValue;
 			padZeros = afowo.padWithZeros();
 			minHexDigits = afowo.getMinimumHexDigits();

@@ -110,7 +110,7 @@ public class MemoryMapSarifMgr extends SarifMgr {
 
 		try {
 			MemoryBlock block = null;
-			if (type.equals("DEFAULT")) {
+			if ("DEFAULT".equals(type)) {
 				if (loc == null) {
 					block = MemoryBlockUtils.createUninitializedBlock(program, false, name,
 						blockAddress, length, comment, null, r, w, x, log);
@@ -125,12 +125,12 @@ public class MemoryMapSarifMgr extends SarifMgr {
 						r, w, x, log, monitor);
 				}
 			}
-			else if (type.equals("BIT_MAPPED")) {
+			else if ("BIT_MAPPED".equals(type)) {
 				Address sourceAddr = factory.getAddress(loc);
 				block = MemoryBlockUtils.createBitMappedBlock(program, name, blockAddress,
 					sourceAddr, length, comment, comment, r, w, x, false, log);
 			}
-			else if (type.equals("BYTE_MAPPED")) {
+			else if ("BYTE_MAPPED".equals(type)) {
 				Address sourceAddr = factory.getAddress(loc);
 				block = MemoryBlockUtils.createByteMappedBlock(program, name, blockAddress,
 					sourceAddr, length, comment, comment, r, w, x, false, log);

@@ -64,7 +64,7 @@ public class ExeSpecifier implements Comparable<ExeSpecifier> {
 	public void restoreXml(XmlPullParser parser) {
 		parser.start();
 		XmlElement el = parser.start();
-		if (el.getName().equals("md5")) {
+		if ("md5".equals(el.getName())) {
 			exemd5 = parser.end().getText();
 			parser.start();
 			exename = parser.end().getText();

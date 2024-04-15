@@ -266,7 +266,7 @@ public class NewFunctionStackAnalysisCmd extends BackgroundCommand<Program> {
 						}
 					}
 				}
-				if (instr.getMnemonicString().equals("LEA")) {
+				if ("LEA".equals(instr.getMnemonicString())) {
 					Register destReg = instr.getRegister(0);
 					if (destReg != null) {
 						Varnode value = context.getRegisterVarnodeValue(destReg);
@@ -308,7 +308,7 @@ public class NewFunctionStackAnalysisCmd extends BackgroundCommand<Program> {
 						return;
 					}
 					// TODO: Dirty Dirty nasty Hack for POP EBP problem, only very few cases of this!
-					if (instr.getMnemonicString().equals("POP")) {
+					if ("POP".equals(instr.getMnemonicString())) {
 						Register reg = instr.getRegister(opIndex);
 						if (reg != null && reg.getName().contains("BP")) {
 							return;

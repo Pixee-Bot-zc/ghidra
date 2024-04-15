@@ -69,7 +69,7 @@ class DefExportLine {
 				}
 			}
 			else if (ordinal == null && token.startsWith("@")) {
-				if (!token.equals("@")) {
+				if (!"@".equals(token)) {
 					ordinal = parseInt(token.substring(1));
 				}
 				else if (st.hasMoreTokens()) {

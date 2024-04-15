@@ -502,7 +502,7 @@ class MemSearchDialog extends ReusableDialogComponentProvider {
 			formatGroup.add(formatButton);
 			formatButton.addActionListener(formatButtonListener);
 			formatPanel.add(formatButton);
-			if (element.getName().equals("Binary") && isMnemonic) {
+			if ("Binary".equals(element.getName()) && isMnemonic) {
 				formatButton.setSelected(true);
 				currentFormat = element;
 			}

@@ -108,7 +108,7 @@ public class FixedBitSizeValueField extends JPanel {
 		if (text.length() == 0) {
 			return true;
 		}
-		if (signed && text.equals("-")) {
+		if (signed && "-".equals(text)) {
 			return true;
 		}
 		BigInteger value = getValue(text);
@@ -229,7 +229,7 @@ public class FixedBitSizeValueField extends JPanel {
 
 		}
 		else {
-			if (valueField.getText().trim().equals("-")) {
+			if ("-".equals(valueField.getText().trim())) {
 				setValue(null);
 			}
 		}

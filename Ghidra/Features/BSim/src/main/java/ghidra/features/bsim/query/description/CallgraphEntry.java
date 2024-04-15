@@ -92,16 +92,16 @@ public class CallgraphEntry implements Comparable<CallgraphEntry> {
 			do {
 				String elname = parser.next().getName();
 				String content = parser.end().getText();
-				if (elname.equals("md5")) {
+				if ("md5".equals(elname)) {
 					md5 = content;
 				}
-				else if (elname.equals("name")) {
+				else if ("name".equals(elname)) {
 					dest_enm = content;
 				}
-				else if (elname.equals("compiler")) {
+				else if ("compiler".equals(elname)) {
 					dest_cnm = content;
 				}
-				else if (elname.equals("arch")) {
+				else if ("arch".equals(elname)) {
 					dest_arch = content;
 				}
 			} while(parser.peek().isStart());

@@ -123,11 +123,11 @@ public class LabelFieldFactory extends FieldFactory {
 	@Override
 	public void fieldOptionsChanged(Options options, String optionName, Object oldValue,
 			Object newValue) {
-		if (optionName.equals(DISPLAY_FUNCTION_LABEL)) {
+		if (DISPLAY_FUNCTION_LABEL.equals(optionName)) {
 			displayFunctionLabel = ((Boolean) newValue).booleanValue();
 			model.update();
 		}
-		else if (optionName.equals(NAMESPACE_OPTIONS)) {
+		else if (NAMESPACE_OPTIONS.equals(optionName)) {
 			setupNamespaceOptions(options);
 			model.update();
 		}

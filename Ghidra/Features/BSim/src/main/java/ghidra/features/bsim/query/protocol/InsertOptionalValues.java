@@ -97,7 +97,7 @@ public class InsertOptionalValues extends BSimQuery<ResponseOptionalExist> {
 			XmlElement el = parser.start();
 			String nm = el.getName();
 			String body = parser.end().getText();
-			if (nm.equals("key")) {
+			if ("key".equals(nm)) {
 				resultKeys.add(body);
 			}
 			else {

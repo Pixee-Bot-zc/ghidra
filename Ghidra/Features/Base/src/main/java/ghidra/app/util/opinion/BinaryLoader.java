@@ -106,7 +106,7 @@ public class BinaryLoader extends AbstractProgramLoader {
 		for (Option option : options) {
 			String optName = option.getName();
 			try {
-				if (optName.equals(OPTION_NAME_BASE_ADDR)) {
+				if (OPTION_NAME_BASE_ADDR.equals(optName)) {
 					baseAddr = (Address) option.getValue();
 				}
 			}
@@ -124,10 +124,10 @@ public class BinaryLoader extends AbstractProgramLoader {
 		for (Option option : options) {
 			String optName = option.getName();
 			try {
-				if (optName.equals(OPTION_NAME_BASE_ADDR)) {
+				if (OPTION_NAME_BASE_ADDR.equals(optName)) {
 					// skip - handled above
 				}
-				else if (optName.equals(OPTION_NAME_FILE_OFFSET)) {
+				else if (OPTION_NAME_FILE_OFFSET.equals(optName)) {
 					try {
 						fileOffset = parseLong(option);
 					}
@@ -139,7 +139,7 @@ public class BinaryLoader extends AbstractProgramLoader {
 							origFileLength + " (0x" + Long.toHexString(origFileLength) + ")";
 					}
 				}
-				else if (optName.equals(OPTION_NAME_LEN)) {
+				else if (OPTION_NAME_LEN.equals(optName)) {
 					try {
 						length = parseLong(option);
 					}
@@ -166,12 +166,12 @@ public class BinaryLoader extends AbstractProgramLoader {
 							" (0x" + Long.toHexString(maxLength) + ") bytes";
 					}
 				}
-				else if (optName.equals(OPTION_NAME_BLOCK_NAME)) {
+				else if (OPTION_NAME_BLOCK_NAME.equals(optName)) {
 					if (!String.class.isAssignableFrom(option.getValueClass())) {
 						return OPTION_NAME_BLOCK_NAME + " must be a String";
 					}
 				}
-				else if (optName.equals(OPTION_NAME_IS_OVERLAY)) {
+				else if (OPTION_NAME_IS_OVERLAY.equals(optName)) {
 					if (!Boolean.class.isAssignableFrom(option.getValueClass())) {
 						return OPTION_NAME_IS_OVERLAY + " must be a boolean";
 					}
@@ -208,7 +208,7 @@ public class BinaryLoader extends AbstractProgramLoader {
 		if (options != null) {
 			for (Option option : options) {
 				String optName = option.getName();
-				if (optName.equals(OPTION_NAME_BASE_ADDR)) {
+				if (OPTION_NAME_BASE_ADDR.equals(optName)) {
 					baseAddr = (Address) option.getValue();
 				}
 			}
@@ -221,7 +221,7 @@ public class BinaryLoader extends AbstractProgramLoader {
 		if (options != null) {
 			for (Option option : options) {
 				String optName = option.getName();
-				if (optName.equals(OPTION_NAME_LEN)) {
+				if (OPTION_NAME_LEN.equals(optName)) {
 					length = parseLong(option);
 				}
 			}
@@ -234,7 +234,7 @@ public class BinaryLoader extends AbstractProgramLoader {
 		if (options != null) {
 			for (Option option : options) {
 				String optName = option.getName();
-				if (optName.equals(OPTION_NAME_FILE_OFFSET)) {
+				if (OPTION_NAME_FILE_OFFSET.equals(optName)) {
 					fileOffset = parseLong(option);
 				}
 			}
@@ -247,7 +247,7 @@ public class BinaryLoader extends AbstractProgramLoader {
 		if (options != null) {
 			for (Option option : options) {
 				String optName = option.getName();
-				if (optName.equals(OPTION_NAME_BLOCK_NAME)) {
+				if (OPTION_NAME_BLOCK_NAME.equals(optName)) {
 					blockName = (String) option.getValue();
 				}
 			}
@@ -260,7 +260,7 @@ public class BinaryLoader extends AbstractProgramLoader {
 		if (options != null) {
 			for (Option option : options) {
 				String optName = option.getName();
-				if (optName.equals(OPTION_NAME_IS_OVERLAY)) {
+				if (OPTION_NAME_IS_OVERLAY.equals(optName)) {
 					isOverlay = (Boolean) option.getValue();
 				}
 			}

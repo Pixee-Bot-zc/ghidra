@@ -164,7 +164,7 @@ public class FunctionDatabaseProxy implements FunctionDatabase {
 			writer.close();
 			XmlPullParser parser = new NonThreadedXmlPullParserImpl(connection.getInputStream(),
 				"response", xmlErrorHandler, false);
-			if (parser.peek().getName().equals("error")) {
+			if ("error".equals(parser.peek().getName())) {
 				ResponseError respError = new ResponseError();
 				respError.restoreXml(parser, vectorFactory);
 				parser.dispose();

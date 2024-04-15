@@ -107,11 +107,11 @@ public class ProgramManagerPlugin extends Plugin implements ProgramManager, Opti
 	@Override
 	public void optionsChanged(ToolOptions options, String optionName, Object oldValue,
 			Object newValue) {
-		if (optionName.equals(CACHE_DURATION_OPTION)) {
+		if (CACHE_DURATION_OPTION.equals(optionName)) {
 			Duration duration = Duration.ofMinutes((int) newValue);
 			programCache.setDuration(duration);
 		}
-		if (optionName.equals(CACHE_SIZE_OPTION)) {
+		if (CACHE_SIZE_OPTION.equals(optionName)) {
 			int capacity = (int) newValue;
 			programCache.setCapacity(capacity);
 		}
@@ -574,7 +574,7 @@ public class ProgramManagerPlugin extends Plugin implements ProgramManager, Opti
 		for (int i = 0; i < names.size(); i++) {
 			String optionName = names.get(i);
 			options[i] = currentProgram.getOptions(optionName);
-			if (optionName.equals("Program Information")) {
+			if ("Program Information".equals(optionName)) {
 				setPropertyEditor(options[i], "Executable Location");
 				options[i].setOptionsHelpLocation(new HelpLocation(getName(), "Program_Options"));
 			}

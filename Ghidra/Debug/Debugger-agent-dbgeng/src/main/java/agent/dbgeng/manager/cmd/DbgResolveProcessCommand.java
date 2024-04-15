@@ -70,7 +70,7 @@ public class DbgResolveProcessCommand extends AbstractDbgCommand<DbgProcess> {
 			String line = lines[i];
 			if (line.contains("PROCESS")) {
 				String[] fields = line.trim().split("\\s+");
-				if (fields.length > 1 && fields[0].equals("PROCESS")) {
+				if (fields.length > 1 && "PROCESS".equals(fields[0])) {
 					BigInteger val = new BigInteger(fields[1], 16);
 					offset = val.longValue();
 					process.setOffset(offset);
@@ -78,7 +78,7 @@ public class DbgResolveProcessCommand extends AbstractDbgCommand<DbgProcess> {
 			}
 			if (line.contains("Cid:")) {
 				String[] fields = line.trim().split("\\s+");
-				if (fields.length > 3 && fields[2].equals("Cid:")) {
+				if (fields.length > 3 && "Cid:".equals(fields[2])) {
 					Long pid = Long.parseLong(fields[3], 16);
 					process.setPid(pid);
 				}

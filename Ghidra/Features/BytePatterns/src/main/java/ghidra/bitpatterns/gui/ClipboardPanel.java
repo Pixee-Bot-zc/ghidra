@@ -169,7 +169,7 @@ public class ClipboardPanel extends JPanel {
 		parser.start("patternlist");
 		XmlElement el = parser.peek();
 		while (el.isStart()) {
-			if (el.getName().equals("patternpairs")) {
+			if ("patternpairs".equals(el.getName())) {
 				pairSet = new PatternPairSet();
 				pairSet.restoreXml(parser, new ClipboardPatternFactory());
 			}

@@ -187,7 +187,7 @@ public class DWARFLine {
 	private static DWARFFile fixupDir(DWARFFile dir, String defaultCompDir) {
 		// fix relative dir names using the compiledir string from the CU
 		if (!defaultCompDir.isEmpty()) {
-			if (dir.getName().equals(".")) {
+			if (".".equals(dir.getName())) {
 				return dir.withName(defaultCompDir);
 			}
 			else if (!isAbsolutePath(dir.getName())) {

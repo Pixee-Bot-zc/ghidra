@@ -162,7 +162,7 @@ public class FindSharedReturnFunctionsScript extends GhidraScript {
 
 				addBookMark(cp, entry, "Shared Return Jump");
 
-				if (!sharedRetLoc.getStatus().equals("fixed")) {
+				if (!"fixed".equals(sharedRetLoc.getStatus())) {
 					fixSharedReturnLocation(cp, entry);
 				}
 

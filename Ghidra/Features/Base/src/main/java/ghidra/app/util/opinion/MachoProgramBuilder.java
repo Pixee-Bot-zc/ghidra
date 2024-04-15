@@ -575,7 +575,7 @@ public class MachoProgramBuilder {
 						Symbol primary = symbolTable.getPrimarySymbol(addr);
 						Symbol newSymbol =
 							symbolTable.createLabel(addr, string, SourceType.IMPORTED);
-						if (primary != null && primary.getName().equals("<redacted>")) {
+						if (primary != null && "<redacted>".equals(primary.getName())) {
 							newSymbol.setPrimary();
 						}
 						if (symbol.isExternal()) {

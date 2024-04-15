@@ -72,14 +72,14 @@ public class DbgListOSProcessesCommand extends AbstractDbgCommand<Map<DebugProce
 			if (line.contains("PROCESS")) {
 				offset = null;			
 				String[] fields = line.trim().split("\\s+");
-				if (fields.length > 1 && fields[0].equals("PROCESS")) {
+				if (fields.length > 1 && "PROCESS".equals(fields[0])) {
 					BigInteger val = new BigInteger(fields[1], 16);
 					offset = val.longValue();
 				}
 			}
 			if (line.contains("Cid:")) {
 				String[] fields = line.trim().split("\\s+");
-				if (fields.length > 3 && fields[2].equals("Cid:")) {
+				if (fields.length > 3 && "Cid:".equals(fields[2])) {
 					Long pid = Long.parseLong(fields[3], 16);
 					DbgProcessImpl mirror = manager.getProcessComputeIfAbsent(new DebugProcessRecord(pid), pid, null, false);
 					if (offset != null) {

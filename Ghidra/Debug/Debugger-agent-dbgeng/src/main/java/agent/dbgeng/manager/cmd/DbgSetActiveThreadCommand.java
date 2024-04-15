@@ -75,7 +75,7 @@ public class DbgSetActiveThreadCommand extends AbstractDbgCommand<Void> {
 			String line = lines[i];
 			if (line.contains("THREAD")) {
 				String[] fields = line.trim().split("\\s+");
-				if (fields.length > 1 && fields[0].equals("THREAD")) {
+				if (fields.length > 1 && "THREAD".equals(fields[0])) {
 					BigInteger val = new BigInteger(fields[1], 16);
 					offset = val.longValue();
 					thread.setOffset(offset);

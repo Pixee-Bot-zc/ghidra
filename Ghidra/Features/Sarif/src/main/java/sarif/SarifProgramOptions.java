@@ -173,76 +173,76 @@ public class SarifProgramOptions {
 
 			boolean val = ((Boolean) optValue).booleanValue();
 
-			if (optName.equals("Memory Blocks")) {
+			if ("Memory Blocks".equals(optName)) {
 				setMemoryBlocks(val);
 			}
-			else if (optName.equals("Memory Contents")) {
+			else if ("Memory Contents".equals(optName)) {
 				setMemoryContents(val);
 			}
-			else if (optName.equals("Overwrite Memory Conflicts")) {
+			else if ("Overwrite Memory Conflicts".equals(optName)) {
 				setOverwriteMemoryConflicts(val);
 			}
-			else if (optName.equals("Instructions")) {
+			else if ("Instructions".equals(optName)) {
 				setInstructions(val);
 			}
-			else if (optName.equals("Data")) {
+			else if ("Data".equals(optName)) {
 				setData(val);
 			}
-			else if (optName.equals("Overwrite Data Conflicts")) {
+			else if ("Overwrite Data Conflicts".equals(optName)) {
 				setOverwriteDataConflicts(val);
 			}
-			else if (optName.equals("Symbols")) {
+			else if ("Symbols".equals(optName)) {
 				setSymbols(val);
 			}
-			else if (optName.equals("Overwrite Symbol Conflicts")) {
+			else if ("Overwrite Symbol Conflicts".equals(optName)) {
 				setOverwriteSymbolConflicts(val);
 			}
-			else if (optName.equals("Equates")) {
+			else if ("Equates".equals(optName)) {
 				setEquates(val);
 			}
-			else if (optName.equals("Comments")) {
+			else if ("Comments".equals(optName)) {
 				setComments(val);
 			}
-			else if (optName.equals("Properties")) {
+			else if ("Properties".equals(optName)) {
 				setProperties(val);
 			}
-			else if (optName.equals("Overwrite Property Conflicts")) {
+			else if ("Overwrite Property Conflicts".equals(optName)) {
 				setOverwritePropertyConflicts(val);
 			}
-			else if (optName.equals("Bookmarks")) {
+			else if ("Bookmarks".equals(optName)) {
 				setBookmarks(val);
 			}
-			else if (optName.equals("Overwrite Bookmark Conflicts")) {
+			else if ("Overwrite Bookmark Conflicts".equals(optName)) {
 				setOverwriteBookmarkConflicts(val);
 			}
-			else if (optName.equals("Trees")) {
+			else if ("Trees".equals(optName)) {
 				setTrees(val);
 			}
-			else if (optName.equals("References")) {
+			else if ("References".equals(optName)) {
 				setReferences(val);
 			}
-			else if (optName.equals("Overwrite Reference Conflicts")) {
+			else if ("Overwrite Reference Conflicts".equals(optName)) {
 				setOverwriteReferenceConflicts(val);
 			}
-			else if (optName.equals("Functions")) {
+			else if ("Functions".equals(optName)) {
 				setFunctions(val);
 			}
-			else if (optName.equals("Registers")) {
+			else if ("Registers".equals(optName)) {
 				setRegisters(val);
 			}
-			else if (optName.equals("Relocation Table")) {
+			else if ("Relocation Table".equals(optName)) {
 				setRelocationTable(val);
 			}
-			else if (optName.equals("Entry Points")) {
+			else if ("Entry Points".equals(optName)) {
 				setEntryPoints(val);
 			}
-			else if (optName.equals("External Libraries")) {
+			else if ("External Libraries".equals(optName)) {
 				setExternalLibraries(val);
 			}
-			else if (optName.equals("Apply Processor Defined Labels")) {
+			else if ("Apply Processor Defined Labels".equals(optName)) {
 				setExternalLibraries(val);
 			}
-			else if (optName.equals("Anchor Processor Defined Labels")) {
+			else if ("Anchor Processor Defined Labels".equals(optName)) {
 				setExternalLibraries(val);
 			}
 			else {

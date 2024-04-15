@@ -382,7 +382,7 @@ public class FunctionSignatureFieldFactory extends FieldFactory {
 	@Override
 	public void fieldOptionsChanged(Options options, String optionName, Object oldValue,
 			Object newValue) {
-		if (optionName.equals(DISPLAY_NAMESPACE)) {
+		if (DISPLAY_NAMESPACE.equals(optionName)) {
 			displayFunctionScope = ((Boolean) newValue).booleanValue();
 			model.update();
 		}

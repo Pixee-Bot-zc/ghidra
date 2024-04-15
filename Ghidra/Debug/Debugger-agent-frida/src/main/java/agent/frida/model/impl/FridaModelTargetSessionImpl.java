@@ -97,7 +97,7 @@ public class FridaModelTargetSessionImpl extends FridaModelTargetObjectImpl
 			unload.getName(), unload //
 		), "Initialized");
 		
-		if (session.getAttribute("kernel").equals("true")) {
+		if ("true".equals(session.getAttribute("kernel"))) {
 			this.kernel = new FridaModelTargetKernelImpl(this);
 			changeAttributes(List.of(), List.of( //
 				kernel //

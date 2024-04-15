@@ -629,16 +629,16 @@ public class GhidraServer extends UnicastRemoteObject implements GhidraServerHan
 			else if (s.startsWith("-d") && s.length() > 2) { // Login Domain
 				loginDomain = s.substring(2);
 			}
-			else if (s.equals("-u")) {
+			else if ("-u".equals(s)) {
 				nameCallbackAllowed = true;
 			}
-			else if (s.equals("-n")) {
+			else if ("-n".equals(s)) {
 				InetNameLookup.setLookupEnabled(true);
 			}
-			else if (s.equals("-anonymous")) {
+			else if ("-anonymous".equals(s)) {
 				allowAnonymousAccess = true;
 			}
-			else if (s.equals("-ssh")) {
+			else if ("-ssh".equals(s)) {
 				altSSHLoginAllowed = true;
 			}
 			else if (s.startsWith("-e")) { // default password expiration (days)
@@ -678,7 +678,7 @@ public class GhidraServer extends UnicastRemoteObject implements GhidraServerHan
 					System.exit(-1);
 				}
 			}
-			else if (s.equals("-autoProvision")) {
+			else if ("-autoProvision".equals(s)) {
 				autoProvision = true;
 			}
 			else {

@@ -130,7 +130,7 @@ public class DecimalSearchFormat extends SearchFormat {
 		StringTokenizer tokenizer = new StringTokenizer(input);
 		while (tokenizer.hasMoreTokens()) {
 			String tok = tokenizer.nextToken();
-			if (tok.equals(MINUS_SIGN)) {
+			if (MINUS_SIGN.equals(tok)) {
 				if (!input.endsWith(MINUS_SIGN)) {
 					return SearchData.createInvalidInputSearchData("Cannot have space after a '-'");
 				}

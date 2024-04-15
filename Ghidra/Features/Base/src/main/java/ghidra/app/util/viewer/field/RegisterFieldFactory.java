@@ -155,12 +155,12 @@ public class RegisterFieldFactory extends FieldFactory {
 			Object newValue) {
 		super.fieldOptionsChanged(options, optionName, oldValue, newValue);
 
-		if (optionName.equals(DISPLAY_HIDDEN_REGISTERS_OPTION_NAME)) {
+		if (DISPLAY_HIDDEN_REGISTERS_OPTION_NAME.equals(optionName)) {
 			showHiddenRegisters = (Boolean) newValue;
 			model.update();
 		}
 
-		if (optionName.equals(DISPLAY_DEFAULT_REGISTER_VALUES_OPTION_NAME)) {
+		if (DISPLAY_DEFAULT_REGISTER_VALUES_OPTION_NAME.equals(optionName)) {
 			showDefaultValues = (Boolean) newValue;
 			model.update();
 		}

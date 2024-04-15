@@ -951,25 +951,25 @@ public class GhidraJarBuilder implements GhidraLaunchable {
 
 		for (int i = 0; i < args.length; i++) {
 			String arg = args[i];
-			if (arg.equals("-output")) {
+			if ("-output".equals(arg)) {
 				if (i == args.length - 1) {
 					usage(args);
 				}
 				outputFile = new File(args[++i]);
 			}
-			else if (arg.equals("-srczip")) {
+			else if ("-srczip".equals(arg)) {
 				if (i == args.length - 1) {
 					usage(args);
 				}
 				srczip = new File(args[++i]);
 			}
-			else if (arg.equals("-bin")) {
+			else if ("-bin".equals(arg)) {
 				if (i == args.length - 1) {
 					usage(args);
 				}
 				extraBinDir = new File(args[++i]);
 			}
-			else if (arg.equals("-main")) {
+			else if ("-main".equals(arg)) {
 				if (i == args.length - 1) {
 					usage(args);
 				}

@@ -197,7 +197,7 @@ public class GoRegisterInfoManager {
 	}
 
 	private Set<GoVer> parseValidGoVersionsStr(String s) throws IOException {
-		if (s.trim().equalsIgnoreCase("all")) {
+		if ("all".equalsIgnoreCase(s.trim())) {
 			EnumSet<GoVer> allVers = EnumSet.allOf(GoVer.class);
 			allVers.remove(GoVer.UNKNOWN);
 			return allVers;

@@ -52,7 +52,7 @@ class EquatesXmlMgr {
 				throw new CancelledException();	
 			}
 			element = parser.peek();
-			if (element == null || !element.getName().equals("EQUATE_GROUP")) {
+			if (element == null || !"EQUATE_GROUP".equals(element.getName())) {
 				break;
 			}
 			processEquateGroup(parser, monitor);
@@ -91,16 +91,16 @@ class EquatesXmlMgr {
 		while (!monitor.isCancelled()) {
 			element = parser.peek();
 
-			if (element.getName().equals("DISPLAY_SETTINGS") ||
-				element.getName().equals("REGULAR_CMT") || 
-				element.getName().equals("REPEATABLE_CMT") || 
-				element.getName().equals("BIT_MASK")) {
+			if ("DISPLAY_SETTINGS".equals(element.getName()) ||
+				"REGULAR_CMT".equals(element.getName()) || 
+				"REPEATABLE_CMT".equals(element.getName()) || 
+				"BIT_MASK".equals(element.getName())) {
 
 				element = parser.next();
 				element = parser.next();
 				continue;
 			}
-			if (!element.getName().equals("EQUATE")) {
+			if (!"EQUATE".equals(element.getName())) {
 				break;
 			}
 			processEquate(parser, element);
@@ -135,12 +135,12 @@ class EquatesXmlMgr {
 		}
 
 		element = parser.peek();
-		if (element.getName().equals("REGULAR_CMT")) {
+		if ("REGULAR_CMT".equals(element.getName())) {
 			element = parser.next();
 			element = parser.next();
 		}
 		element = parser.peek();
-		if (element.getName().equals("REPEATABLE_CMT")) {
+		if ("REPEATABLE_CMT".equals(element.getName())) {
 			element = parser.next();
 			element = parser.next();
 		}

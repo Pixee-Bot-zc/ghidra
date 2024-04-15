@@ -142,13 +142,13 @@ public class FunctionTagBSimFilterType extends BSimFilterType {
 	@Override
 	public void gatherSQLEffect(SQLEffects effect, FilterAtom atom, IDSQLResolution resolution)
 		throws SQLException {
-		effect.addFunctionFilter(flag, atom.value.equals("true"));
+		effect.addFunctionFilter(flag, "true".equals(atom.value));
 	}
 
 	@Override
 	public void gatherElasticEffect(ElasticEffects effect, FilterAtom atom,
 		IDElasticResolution resolution) throws ElasticException {
-		effect.addFunctionFilter(flag, atom.value.equals("true"));
+		effect.addFunctionFilter(flag, "true".equals(atom.value));
 	}
 
 	@Override

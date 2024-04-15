@@ -81,7 +81,7 @@ public class UpgradeDexToGhidra71Script extends GhidraScript {
 		if (formatString == null) {
 			return;
 		}
-		if (!formatString.equals("Dalvik Executable (DEX)")) {
+		if (!"Dalvik Executable (DEX)".equals(formatString)) {
 			return;
 		}
 		DomainObject domainObject = domainFile.getDomainObject(this, true, true, monitor);

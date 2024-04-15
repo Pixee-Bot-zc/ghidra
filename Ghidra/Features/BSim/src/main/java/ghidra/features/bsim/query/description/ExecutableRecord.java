@@ -613,7 +613,7 @@ public class ExecutableRecord implements Comparable<ExecutableRecord> {
 		String path = null;
 		List<CategoryRecord> cats = null;
 		while (parser.peek().isStart()) {
-			if (parser.peek().getName().equals("category")) {
+			if ("category".equals(parser.peek().getName())) {
 				if (cats == null) {
 					cats = new ArrayList<CategoryRecord>();
 				}
@@ -623,23 +623,23 @@ public class ExecutableRecord implements Comparable<ExecutableRecord> {
 			else {
 				final XmlElement subel = parser.start();
 				final String nm = subel.getName();
-				if (nm.equals("arch")) {
+				if ("arch".equals(nm)) {
 					architecture = parser.end().getText();
 				}
-				else if (nm.equals("compiler")) {
+				else if ("compiler".equals(nm)) {
 					name_compiler = parser.end().getText();
 				}
-				else if (nm.equals("date")) {
+				else if ("date".equals(nm)) {
 					millis = SpecXmlUtils.decodeLong(subel.getAttribute("millis"));
 					if ((millis < 0) || (millis > 1000)) {
 						millis = 0;
 					}
 					seconds = SpecXmlUtils.decodeLong(parser.end().getText());
 				}
-				else if (nm.equals("repository")) {
+				else if ("repository".equals(nm)) {
 					repo = parser.end().getText();
 				}
-				else if (nm.equals("path")) {
+				else if ("path".equals(nm)) {
 					path = parser.end().getText();
 				}
 				else {

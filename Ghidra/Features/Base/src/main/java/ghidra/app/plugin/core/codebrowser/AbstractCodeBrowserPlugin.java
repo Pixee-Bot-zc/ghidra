@@ -409,15 +409,15 @@ public abstract class AbstractCodeBrowserPlugin<P extends CodeViewerProvider> ex
 					highlightMarkers.setMarkerColor(color);
 				}
 			}
-			else if (optionName.equals(CURSOR_COLOR_OPTIONS_NAME)) {
+			else if (CURSOR_COLOR_OPTIONS_NAME.equals(optionName)) {
 				Color color = ((Color) newValue);
 				fieldPanel.setFocusedCursorColor(color);
 			}
-			else if (optionName.equals(UNFOCUSED_CURSOR_COLOR_OPTIONS_NAME)) {
+			else if (UNFOCUSED_CURSOR_COLOR_OPTIONS_NAME.equals(optionName)) {
 				Color color = ((Color) newValue);
 				fieldPanel.setNonFocusCursorColor(color);
 			}
-			else if (optionName.equals(BLINK_CURSOR_OPTIONS_NAME)) {
+			else if (BLINK_CURSOR_OPTIONS_NAME.equals(optionName)) {
 				Boolean isBlinkCursor = ((Boolean) newValue);
 				fieldPanel.setBlinkCursor(isBlinkCursor);
 			}
@@ -433,7 +433,7 @@ public abstract class AbstractCodeBrowserPlugin<P extends CodeViewerProvider> ex
 					currentCursorMarkers.setColoringBackground(isHighlightCursorLine);
 				}
 			}
-			else if (optionName.equals(MOUSE_WHEEL_HORIZONTAL_SCROLLING_OPTIONS_NAME)) {
+			else if (MOUSE_WHEEL_HORIZONTAL_SCROLLING_OPTIONS_NAME.equals(optionName)) {
 				fieldPanel.setHorizontalScrollingEnabled((Boolean) newValue);
 			}
 

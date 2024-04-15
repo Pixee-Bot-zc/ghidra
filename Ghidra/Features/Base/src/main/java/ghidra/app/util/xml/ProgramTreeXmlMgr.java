@@ -156,9 +156,9 @@ class ProgramTreeXmlMgr {
 
 			while (!monitor.isCancelled()) {
 				String elementName = element.getName();
-				if (elementName.equals("FRAGMENT") || elementName.equals("MODULE") ||
-					elementName.equals("FOLDER")) {
-					if (elementName.equals("FRAGMENT")) {
+				if ("FRAGMENT".equals(elementName) || "MODULE".equals(elementName) ||
+					"FOLDER".equals(elementName)) {
+					if ("FRAGMENT".equals(elementName)) {
 						if (element.isStart()) {
 							processFragment(element, parser);
 						}
@@ -247,7 +247,7 @@ class ProgramTreeXmlMgr {
 
 		while (!monitor.isCancelled()) {
 			String elementName = element.getName();
-			if (elementName.equals("ADDRESS_RANGE")) {
+			if ("ADDRESS_RANGE".equals(elementName)) {
 				if (element.isStart()) {
 					String startStr = element.getAttribute("START");
 					String endStr = element.getAttribute("END");

@@ -319,7 +319,7 @@ public class OmfSegmentHeader extends OmfRecord {
 
 		// Once we know the class name, we can make some educated guesses about read/write/exec permissions
 		isReadable = true;
-		if (className.equals("CODE") || className.equals("code")) {
+		if ("CODE".equals(className) || "code".equals(className)) {
 			isCode = true;
 			isWritable = false;
 			isExecutable = true;

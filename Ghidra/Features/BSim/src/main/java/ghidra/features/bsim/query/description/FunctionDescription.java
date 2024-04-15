@@ -241,12 +241,12 @@ public class FunctionDescription implements Comparable<FunctionDescription> {
 		}
 		FunctionDescription fdesc = man.newFunctionDescription(fname, address, erec);
 		if (parser.peek().isStart()) {
-			if (parser.peek().getName().equals("lshcosine")) {
+			if ("lshcosine".equals(parser.peek().getName())) {
 				SignatureRecord.restoreXml(parser, vectorFactory, man, fdesc, count);
 			}
 			while (parser.peek().isStart()) {
 				String nm = parser.peek().getName();
-				if (nm.equals("flags")) {
+				if ("flags".equals(nm)) {
 					parser.start();
 					int flags = SpecXmlUtils.decodeInt(parser.end().getText());
 					fdesc.flags = flags;

@@ -173,19 +173,19 @@ public class TemplateSimplifier implements NameTransformer {
 	 */
 	public boolean fieldOptionsChanged(Options options, String optionName, Object oldValue,
 			Object newValue) {
-		if (optionName.equals(SIMPLIFY_TEMPLATES_OPTION)) {
+		if (SIMPLIFY_TEMPLATES_OPTION.equals(optionName)) {
 			doSimplify = (Boolean) newValue;
 			return true;
 		}
-		if (optionName.equals(TEMPLATE_NESTING_DEPTH_OPTION)) {
+		if (TEMPLATE_NESTING_DEPTH_OPTION.equals(optionName)) {
 			templateNestingDepth = (Integer) newValue;
 			return true;
 		}
-		if (optionName.equals(MAX_TEMPLATE_LENGTH_OPTION)) {
+		if (MAX_TEMPLATE_LENGTH_OPTION.equals(optionName)) {
 			maxTemplateLength = (Integer) newValue;
 			return true;
 		}
-		if (optionName.equals(MIN_TEMPLATE_LENGTH_OPTION)) {
+		if (MIN_TEMPLATE_LENGTH_OPTION.equals(optionName)) {
 			minTemplateLength = (Integer) newValue;
 			return true;
 		}

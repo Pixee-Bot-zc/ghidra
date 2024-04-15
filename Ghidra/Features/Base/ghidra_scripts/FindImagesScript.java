@@ -57,7 +57,7 @@ public class FindImagesScript extends GhidraScript {
 					println("Invalid GIF at " + foundGIFS.get(i).toString());
 				}
 			}
-			else if (data.getMnemonicString().equals("GIF")) {
+			else if ("GIF".equals(data.getMnemonicString())) {
 				println("GIF already applied at " + data.getAddressString(false, true));
 				foundGIFImage = true;
 			}
@@ -95,7 +95,7 @@ public class FindImagesScript extends GhidraScript {
 					println("Invalid PNG at " + foundPNGS.get(i).toString());
 				}
 			}
-			else if (data.getMnemonicString().equals("PNG")) {
+			else if ("PNG".equals(data.getMnemonicString())) {
 				println("PNG already applied at " + data.getAddressString(false, true));
 				foundPNGImage = true;
 			}

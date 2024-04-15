@@ -254,7 +254,7 @@ public class DecompileProcess {
 		readQueryParam(stringDecoder);
 		String message = stringDecoder.toString();
 		readToBurst(); // Read exception terminator
-		if (type.equals("alignment")) {
+		if ("alignment".equals(type)) {
 			throw new IOException("Alignment error: " + message);
 		}
 		throw new DecompileException(type, message);

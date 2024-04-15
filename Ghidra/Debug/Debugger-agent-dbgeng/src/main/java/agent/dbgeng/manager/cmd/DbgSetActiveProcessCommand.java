@@ -73,7 +73,7 @@ public class DbgSetActiveProcessCommand extends AbstractDbgCommand<Void> {
 			String line = lines[i];
 			if (line.contains("PROCESS")) {
 				String[] fields = line.trim().split("\\s+");
-				if (fields.length > 1 && fields[0].equals("PROCESS")) {
+				if (fields.length > 1 && "PROCESS".equals(fields[0])) {
 					BigInteger val = new BigInteger(fields[1], 16);
 					offset = val.longValue();
 					process.setOffset(offset);

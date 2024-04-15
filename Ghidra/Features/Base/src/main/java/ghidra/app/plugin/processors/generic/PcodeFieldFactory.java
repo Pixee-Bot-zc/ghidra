@@ -156,7 +156,7 @@ public class PcodeFieldFactory extends FieldFactory {
 		super.fieldOptionsChanged(options, optionName, oldValue, newValue);
 
 		if (options.getName().equals(GhidraOptions.CATEGORY_BROWSER_FIELDS)) {
-			if (optionName.equals(MAX_DISPLAY_LINES_MSG) || optionName.equals(DISPLAY_RAW_PCODE)) {
+			if (MAX_DISPLAY_LINES_MSG.equals(optionName) || DISPLAY_RAW_PCODE.equals(optionName)) {
 				setOptions(options);
 				model.update();
 			}

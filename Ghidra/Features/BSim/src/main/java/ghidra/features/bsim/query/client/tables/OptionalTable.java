@@ -187,7 +187,7 @@ public class OptionalTable {
 		boolean result = false;
 		try (ResultSet rs = getReusableStatement().executeQuery(TABLE_EXISTS_STMT)) {
 			if (rs.next()) {
-				result = rs.getString(1).equals("public");
+				result = "public".equals(rs.getString(1));
 			}
 		}
 		return result;

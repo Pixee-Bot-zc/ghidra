@@ -56,7 +56,7 @@ class LocationReferencesHighlighter {
 	private MarkerRemover markerRemover;
 	private Color highlightColor;
 	private OptionsChangeListener optionsListener = (options, name, oldValue, newValue) -> {
-		if (name.equals(HIGHLIGHT_COLOR_KEY)) {
+		if (HIGHLIGHT_COLOR_KEY.equals(name)) {
 			highlightColor = (Color) newValue;
 		}
 	};

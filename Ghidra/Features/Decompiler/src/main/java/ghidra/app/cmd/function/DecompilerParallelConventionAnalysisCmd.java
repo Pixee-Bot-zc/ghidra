@@ -111,8 +111,8 @@ public class DecompilerParallelConventionAnalysisCmd extends BackgroundCommand<P
 	 */
 	private boolean funcIsExternalGlue(Function func) {
 		String blockName = program.getMemory().getBlock(func.getEntryPoint()).getName();
-		return (blockName.equals(MemoryBlock.EXTERNAL_BLOCK_NAME) || blockName.equals(".plt") ||
-			blockName.equals("__stub_helper"));
+		return (blockName.equals(MemoryBlock.EXTERNAL_BLOCK_NAME) || ".plt".equals(blockName) ||
+			"__stub_helper".equals(blockName));
 	}
 
 	private static boolean isInStdNamespace(Function function) {

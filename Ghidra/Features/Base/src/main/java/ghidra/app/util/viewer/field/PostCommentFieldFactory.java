@@ -340,25 +340,25 @@ public class PostCommentFieldFactory extends FieldFactory {
 	public void fieldOptionsChanged(Options options, String optionName, Object oldValue,
 			Object newValue) {
 
-		if (optionName.equals(FLAG_FUNCTION_EXIT_OPTION)) {
+		if (FLAG_FUNCTION_EXIT_OPTION.equals(optionName)) {
 			flagFunctionExits = ((Boolean) newValue).booleanValue();
 			model.update();
 		}
-		else if (optionName.equals(FLAG_TERMINATOR_OPTION)) {
+		else if (FLAG_TERMINATOR_OPTION.equals(optionName)) {
 			flagJMPsRETs = ((Boolean) newValue).booleanValue();
 			model.update();
 		}
-		else if (optionName.equals(LINES_AFTER_BLOCKS_OPTION)) {
+		else if (LINES_AFTER_BLOCKS_OPTION.equals(optionName)) {
 			nLinesAfterBlocks = ((Integer) newValue).intValue();
 			if (nLinesAfterBlocks < 0) {
 				nLinesAfterBlocks = 0;
 			}
 			model.update();
 		}
-		else if (optionName.equals(ENABLE_WORD_WRAP_MSG)) {
+		else if (ENABLE_WORD_WRAP_MSG.equals(optionName)) {
 			isWordWrap = ((Boolean) newValue).booleanValue();
 		}
-		else if (optionName.equals(ENABLE_ALWAYS_SHOW_AUTOMATIC_MSG)) {
+		else if (ENABLE_ALWAYS_SHOW_AUTOMATIC_MSG.equals(optionName)) {
 			alwaysShowAutomatic = ((Boolean) newValue).booleanValue();
 		}
 	}

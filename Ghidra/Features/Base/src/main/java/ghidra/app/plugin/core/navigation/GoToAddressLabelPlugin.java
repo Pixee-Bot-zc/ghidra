@@ -134,7 +134,7 @@ public class GoToAddressLabelPlugin extends Plugin implements OptionsChangeListe
 				options.getBoolean(GhidraOptions.OPTION_NUMERIC_FORMATTING, DEFAULT_C_STYLE);
 			goToDialog.setCStyleInput(cStyleInput);
 		}
-		else if (opName.equals(GO_TO_MEMORY)) {
+		else if (GO_TO_MEMORY.equals(opName)) {
 			goToMemory = options.getBoolean(GO_TO_MEMORY, DEFAULT_MEMORY);
 			goToDialog.setMemory(goToMemory);
 		}

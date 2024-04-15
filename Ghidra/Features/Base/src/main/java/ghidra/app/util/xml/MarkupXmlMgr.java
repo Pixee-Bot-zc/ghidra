@@ -62,7 +62,7 @@ class MarkupXmlMgr {
 			boolean ignoreStackReferences, TaskMonitor monitor)
 			throws SAXParseException, CancelledException {
 		XmlElement element = parser.next();
-		if (!element.isStart() || !element.getName().equals("MARKUP")) {
+		if (!element.isStart() || !"MARKUP".equals(element.getName())) {
 			throw new SAXParseException("Expected MARKUP start tag", null, null,
 				parser.getLineNumber(), parser.getColumnNumber());
 		}
@@ -73,26 +73,26 @@ class MarkupXmlMgr {
 				throw new CancelledException();
 			}
 			String tagName = element.getName().toUpperCase();
-			if (tagName.equals("MEMORY_REFERENCE")) {
+			if ("MEMORY_REFERENCE".equals(tagName)) {
 				processMemoryReference(element, overwrite);
 			}
-			else if (tagName.equals("STACK_REFERENCE")) {
+			else if ("STACK_REFERENCE".equals(tagName)) {
 				if (isFunctions && !ignoreStackReferences) {
 					processStackReference(element, overwrite);
 				}
 			}
-			else if (tagName.equals("EXT_LIBRARY_REFERENCE")) {
+			else if ("EXT_LIBRARY_REFERENCE".equals(tagName)) {
 				if (isExtLibs) {
 					processExtLibraryReference(element, overwrite);
 				}
 			}
-			else if (tagName.equals("EQUATE_REFERENCE")) {
+			else if ("EQUATE_REFERENCE".equals(tagName)) {
 				processEquateReference(element, overwrite);
 			}
-			else if (tagName.equals("MANUAL_OPERAND")) {
+			else if ("MANUAL_OPERAND".equals(tagName)) {
 				// Not yet supported
 			}
-			else if (tagName.equals("MANUAL_INSTRUCTION")) {
+			else if ("MANUAL_INSTRUCTION".equals(tagName)) {
 				// Not yet supported
 			}
 			else {
@@ -111,7 +111,7 @@ class MarkupXmlMgr {
 			element = parser.next();
 		}
 
-		if (!element.getName().equals("MARKUP")) {
+		if (!"MARKUP".equals(element.getName())) {
 			throw new SAXParseException("Expected MARKUP end tag", null, null,
 				parser.getLineNumber(), parser.getColumnNumber());
 		}

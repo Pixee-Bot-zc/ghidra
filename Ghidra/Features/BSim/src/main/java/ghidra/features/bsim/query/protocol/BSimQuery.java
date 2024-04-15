@@ -99,55 +99,55 @@ public abstract class BSimQuery<R extends QueryResponseRecord> {
 			throws LSHException {
 		String mainName = parser.peek().getName();
 		BSimQuery<?> query;
-		if (mainName.equals("querynearest")) {
+		if ("querynearest".equals(mainName)) {
 			query = new QueryNearest();
 		}
-		else if (mainName.equals("querynearestvector")) {
+		else if ("querynearestvector".equals(mainName)) {
 			query = new QueryNearestVector();
 		}
-		else if (mainName.equals("insert")) {
+		else if ("insert".equals(mainName)) {
 			query = new InsertRequest();
 		}
-		else if (mainName.equals("queryinfo")) {
+		else if ("queryinfo".equals(mainName)) {
 			query = new QueryInfo();
 		}
-		else if (mainName.equals("update")) {
+		else if ("update".equals(mainName)) {
 			query = new QueryUpdate();
 		}
-		else if (mainName.equals("queryname")) {
+		else if ("queryname".equals(mainName)) {
 			query = new QueryName();
 		}
-		else if (mainName.equals("delete")) {
+		else if ("delete".equals(mainName)) {
 			query = new QueryDelete();
 		}
-		else if (mainName.equals("createdatabase")) {
+		else if ("createdatabase".equals(mainName)) {
 			query = new CreateDatabase();
 		}
-		else if (mainName.equals("querychildren")) {
+		else if ("querychildren".equals(mainName)) {
 			query = new QueryChildren();
 		}
-		else if (mainName.equals("querycluster")) {
+		else if ("querycluster".equals(mainName)) {
 			query = new QueryCluster();
 		}
-		else if (mainName.equals("querypair")) {
+		else if ("querypair".equals(mainName)) {
 			query = new QueryPair();
 		}
-		else if (mainName.equals("installcategory")) {
+		else if ("installcategory".equals(mainName)) {
 			query = new InstallCategoryRequest();
 		}
-		else if (mainName.equals("installmetadata")) {
+		else if ("installmetadata".equals(mainName)) {
 			query = new InstallMetadataRequest();
 		}
-		else if (mainName.equals("installtag")) {
+		else if ("installtag".equals(mainName)) {
 			query = new InstallTagRequest();
 		}
-		else if (mainName.equals("adjustindex")) {
+		else if ("adjustindex".equals(mainName)) {
 			query = new AdjustVectorIndex();
 		}
-		else if (mainName.equals("passwordchange")) {
+		else if ("passwordchange".equals(mainName)) {
 			query = new PasswordChange();
 		}
-		else if (mainName.equals("prewarmrequest")) {
+		else if ("prewarmrequest".equals(mainName)) {
 			query = new PrewarmRequest();
 		}
 		else {

@@ -89,7 +89,7 @@ public class QueryNearestVector extends BSimQuery<ResponseNearestVector> {
 		signifthresh = Double.parseDouble(parser.end().getText());
 		while (parser.peek().isStart()) {
 			XmlElement el = parser.start();
-			if (el.getName().equals("vectormax"))
+			if ("vectormax".equals(el.getName()))
 				vectormax = SpecXmlUtils.decodeInt(parser.end().getText());
 			else
 				throw new LSHException("Unknown tag: "+el.getName());

@@ -71,7 +71,7 @@ class SplitNode extends Node {
 		int height = Integer.parseInt(elem.getAttributeValue("HEIGHT"));
 		splitPaneSize = new Dimension(width, height);
 		String orient = elem.getAttributeValue("ORIENTATION");
-		isHorizontal = orient.equals("HORIZONTAL");
+		isHorizontal = "HORIZONTAL".equals(orient);
 
 		List<?> list = elem.getChildren();
 		child1 = processChildElement((Element) list.get(0), mgr, this, restoredPlaceholders);

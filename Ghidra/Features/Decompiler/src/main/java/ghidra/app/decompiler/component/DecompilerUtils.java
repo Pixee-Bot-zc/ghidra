@@ -666,13 +666,13 @@ public class DecompilerUtils {
 			ClangToken token = iter.next();
 			if (token instanceof ClangSyntaxToken) {
 				String text = token.getText();
-				if (text.equals("{")) {
+				if ("{".equals(text)) {
 					nestLevel += 1;
 					if (nestLevel == targetBalance) {
 						return (ClangSyntaxToken) token;
 					}
 				}
-				else if (text.equals("}")) {
+				else if ("}".equals(text)) {
 					nestLevel -= 1;
 					if (nestLevel == targetBalance) {
 						return (ClangSyntaxToken) token;
@@ -699,13 +699,13 @@ public class DecompilerUtils {
 			ClangToken token = iter.next();
 			if (token instanceof ClangSyntaxToken) {
 				String text = token.getText();
-				if (text.equals("{")) {
+				if ("{".equals(text)) {
 					nestLevel += 1;
 					if (nestLevel == 0) {
 						return (ClangSyntaxToken) token;
 					}
 				}
-				else if (text.equals("}")) {
+				else if ("}".equals(text)) {
 					nestLevel -= 1;
 					if (nestLevel == 0) {
 						return (ClangSyntaxToken) token;

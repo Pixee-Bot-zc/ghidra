@@ -82,21 +82,21 @@ public class MarkupSarifMgr extends SarifMgr {
 			throws CancelledException {
 		String tagName = (String) result.get("Message");
 		boolean overwrite = options == null || options.isOverwriteReferenceConflicts();
-		if (tagName.equals("Ref.Memory")) {
+		if ("Ref.Memory".equals(tagName)) {
 			processMemoryReference(result, overwrite);
-		} else if (tagName.equals("Ref.Shifted")) {
+		} else if ("Ref.Shifted".equals(tagName)) {
 			processShiftedReference(result, overwrite);
-		} else if (tagName.equals("Ref.Register")) {
+		} else if ("Ref.Register".equals(tagName)) {
 			processRegisterReference(result, overwrite);
-		} else if (tagName.equals("Ref.Stack")) {
+		} else if ("Ref.Stack".equals(tagName)) {
 			if (options == null || options.isFunctions()) { // TODO && !ignoreStackReferences) {
 				processStackReference(result, overwrite);
 			}
-		} else if (tagName.equals("Ref.External")) {
+		} else if ("Ref.External".equals(tagName)) {
 			if (options == null || options.isExternalLibraries()) {
 				processExtLibraryReference(result, overwrite);
 			}
-		} else if (tagName.equals("Ref.Equate")) {
+		} else if ("Ref.Equate".equals(tagName)) {
 			processEquateReference(result, overwrite);
 		}
 		return true;

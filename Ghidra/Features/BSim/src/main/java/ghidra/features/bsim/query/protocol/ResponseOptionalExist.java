@@ -61,11 +61,11 @@ public class ResponseOptionalExist extends QueryResponseRecord {
 		tableExists = false;
 		wasCreated = false;
 		parser.start(name);
-		if (parser.peek().getName().equals("exists")) {
+		if ("exists".equals(parser.peek().getName())) {
 			parser.start();
 			tableExists = SpecXmlUtils.decodeBoolean(parser.end().getText());
 		}
-		if (parser.peek().getName().equals("created")) {
+		if ("created".equals(parser.peek().getName())) {
 			parser.start();
 			tableExists = SpecXmlUtils.decodeBoolean(parser.end().getText());
 		}

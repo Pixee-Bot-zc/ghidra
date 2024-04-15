@@ -56,7 +56,7 @@ class ApplySymbols {
 				return;
 			}
 			XmlElement elem = xmlParser.next();
-			if (elem.isEnd() && elem.getName().equals("table")) {
+			if (elem.isEnd() && "table".equals(elem.getName())) {
 				break;
 			}
 			xmlParser.next();//skip end element
@@ -169,7 +169,7 @@ class ApplySymbols {
 			if (GuidUtil.isGuidLabel(program, address, name)) {
 				pdbParser.createData(address, new GuidDataType(), log);
 			}
-			else if (tag.equals("Data")) {
+			else if ("Data".equals(tag)) {
 				if (datatype.length() == 0) {
 					continue;
 				}

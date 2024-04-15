@@ -1329,7 +1329,7 @@ public class ProgramDiff {
 		int numProps = list.size();
 		for (int i = 0; i < numProps; i++) {
 			String property = list.get(i);
-			if (property.equals("Bookmarks")) {
+			if ("Bookmarks".equals(property)) {
 				continue; // ignore bookmarks as properties, since the bookmark diff gets these.
 			}
 			// Handle case where the class for a Saveable property is missing.

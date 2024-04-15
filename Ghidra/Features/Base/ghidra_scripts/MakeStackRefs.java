@@ -107,7 +107,7 @@ public class MakeStackRefs extends GhidraScript {
 		int gOffset = -(frameSize - stkOffset);
 
 		// if no variable name was given, construct a default name
-		if (varName.equals("default")) {
+		if ("default".equals(varName)) {
 			varName = "local_" + (-gOffset);
 		}
 

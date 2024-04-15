@@ -322,7 +322,7 @@ public class DelegateDbgModel2TargetObject extends DbgModel2TargetObjectImpl imp
 		}
 		if (proxy instanceof DbgModelTargetRegisterContainer || //
 			proxy instanceof DbgModelTargetRegisterBank || //
-			proxy.getName().equals("Stack") || proxy.getName().equals("Debug")) {
+			"Stack".equals(proxy.getName()) || "Debug".equals(proxy.getName())) {
 			requestAttributes(RefreshBehavior.REFRESH_NEVER);
 			return;
 		}

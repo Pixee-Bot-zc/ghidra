@@ -583,14 +583,14 @@ public class FunctionStartAnalyzer extends AbstractAnalyzer implements PatternFa
 					// if no maximum is set, then the instructions MUST be fallthru instructions, don't check branch flows
 					case "validcode":
 						String validcodeStr = attrValue;
-						if (validcodeStr.equals("0") || validcodeStr.equals("false")) {
+						if ("0".equals(validcodeStr) || "false".equals(validcodeStr)) {
 							validCodeMin = NO_VALID_INSTRUCTIONS_REQUIRED;
 						}
-						else if (validcodeStr.equalsIgnoreCase("true") ||
-							validcodeStr.equalsIgnoreCase("subroutine")) { // must be a valid subroutine
+						else if ("true".equalsIgnoreCase(validcodeStr) ||
+							"subroutine".equalsIgnoreCase(validcodeStr)) { // must be a valid subroutine
 							validCodeMin = MUST_HAVE_VALID_INSTRUCTIONS_NO_MIN;
 						}
-						else if (validcodeStr.equalsIgnoreCase("function")) { // must be at a defined function
+						else if ("function".equalsIgnoreCase(validcodeStr)) { // must be at a defined function
 							validFunction = true;
 							hasFunctionStartConstraints = true;  // enable FunctionStartFuncAnalyzer to run
 							validCodeMin = NO_VALID_INSTRUCTIONS_REQUIRED;
@@ -622,10 +622,10 @@ public class FunctionStartAnalyzer extends AbstractAnalyzer implements PatternFa
 							String fallThruOnlyStr = attrValue;
 							// check up <N> instructions for valid code
 							contiguous = true;
-							if (fallThruOnlyStr.equalsIgnoreCase("false")) {
+							if ("false".equalsIgnoreCase(fallThruOnlyStr)) {
 								contiguous = false;
 							}
-							else if (fallThruOnlyStr.equalsIgnoreCase("true")) {
+							else if ("true".equalsIgnoreCase(fallThruOnlyStr)) {
 								contiguous = true;
 							} else {
 								Msg.error(this, "Bad contiguous option (true,false): " + attrName + " = " + attrValue);
@@ -930,16 +930,16 @@ public class FunctionStartAnalyzer extends AbstractAnalyzer implements PatternFa
 
 	@Override
 	public MatchAction getMatchActionByName(String nm) {
-		if (nm.equals("funcstart")) {
+		if ("funcstart".equals(nm)) {
 			return new FunctionStartAction();
 		}
-		else if (nm.equals("possiblefuncstart")) {
+		else if ("possiblefuncstart".equals(nm)) {
 			return new PossibleFunctionStartAction();
 		}
-		else if (nm.equals("codeboundary")) {
+		else if ("codeboundary".equals(nm)) {
 			return new CodeBoundaryAction();
 		}
-		else if (nm.equals("setcontext")) {
+		else if ("setcontext".equals(nm)) {
 			return new ContextAction();
 		}
 		return null;
@@ -947,7 +947,7 @@ public class FunctionStartAnalyzer extends AbstractAnalyzer implements PatternFa
 
 	@Override
 	public PostRule getPostRuleByName(String nm) {
-		if (nm.equals("align")) {
+		if ("align".equals(nm)) {
 			return new AlignRule();
 		}
 		return null;

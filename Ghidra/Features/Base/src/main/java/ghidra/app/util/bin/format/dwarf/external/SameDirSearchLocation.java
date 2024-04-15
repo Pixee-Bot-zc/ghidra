@@ -38,7 +38,7 @@ public class SameDirSearchLocation implements SearchLocation {
 	 * @return boolean true if locString specifies a BuildId location
 	 */
 	public static boolean isSameDirSearchLocation(String locString) {
-		return locString.equals(".");
+		return ".".equals(locString);
 	}
 
 	/**

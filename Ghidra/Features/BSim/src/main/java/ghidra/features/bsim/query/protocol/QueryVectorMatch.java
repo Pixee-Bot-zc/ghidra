@@ -83,15 +83,15 @@ public class QueryVectorMatch extends BSimQuery<ResponseVectorMatch> {
 		max = SpecXmlUtils.decodeInt(parser.end().getText());
 		while (parser.peek().isStart()) {
 			XmlElement el = parser.peek();
-			if (el.getName().equals("categories")) {
+			if ("categories".equals(el.getName())) {
 				parser.start();
 				fillinCategories = SpecXmlUtils.decodeBoolean(parser.end().getText());
 			}
-			else if (el.getName().equals("exefilter")) {
+			else if ("exefilter".equals(el.getName())) {
 				bsimFilter = new BSimFilter();
 				bsimFilter.restoreXml(parser);
 			}
-			else if (el.getName().equals("id")) {
+			else if ("id".equals(el.getName())) {
 				parser.start();
 				long val = SpecXmlUtils.decodeLong(parser.end().getText());
 				vectorIds.add(val);

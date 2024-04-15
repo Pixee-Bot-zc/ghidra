@@ -140,7 +140,7 @@ public class ResolveReferencesRelativeToEbxScript extends GhidraScript {
 
 	private long getValueForEBX(Instruction instruction) {
 
-		if ( instruction.getMnemonicString().equals( "CALL" ) ) {
+		if ( "CALL".equals (instruction.getMnemonicString() ) ) {
 
 			Address nextInstructionAddress = instruction.getMaxAddress().add( 1 );
 

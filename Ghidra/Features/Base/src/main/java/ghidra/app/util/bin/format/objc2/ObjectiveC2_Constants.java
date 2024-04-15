@@ -67,7 +67,7 @@ public final class ObjectiveC2_Constants {
 		for (Field field : declaredFields) {
 			try {
 				String name = (String)field.get(null);
-				if (!name.equals(OBJC2_PREFIX) && name.startsWith(OBJC2_PREFIX)) {
+				if (!OBJC2_PREFIX.equals(name) && name.startsWith(OBJC2_PREFIX)) {
 					sectionNames.add(name);
 				}
 			}

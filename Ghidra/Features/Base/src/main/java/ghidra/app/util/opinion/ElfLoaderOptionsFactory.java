@@ -182,26 +182,26 @@ public class ElfLoaderOptionsFactory {
 		}
 		for (Option option : options) {
 			String name = option.getName();
-			if (name.equals(PERFORM_RELOCATIONS_NAME) || name.equals(INCLUDE_OTHER_BLOCKS) ||
-				name.equals(APPLY_UNDEFINED_SYMBOL_DATA_NAME)) {
+			if (PERFORM_RELOCATIONS_NAME.equals(name) || INCLUDE_OTHER_BLOCKS.equals(name) ||
+				APPLY_UNDEFINED_SYMBOL_DATA_NAME.equals(name)) {
 				if (!Boolean.class.isAssignableFrom(option.getValueClass())) {
 					return "Invalid type for option: " + name + " - " + option.getValueClass();
 				}
 			}
-			else if (name.equals(IMAGE_BASE_OPTION_NAME)) {
+			else if (IMAGE_BASE_OPTION_NAME.equals(name)) {
 				String err = validateAddressSpaceOffsetOption(option, language.getDefaultSpace());
 				if (err != null) {
 					return err;
 				}
 			}
-			else if (name.equals(IMAGE_DATA_IMAGE_BASE_OPTION_NAME)) {
+			else if (IMAGE_DATA_IMAGE_BASE_OPTION_NAME.equals(name)) {
 				String err =
 					validateAddressSpaceOffsetOption(option, language.getDefaultDataSpace());
 				if (err != null) {
 					return err;
 				}
 			}
-			else if (name.equals(DISCARDABLE_SEGMENT_SIZE_OPTION_NAME)) {
+			else if (DISCARDABLE_SEGMENT_SIZE_OPTION_NAME.equals(name)) {
 				if (!Integer.class.isAssignableFrom(option.getValueClass())) {
 					return "Invalid type for option: " + name + " - " + option.getValueClass();
 				}

@@ -293,9 +293,9 @@ public class ObjectiveC2_MessageAnalyzer extends AbstractAnalyzer {
 		if (instruction.getNumOperands() != 2) {
 			return false;
 		}
-		boolean isMOV = instruction.getMnemonicString().equals("MOV");//intel 
-		boolean isLWZ = instruction.getMnemonicString().equals("lwz");//powerpc
-		boolean isLDR = instruction.getMnemonicString().equals("ldr");//arm
+		boolean isMOV = "MOV".equals(instruction.getMnemonicString());//intel 
+		boolean isLWZ = "lwz".equals(instruction.getMnemonicString());//powerpc
+		boolean isLDR = "ldr".equals(instruction.getMnemonicString());//arm
 		return isMOV || isLWZ || isLDR;
 	}
 

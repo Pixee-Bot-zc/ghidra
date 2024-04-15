@@ -301,11 +301,11 @@ class DmgServerProcessManager implements Closeable {
 		Map<String, String> env = System.getenv();
 		Set<Entry<String, String>> entrySet = env.entrySet();
 		for (Entry<String, String> entry : entrySet) {
-			if (entry.getKey().equalsIgnoreCase("PATH")) {
+			if ("PATH".equalsIgnoreCase(entry.getKey())) {
 				// add our value to the current value
 				pathValue = getLibraryPathVariable(entry.getKey(), entry.getValue());
 			}
-			else if (entry.getKey().equalsIgnoreCase("LD_LIBRARY_PATH")) {
+			else if ("LD_LIBRARY_PATH".equalsIgnoreCase(entry.getKey())) {
 				// add our value to the current value
 				ldLibraryPathValue = getLibraryPathVariable(entry.getKey(), entry.getValue());
 			}

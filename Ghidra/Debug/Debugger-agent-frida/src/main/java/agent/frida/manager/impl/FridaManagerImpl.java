@@ -1194,7 +1194,7 @@ public class FridaManagerImpl implements FridaManager {
 	@Override
 	public CompletableFuture<Void> console(String command) {
 		if (continuation != null) {
-			String prompt = command.equals("") ? FridaModelTargetInterpreter.FRIDA_PROMPT : ">>>";
+			String prompt = "".equals(command) ? FridaModelTargetInterpreter.FRIDA_PROMPT : ">>>";
 			getEventListeners().invoke().promptChanged(prompt);
 			continuation.complete(command);
 			setContinuation(null);

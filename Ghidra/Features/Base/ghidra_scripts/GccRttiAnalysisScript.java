@@ -130,11 +130,11 @@ public class GccRttiAnalysisScript extends GhidraScript {
 				newCategoryName = newCategoryName.concat(character);
 				index++;
 
-				if (character.equals("<")) {
+				if ("<".equals(character)) {
 					insideBrackets = true;
 					numOpenedBrackets++;
 				}
-				if (character.equals(">")) {
+				if (">".equals(character)) {
 					numOpenedBrackets--;
 				}
 				if (numOpenedBrackets == 0) {
@@ -145,7 +145,7 @@ public class GccRttiAnalysisScript extends GhidraScript {
 		}
 
 		String path;
-		if (parent.getName().equals("")) {
+		if ("".equals(parent.getName())) {
 			path = "/" + categoryName;
 		}
 		else {
@@ -726,7 +726,7 @@ public class GccRttiAnalysisScript extends GhidraScript {
 			clearListing(vtableAddress);
 
 		}
-		if (dataAt != null && !dataAt.getDataType().getName().equals("long")) {
+		if (dataAt != null && !"long".equals(dataAt.getDataType().getName())) {
 			clearListing(vtableAddress);
 		}
 
@@ -1052,7 +1052,7 @@ public class GccRttiAnalysisScript extends GhidraScript {
 			// otherwise, continue
 			if (data != null) {
 				if (offset % defaultPointerSize == 0 &&
-					data.getBaseDataType().getName().equals("long")) {
+					"long".equals(data.getBaseDataType().getName())) {
 					offset += defaultPointerSize;
 					continue;
 				}
@@ -1193,7 +1193,7 @@ public class GccRttiAnalysisScript extends GhidraScript {
 
 			Symbol possibleTypeinfoSymbol = symbolTable.getPrimarySymbol(possibleTypeinfo);
 			if (possibleTypeinfoSymbol != null &&
-				possibleTypeinfoSymbol.getName().equals("typeinfo")) {
+				"typeinfo".equals(possibleTypeinfoSymbol.getName())) {
 				return address;
 			}
 			offset += defaultPointerSize;

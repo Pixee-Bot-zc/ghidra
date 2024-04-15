@@ -258,7 +258,7 @@ public class PythonPlugin extends ProgramPlugin
 		else if (optionName.equals(PythonCodeCompletionFactory.INCLUDE_TYPES_LABEL)) {
 			PythonCodeCompletionFactory.changeOptions(options, optionName, oldValue, newValue);
 		}
-		else if (optionName.equals(INCLUDE_BUILTINS_LABEL)) {
+		else if (INCLUDE_BUILTINS_LABEL.equals(optionName)) {
 			includeBuiltins = ((Boolean) newValue).booleanValue();
 		}
 	}

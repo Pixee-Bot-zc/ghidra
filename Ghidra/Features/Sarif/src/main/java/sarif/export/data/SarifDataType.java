@@ -37,7 +37,7 @@ public class SarifDataType extends SarifObject {
 
 	private String objToMessage(IsfObject obj) {
 		if (obj instanceof IsfComposite) {
-			return ((IsfComposite) obj).kind.equals("struct") ? "DT.Struct" : "DT.Union";
+			return "struct".equals(((IsfComposite) obj).kind) ? "DT.Struct" : "DT.Union";
 		}
 		if (obj instanceof IsfEnum) {
 			return "DT.Enum";

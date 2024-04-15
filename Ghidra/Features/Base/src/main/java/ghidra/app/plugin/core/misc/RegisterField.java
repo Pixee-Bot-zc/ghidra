@@ -182,7 +182,7 @@ public class RegisterField extends JTextField {
 			return true;
 		}
 
-		if (text.equals("0x") || text.equals("0X")) {
+		if ("0x".equals(text) || "0X".equals(text)) {
 			if ((currentValue == null) || (currentValue.longValue() != 0)) {
 				currentValue = 0L;
 				notifyListeners();
