@@ -15,6 +15,8 @@
  */
 package ghidra.app.util.headless;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -22,7 +24,8 @@ import java.net.URL;
 import java.util.*;
 
 import generic.stl.Pair;
-import ghidra.*;
+import ghidra.GhidraApplicationLayout;
+import ghidra.GhidraLaunchable;
 import ghidra.app.util.opinion.Loader;
 import ghidra.framework.*;
 import ghidra.framework.model.DomainFolder;
@@ -62,7 +65,7 @@ public class AnalyzeHeadless implements GhidraLaunchable {
 		if (args[0].startsWith("ghidra:")) {
 			optionStartIndex = 1;
 			try {
-				ghidraURL = new URL(args[0]);
+				ghidraURL = Urls.create(args[0], Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 			}
 			catch (MalformedURLException e) {
 				System.err.println("Invalid Ghidra URL: " + args[0]);
@@ -116,9 +119,6 @@ public class AnalyzeHeadless implements GhidraLaunchable {
 		}
 		HeadlessOptions options = analyzer.getOptions();
 		parseOptions(options, args, optionStartIndex, ghidraURL, filesToImport);
-
-		Msg.info(AnalyzeHeadless.class,
-			"Headless startup complete (" + GhidraLauncher.getMillisecondsFromLaunch() + " ms)");
 
 		// Do the headless processing
 		try {
@@ -214,21 +214,13 @@ public class AnalyzeHeadless implements GhidraLaunchable {
 				options.setPropertiesFileDirectories(args[++argi]);
 			}
 			else if (checkArgument("-import", args, argi)) {
-				File inputFile = null;
-				try {
-					inputFile = new File(args[++argi]);
-					inputFile = inputFile.getCanonicalFile();
-				}
-				catch (IOException e) {
-					throw new InvalidInputException(
-						"Failed to get canonical form of: " + inputFile);
-				}
+				File inputFile = new File(args[++argi]).getAbsoluteFile();
 				if (!inputFile.isDirectory() && !inputFile.isFile()) {
 					throw new InvalidInputException(
 						inputFile + " is not a valid directory or file.");
 				}
 
-				HeadlessAnalyzer.checkValidFilename(inputFile.toString());
+				HeadlessAnalyzer.checkValidFilename(inputFile);
 
 				filesToImport.add(inputFile);
 
@@ -250,7 +242,7 @@ public class AnalyzeHeadless implements GhidraLaunchable {
 							otherFile + " is not a valid directory or file.");
 					}
 
-					HeadlessAnalyzer.checkValidFilename(otherFile.toString());
+					HeadlessAnalyzer.checkValidFilename(otherFile);
 
 					filesToImport.add(otherFile);
 				}
@@ -308,21 +300,7 @@ public class AnalyzeHeadless implements GhidraLaunchable {
 				options.setRunScriptsNoImport(true, processBinary);
 			}
 			else if ("-recursive".equals(args[argi])) {
-				Integer depth = null;
-				if ((argi + 1) < args.length) {
-					arg = args[argi + 1];
-					if (!arg.startsWith("-")) {
-						// depth is optional argument after -recursive
-						try {
-							depth = Integer.parseInt(arg);
-						}
-						catch (NumberFormatException e) {
-							throw new InvalidInputException("Invalid recursion depth: " + depth);
-						}
-						++argi;
-					}
-				}
-				options.enableRecursiveProcessing(true, depth);
+				options.enableRecursiveProcessing(true);
 			}
 			else if ("-readOnly".equalsIgnoreCase(args[argi])) {
 				options.enableReadOnlyProcessing(true);

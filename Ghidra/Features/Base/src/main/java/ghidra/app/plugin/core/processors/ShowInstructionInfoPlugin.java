@@ -15,6 +15,8 @@
  */
 package ghidra.app.plugin.core.processors;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.datatransfer.Clipboard;
@@ -40,7 +42,6 @@ import ghidra.app.context.*;
 import ghidra.app.plugin.PluginCategoryNames;
 import ghidra.app.plugin.ProgramPlugin;
 import ghidra.app.services.GoToService;
-import ghidra.framework.Application;
 import ghidra.framework.plugintool.PluginInfo;
 import ghidra.framework.plugintool.PluginTool;
 import ghidra.framework.plugintool.util.PluginStatus;
@@ -191,7 +192,7 @@ public class ShowInstructionInfoPlugin extends ProgramPlugin {
 	private File writeWrapperFile(URL fileURL) throws IOException {
 		File f;
 		if (manualWrapperFiles.size() < MAX_MANUAL_WRAPPER_FILE_COUNT) {
-			f = Application.createTempFile("pdfView", ".html");
+			f = File.createTempFile("pdfView", ".html");
 			f.deleteOnExit();
 		}
 		else {
@@ -244,7 +245,7 @@ public class ShowInstructionInfoPlugin extends ProgramPlugin {
 		if (pageNumber != null) {
 			// include manual page as query string (respected by PDF readers)
 			String fileNameAndPage = url.getFile() + "#page=" + pageNumber;
-			url = new URL(url.getProtocol(), null, fileNameAndPage);
+			url = Urls.create(url.getProtocol(), null, fileNameAndPage, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 		}
 
 		return url;

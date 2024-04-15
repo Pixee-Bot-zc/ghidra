@@ -15,6 +15,8 @@
  */
 package docking.help;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
@@ -330,7 +332,7 @@ public class HelpManager implements HelpService {
 		// To do this, try making a URL out of the help string and doing a reverse lookup
 		URL URL = null;
 		try {
-			URL = new URL(helpIDString);
+			URL = Urls.create(helpIDString, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 		}
 		catch (MalformedURLException e) {
 			// nothing we can do, fall through the method to the previous exception

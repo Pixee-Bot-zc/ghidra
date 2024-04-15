@@ -15,6 +15,8 @@
  */
 package ghidra.framework.main.datatree;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.DropTargetDropEvent;
 import java.io.File;
@@ -51,21 +53,17 @@ public final class LinuxFileUrlHandler extends AbstractFileListFlavorHandler {
 
 	@Override
 	// This is for the DataFlavorHandler interface for handling node drops in DataTrees
-	public boolean handle(PluginTool tool, DataTree dataTree, GTreeNode destinationNode,
+	public void handle(PluginTool tool, DataTree dataTree, GTreeNode destinationNode,
 			Object transferData, int dropAction) {
 		List<File> files = toFiles(transferData);
-		if (files.isEmpty()) {
-			return false;
-		}
 		doImport(getDomainFolder(destinationNode), files, tool, dataTree);
-		return true;
 	}
 
 	private List<File> toFiles(Object transferData) {
 
 		return toFiles(transferData, s -> {
 			try {
-				return new File(new URL(s.replaceAll(" ", "%20")).toURI()); // fixup spaces
+				return new File(Urls.create(s, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).toURI());
 			}
 			catch (MalformedURLException e) {
 				// this could be the case that this handler is attempting to process an arbitrary
