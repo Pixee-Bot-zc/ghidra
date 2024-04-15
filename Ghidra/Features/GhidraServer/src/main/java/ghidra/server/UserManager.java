@@ -16,6 +16,7 @@
 package ghidra.server;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -621,7 +622,7 @@ public class UserManager {
 	 * @throws IOException if error occurs while updating user file
 	 */
 	private void writeUserList() throws IOException {
-		try (BufferedWriter bw = new BufferedWriter(new FileWriter(userFile))) {
+		try (BufferedWriter bw = Files.newBufferedWriter(userFile.toPath())) {
 			for (UserEntry entry : userList.values()) {
 				bw.write(entry.username);
 				bw.write(":");
