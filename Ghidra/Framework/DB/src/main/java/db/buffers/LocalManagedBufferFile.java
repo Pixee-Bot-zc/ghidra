@@ -22,6 +22,7 @@ import ghidra.util.exception.AssertException;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 import ghidra.util.task.TaskMonitorAdapter;
+import java.nio.file.Files;
 
 /**
  * <code>LocalManagedBufferFile</code> implements a BufferFile as block-oriented
@@ -817,8 +818,7 @@ public class LocalManagedBufferFile extends LocalBufferFile implements ManagedBu
 		private int curIndex;
 
 		PreSaveTask() throws IOException {
-			File psFile = File.createTempFile(PRESAVE_FILE_PREFIX, PRESAVE_FILE_EXT,
-				getFile().getParentFile());
+			File psFile = Files.createTempFile(getFile().getParentFile().toPath(), PRESAVE_FILE_PREFIX, PRESAVE_FILE_EXT).toFile();
 			psFile.delete();
 			srcFile = new LocalManagedBufferFile(bfMgr, false, -1, checkinId);
 			preSaveFile = new LocalManagedBufferFile(psFile, getBufferSize());

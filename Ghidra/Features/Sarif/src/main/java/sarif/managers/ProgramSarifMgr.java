@@ -20,6 +20,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.nio.file.Files;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -630,7 +631,7 @@ public class ProgramSarifMgr {
 		String fileName = "SARIF_TEST";
 		String suffixName = ".sarif.bytes";
 		String filename = fileName + '.';
-		tempFile = File.createTempFile(filename, suffixName, dir);
+		tempFile = Files.createTempFile(dir.toPath(), filename, suffixName).toFile();
 		tempFile.deleteOnExit();	
 	}
 

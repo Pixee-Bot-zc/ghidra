@@ -4,6 +4,7 @@
 package mobiledevices.dmg.hfsplus;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -78,7 +79,7 @@ public class AttributesFileParser {
 			return null;
 		}
 
-		File file = File.createTempFile( "Ghidra_" + volumeHeaderFileName + "_", ".tmp" );
+		File file = Files.createTempFile("Ghidra_" + volumeHeaderFileName + "_", ".tmp").toFile();
 		file.deleteOnExit();
 		OutputStream out = new FileOutputStream( file );
 		try {
