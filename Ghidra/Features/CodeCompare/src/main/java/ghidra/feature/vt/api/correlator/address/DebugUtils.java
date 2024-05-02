@@ -16,6 +16,7 @@
 package ghidra.feature.vt.api.correlator.address;
 
 import java.awt.Color;
+import java.security.SecureRandom;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -163,7 +164,7 @@ class DebugUtils {
 		return map;
 	}
 
-	private static Random RAND = new Random();
+	private static Random RAND = new SecureRandom();
 
 	private static Color pickColor(CorrelationContainer container) {
 		float saturation;

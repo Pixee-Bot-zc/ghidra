@@ -17,6 +17,7 @@ package ghidra.bytepatterns.bitcluster;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.security.SecureRandom;
 import java.util.*;
 
 public class FacePatterns {
@@ -138,7 +139,7 @@ public class FacePatterns {
 	//Samples a list of byte sequences.
 	static private ArrayList<byte[]> sample(ArrayList<byte[]> li, int numOfSamples) {
 		ArrayList<byte[]> result = new ArrayList<byte[]>();
-		Random rand = new Random();
+		Random rand = new SecureRandom();
 		for (int s = 0; s < numOfSamples; s++) {
 			int r = rand.nextInt(li.size());
 			result.add(li.get(r));
