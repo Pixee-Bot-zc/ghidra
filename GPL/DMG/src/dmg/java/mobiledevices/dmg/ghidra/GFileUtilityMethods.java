@@ -4,6 +4,7 @@
 package mobiledevices.dmg.ghidra;
 
 import java.io.*;
+import java.nio.file.Files;
 
 
 public final class GFileUtilityMethods {
@@ -16,7 +17,7 @@ public final class GFileUtilityMethods {
 	}
 
 	public final static File writeTemporaryFile( InputStream inputStream, int maxBytesToWrite ) throws IOException {
-		File tempOutputFile = File.createTempFile( GHIDRA_FILE_SYSTEM_PREFIX, GHIDRA_FILE_SYSTEM_SUFFIX );
+		File tempOutputFile = Files.createTempFile(GHIDRA_FILE_SYSTEM_PREFIX, GHIDRA_FILE_SYSTEM_SUFFIX).toFile();
 		tempOutputFile.deleteOnExit();
 		OutputStream outputStream = new FileOutputStream( tempOutputFile );
 		try {
@@ -49,7 +50,7 @@ public final class GFileUtilityMethods {
 				prefix = prefix + '_';
 			}
 		}
-		File tempFile = File.createTempFile( prefix , GHIDRA_FILE_SYSTEM_SUFFIX );
+		File tempFile = Files.createTempFile(prefix, GHIDRA_FILE_SYSTEM_SUFFIX).toFile();
 		tempFile.deleteOnExit();
 		OutputStream tempFileOut = new FileOutputStream( tempFile );
 		try {

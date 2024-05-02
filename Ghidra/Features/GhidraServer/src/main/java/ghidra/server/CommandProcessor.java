@@ -16,6 +16,7 @@
 package ghidra.server;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.*;
 
 import javax.security.auth.x500.X500Principal;
@@ -284,7 +285,7 @@ public class CommandProcessor {
 		File cmdTempFile = null;
 		try {
 			// Write command to temp file
-			cmdTempFile = File.createTempFile("adm", ".tmp", cmdDir);
+			cmdTempFile = Files.createTempFile(cmdDir.toPath(), "adm", ".tmp").toFile();
 			FileUtils.writeLines(cmdTempFile, cmdList);
 
 			// Rename temp file to *.cmd file
