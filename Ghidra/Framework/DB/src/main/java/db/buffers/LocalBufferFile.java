@@ -16,6 +16,7 @@
 package db.buffers;
 
 import java.io.*;
+import java.security.SecureRandom;
 import java.util.*;
 
 import ghidra.framework.Application;
@@ -45,7 +46,7 @@ public class LocalBufferFile implements BufferFile {
 // ?? Should be changed !!
 	private static final int MINIMUM_BLOCK_SIZE = 128;
 
-	private static final Random random = new Random();
+	private static final Random random = new SecureRandom();
 
 	/**
 	 * Current file header format version number.
