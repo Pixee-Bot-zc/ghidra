@@ -15,6 +15,7 @@
  */
 package ghidra.file.jad;
 
+import io.github.pixee.security.SystemCommand;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -89,7 +90,7 @@ public class JadProcessController {
 			// following line should be changed to wrapper.getOutputDirectory()
 			// TODO: JAD will output to file name taken from data inside the .class file.
 			// TODO: use -p to force output to stdout.
-			process = runtime.exec(commands, environment, wrapper.getWorkingDirectory());
+			process = SystemCommand.runCommand(runtime, commands, environment, wrapper.getWorkingDirectory());
 
 			if (process == null) {
 				System.out.println("native process is null");

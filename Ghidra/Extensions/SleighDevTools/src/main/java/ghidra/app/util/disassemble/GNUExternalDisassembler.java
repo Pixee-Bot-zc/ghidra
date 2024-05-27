@@ -15,6 +15,7 @@
  */
 package ghidra.app.util.disassemble;
 
+import io.github.pixee.security.SystemCommand;
 import java.io.*;
 import java.util.*;
 
@@ -565,7 +566,7 @@ public class GNUExternalDisassembler implements ExternalDisassembler {
 
 		try {
 			Runtime rt = Runtime.getRuntime();
-			disassemblerProcess = rt.exec(cmds, null, gdisConfig.gdisExecFile.getParentFile());
+			disassemblerProcess = SystemCommand.runCommand(rt, cmds, null, gdisConfig.gdisExecFile.getParentFile());
 		}
 		catch (IOException e) {
 			buf = new StringBuilder();

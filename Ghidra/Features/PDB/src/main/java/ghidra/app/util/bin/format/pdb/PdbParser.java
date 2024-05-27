@@ -15,6 +15,7 @@
  */
 package ghidra.app.util.bin.format.pdb;
 
+import io.github.pixee.security.SystemCommand;
 import java.io.*;
 import java.util.*;
 
@@ -550,7 +551,7 @@ public class PdbParser {
 				// with the process' input stream getting passed around, the call to
 				// .waitFor() creates a deadlock condition.
 
-				process = runtime.exec(cmd);
+				process = SystemCommand.runCommand(runtime, cmd);
 			}
 			catch (IOException e) {
 				if (e.getMessage().endsWith("14001")) {//missing runtime dlls, probably

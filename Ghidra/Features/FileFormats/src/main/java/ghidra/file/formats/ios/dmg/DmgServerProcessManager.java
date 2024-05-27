@@ -15,6 +15,7 @@
  */
 package ghidra.file.formats.ios.dmg;
 
+import io.github.pixee.security.SystemCommand;
 import java.io.*;
 import java.util.*;
 import java.util.Map.Entry;
@@ -242,10 +243,8 @@ class DmgServerProcessManager implements Closeable {
 
 		// optional: -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=18200
 		try {
-			Process p = Runtime.getRuntime().exec(
-				new String[] { java, "-classpath", classPath, "-Xmx" + dmgServerMemoryMB + "m", //need more memory to load and xfer data across pipe
-					"mobiledevices.dmg.server.DmgServer" },
-				envp, null);
+			Process p = SystemCommand.runCommand(Runtime.getRuntime(), new String[] { java, "-classpath", classPath, "-Xmx" + dmgServerMemoryMB + "m", //need more memory to load and xfer data across pipe
+					"mobiledevices.dmg.server.DmgServer" }, envp, null);
 			return p;
 		}
 		catch (IOException e) {
