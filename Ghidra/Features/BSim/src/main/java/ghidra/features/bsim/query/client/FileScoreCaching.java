@@ -15,6 +15,7 @@
  */
 package ghidra.features.bsim.query.client;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.*;
 
@@ -44,19 +45,19 @@ public class FileScoreCaching implements ScoreCaching {
 		}
 		cacheMap = new TreeMap<String, Float>();
 		BufferedReader reader = new BufferedReader(new FileReader(storageFile));
-		String floatString = reader.readLine();
+		String floatString = BoundedLineReader.readLine(reader, 5_000_000);
 		if (floatString == null) {
 			reader.close();
 			throw new IOException("Score file missing threshold lines");
 		}
 		simThreshold = Float.parseFloat(floatString);
-		floatString = reader.readLine();
+		floatString = BoundedLineReader.readLine(reader, 5_000_000);
 		if (floatString == null) {
 			reader.close();
 			throw new IOException("Score file missing threshold lines");
 		}
 		sigThreshold = Float.parseFloat(floatString);
-		floatString = reader.readLine();
+		floatString = BoundedLineReader.readLine(reader, 5_000_000);
 		while (floatString != null) {
 			String[] split = floatString.split(" ");
 			if (split.length != 2 || split[0].length() != 32) {
@@ -65,7 +66,7 @@ public class FileScoreCaching implements ScoreCaching {
 			}
 			float val = Float.parseFloat(split[1]);
 			cacheMap.put(split[0], val);
-			floatString = reader.readLine();
+			floatString = BoundedLineReader.readLine(reader, 5_000_000);
 		}
 		reader.close();
 	}

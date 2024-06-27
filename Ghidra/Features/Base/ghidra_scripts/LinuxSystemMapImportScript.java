@@ -29,6 +29,7 @@
 
 //@category CustomerSubmission.Linux
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 
 import ghidra.app.script.GhidraScript;
@@ -61,7 +62,7 @@ public class LinuxSystemMapImportScript extends GhidraScript {
 
 		int lineno = 0;
 		String line;
-		while (!monitor.isCancelled() && (line = reader.readLine()) != null) {
+		while (!monitor.isCancelled() && (line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
 			lineno++;
 			line = line.trim();
 			String address, type, name;

@@ -15,6 +15,7 @@
  */
 package ghidra.app.plugin.core.strings;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -136,7 +137,7 @@ public class TrigramStringValidator implements StringValidatorService {
 		String currString = "";
 		try (BufferedReader br = new BufferedReader(
 			new InputStreamReader(sourceFile.getInputStream(), StandardCharsets.UTF_8))) {
-			while ((currString = br.readLine()) != null) {
+			while ((currString = BoundedLineReader.readLine(br, 5_000_000)) != null) {
 				lineNum++;
 				if (currString.isBlank()) {
 					continue;

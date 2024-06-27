@@ -15,6 +15,7 @@
  */
 package ghidra.dbg.jdi.model;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.List;
 import java.util.Map;
@@ -113,7 +114,7 @@ public class JdiModelTargetProcess extends JdiModelTargetObjectImpl
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 		try {
 			String line;
-			while (process.isAlive() && null != (line = reader.readLine())) {
+			while (process.isAlive() && null != (line = BoundedLineReader.readLine(reader, 5_000_000))) {
 				System.err.println(line);
 				output(channel, line);
 			}

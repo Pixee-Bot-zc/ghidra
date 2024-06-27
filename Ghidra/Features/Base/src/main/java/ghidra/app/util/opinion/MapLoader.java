@@ -15,6 +15,7 @@
  */
 package ghidra.app.util.opinion;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.text.ParseException;
 import java.util.*;
@@ -72,7 +73,7 @@ public class MapLoader extends AbstractProgramWrapperLoader {
 
 			String line;
 			int lineNumber = 0;
-			while ((line = reader.readLine()) != null) {
+			while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
 				lineNumber++;
 				line = line.trim();
 				if (line.startsWith(";")) {// comment

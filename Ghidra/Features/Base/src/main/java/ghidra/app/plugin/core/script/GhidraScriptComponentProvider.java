@@ -15,6 +15,7 @@
  */
 package ghidra.app.plugin.core.script;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.awt.event.*;
@@ -411,7 +412,7 @@ public class GhidraScriptComponentProvider extends ComponentProviderAdapter {
 			try (BufferedReader reader =
 				new BufferedReader(new InputStreamReader(sourceScript.getInputStream()))) {
 				while (true) {
-					String line = reader.readLine();
+					String line = BoundedLineReader.readLine(reader, 5_000_000);
 					if (line == null) {
 						break;
 					}

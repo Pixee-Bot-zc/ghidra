@@ -15,6 +15,7 @@
  */
 package ghidra.app.plugin.core.debug.gui.interpreters;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.lang.invoke.MethodHandles;
 import java.util.Collections;
@@ -243,7 +244,7 @@ public abstract class AbstractDebuggerWrappedConsoleConnection<T extends TargetO
 	protected void run() {
 		try {
 			while (running.get()) {
-				String line = inReader.readLine();
+				String line = BoundedLineReader.readLine(inReader, 5_000_000);
 				if (line == null || !running.get()) {
 					return;
 				}

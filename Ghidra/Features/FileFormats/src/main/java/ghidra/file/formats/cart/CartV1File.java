@@ -15,6 +15,7 @@
  */
 package ghidra.file.formats.cart;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.*;
 import java.util.Map.Entry;
@@ -446,7 +447,7 @@ public class CartV1File {
 				Pattern.CASE_INSENSITIVE);
 			String line;
 
-			while ((line = configReader.readLine()) != null) {
+			while ((line = BoundedLineReader.readLine(configReader, 5_000_000)) != null) {
 				Matcher matcher = pattern.matcher(line);
 
 				if (matcher.find()) {

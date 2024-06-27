@@ -15,6 +15,7 @@
  */
 package ghidra.app.util.bin.format.pdb;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 
 import ghidra.util.Msg;
@@ -47,7 +48,7 @@ class PdbErrorReaderThread extends Thread {
 	public void run() {
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(err))) {
 			String line = null;
-			while ((line = reader.readLine()) != null) {
+			while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
 				errbuf.append(line);
 				errbuf.append('\n');
 			}
