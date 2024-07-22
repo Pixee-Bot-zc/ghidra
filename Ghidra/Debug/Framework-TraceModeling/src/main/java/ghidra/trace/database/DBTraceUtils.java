@@ -15,6 +15,8 @@
  */
 package ghidra.trace.database;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -128,7 +130,7 @@ public enum DBTraceUtils {
 					setValue(obj, null);
 				}
 				else {
-					setValue(obj, new URL(data));
+					setValue(obj, Urls.create(data, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS));
 				}
 			}
 			catch (MalformedURLException e) {

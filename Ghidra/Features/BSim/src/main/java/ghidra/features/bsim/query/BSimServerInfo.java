@@ -15,6 +15,8 @@
  */
 package ghidra.features.bsim.query;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.Closeable;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -226,7 +228,7 @@ public class BSimServerInfo implements Comparable<BSimServerInfo> {
 	 * @throws MalformedURLException if unable to form supported URL
 	 */
 	public URL toURL() throws MalformedURLException {
-		return new URL(toURLString());
+		return Urls.create(toURLString(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 	}
 
 	/**

@@ -15,6 +15,8 @@
  */
 package ghidra.app.util.headless;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -291,13 +293,12 @@ public class HeadlessAnalyzer {
 
 			if (!path.endsWith("/")) {
 				// force explicit folder path so that non-existent folders are created on import
-				ghidraURL = new URL("ghidra", ghidraURL.getHost(), ghidraURL.getPort(), path + "/");
+				ghidraURL = Urls.create("ghidra", ghidraURL.getHost(), ghidraURL.getPort(), path + "/", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 			}
 		}
 		else { // Running in -process mode
 			if (path.endsWith("/") && path.length() > 1) {
-				ghidraURL = new URL("ghidra", ghidraURL.getHost(), ghidraURL.getPort(),
-					path.substring(0, path.length() - 1));
+				ghidraURL = Urls.create("ghidra", ghidraURL.getHost(), ghidraURL.getPort(), path.substring(0, path.length() - 1), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 			}
 		}
 

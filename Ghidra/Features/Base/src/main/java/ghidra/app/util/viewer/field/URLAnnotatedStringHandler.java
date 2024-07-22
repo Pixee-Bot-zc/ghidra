@@ -15,6 +15,8 @@
  */
 package ghidra.app.util.viewer.field;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -80,7 +82,7 @@ public class URLAnnotatedStringHandler implements AnnotatedStringHandler {
 	private URL getURLForString(String urlString) {
 		URL url = null;
 		try {
-			url = new URL(urlString);
+			url = Urls.create(urlString, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 		}
 		catch (MalformedURLException exc) {
 			// we return null

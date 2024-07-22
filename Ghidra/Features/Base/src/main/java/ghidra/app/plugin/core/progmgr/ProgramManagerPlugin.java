@@ -15,6 +15,8 @@
  */
 package ghidra.app.plugin.core.progmgr;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.beans.PropertyEditor;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -897,7 +899,7 @@ public class ProgramManagerPlugin extends Plugin implements ProgramManager, Opti
 			return null;
 		}
 		try {
-			return new URL(url);
+			return Urls.create(url, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 		}
 		catch (MalformedURLException e) {
 			return null;

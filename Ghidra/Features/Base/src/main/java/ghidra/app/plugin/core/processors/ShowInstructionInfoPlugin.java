@@ -15,6 +15,8 @@
  */
 package ghidra.app.plugin.core.processors;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.datatransfer.Clipboard;
@@ -244,7 +246,7 @@ public class ShowInstructionInfoPlugin extends ProgramPlugin {
 		if (pageNumber != null) {
 			// include manual page as query string (respected by PDF readers)
 			String fileNameAndPage = url.getFile() + "#page=" + pageNumber;
-			url = new URL(url.getProtocol(), null, fileNameAndPage);
+			url = Urls.create(url.getProtocol(), null, fileNameAndPage, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 		}
 
 		return url;
