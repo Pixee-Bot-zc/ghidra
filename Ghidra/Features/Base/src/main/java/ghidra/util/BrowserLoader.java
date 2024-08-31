@@ -15,6 +15,7 @@
  */
 package ghidra.util;
 
+import io.github.pixee.security.SystemCommand;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -78,7 +79,7 @@ public class BrowserLoader {
 		String[] arguments =
 			generateCommandArguments(url, null,
 				ManualViewerCommandWrappedOption.getDefaultBrowserLoaderOptions());
-		Process p = Runtime.getRuntime().exec(arguments);
+		Process p = SystemCommand.runCommand(Runtime.getRuntime(), arguments);
 		p.waitFor();
 		p.exitValue();  // thought to help memory problems on some versions of windows
 	}
@@ -130,7 +131,7 @@ public class BrowserLoader {
 
 		Process p = null;
 		try {
-			p = Runtime.getRuntime().exec(processCommands);
+			p = SystemCommand.runCommand(Runtime.getRuntime(), processCommands);
 		}
 		catch (Exception exc) {
 			return false;

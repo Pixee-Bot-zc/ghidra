@@ -15,6 +15,7 @@
  */
 package ghidra.test;
 
+import io.github.pixee.security.SystemCommand;
 import java.io.*;
 
 /**
@@ -56,7 +57,7 @@ public class JavaCompiler {
 		argV[4] = destPath;
 		argV[5] = javaFile.getAbsolutePath();
 		try {
-			Process p = Runtime.getRuntime().exec(argV);
+			Process p = SystemCommand.runCommand(Runtime.getRuntime(), argV);
 			for (String element : argV) {
 				System.out.print(element + " ");
 			}

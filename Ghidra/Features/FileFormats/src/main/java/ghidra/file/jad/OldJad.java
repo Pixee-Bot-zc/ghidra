@@ -15,6 +15,7 @@
  */
 package ghidra.file.jad;
 
+import io.github.pixee.security.SystemCommand;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -104,7 +105,7 @@ class OldJad {
 
 		File workingDirectory = classFile.getParentFile();
 
-		Process process = runtime.exec(commands, environment, workingDirectory);
+		Process process = SystemCommand.runCommand(runtime, commands, environment, workingDirectory);
 		waitForProcessToRespond(process);
 
 		String stdinMessages = readStdinMessagesFromProcess(process, monitor);

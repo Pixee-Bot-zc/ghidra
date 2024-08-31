@@ -15,6 +15,7 @@
  */
 package ghidra;
 
+import io.github.pixee.security.SystemCommand;
 import java.io.IOException;
 import java.nio.file.Path;
 
@@ -163,6 +164,6 @@ public class GhidraGo implements GhidraLaunchable {
 		}
 
 		Msg.info(this, "Starting new Ghidra using ghidraRun script at " + ghidraRunPath);
-		return Runtime.getRuntime().exec(ghidraRunPath.toString());
+		return SystemCommand.runCommand(Runtime.getRuntime(), ghidraRunPath.toString());
 	}
 }
