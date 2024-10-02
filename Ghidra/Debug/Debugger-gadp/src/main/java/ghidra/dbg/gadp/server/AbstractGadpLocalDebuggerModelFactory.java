@@ -15,6 +15,7 @@
  */
 package ghidra.dbg.gadp.server;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.nio.channels.AsynchronousByteChannel;
 import java.util.ArrayList;
@@ -134,7 +135,7 @@ public abstract class AbstractGadpLocalDebuggerModelFactory implements DebuggerM
 				BufferedReader reader =
 					new BufferedReader(new InputStreamReader(process.getInputStream()));
 				String line;
-				while (null != (line = reader.readLine())) {
+				while (null != (line = BoundedLineReader.readLine(reader, 5_000_000))) {
 					if (LOG_AGENT_STDOUT) {
 						Msg.info(this, "AGENT: " + line);
 					}

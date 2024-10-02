@@ -15,6 +15,7 @@
  */
 package ghidra.sleigh.grammar;
 
+import io.github.pixee.security.BoundedLineReader;
 import static org.junit.Assert.assertTrue;
 
 import java.io.*;
@@ -82,8 +83,8 @@ public class SleighPreprocessorTest extends AbstractGenericTest {
 
 			do {
 				debug("line number " + lineno);
-				actualLine = actual.readLine();
-				targetLine = target.readLine();
+				actualLine = BoundedLineReader.readLine(actual, 5_000_000);
+				targetLine = BoundedLineReader.readLine(target, 5_000_000);
 				if (!(actualLine == null || targetLine == null)) {
 					Assert.assertEquals(inputFile.getName() + ": difference at line " + lineno,
 						targetLine, actualLine);
@@ -112,9 +113,9 @@ public class SleighPreprocessorTest extends AbstractGenericTest {
 		int line = 1;
 		debug("#:INPUT:TARGET:ACTUAL:");
 		do {
-			iline = input.readLine();
-			tline = target.readLine();
-			aline = actual.readLine();
+			iline = BoundedLineReader.readLine(input, 5_000_000);
+			tline = BoundedLineReader.readLine(target, 5_000_000);
+			aline = BoundedLineReader.readLine(actual, 5_000_000);
 			String accum = line + ":" + iline + ":" + tline + ":" + aline + ":";
 			if (aline != null && !aline.equals(tline)) {
 				accum +=

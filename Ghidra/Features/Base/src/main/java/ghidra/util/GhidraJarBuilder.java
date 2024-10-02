@@ -15,6 +15,7 @@
  */
 package ghidra.util;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.nio.file.Path;
 import java.util.*;
@@ -296,7 +297,7 @@ public class GhidraJarBuilder implements GhidraLaunchable {
 		try {
 			reader = new BufferedReader(new FileReader(manifest));
 			String line;
-			while ((line = reader.readLine()) != null) {
+			while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
 				suffixes.add(line);
 			}
 		}

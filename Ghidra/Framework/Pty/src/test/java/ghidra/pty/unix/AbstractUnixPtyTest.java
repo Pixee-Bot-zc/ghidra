@@ -15,6 +15,7 @@
  */
 package ghidra.pty.unix;
 
+import io.github.pixee.security.BoundedLineReader;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -49,7 +50,7 @@ public abstract class AbstractUnixPtyTest extends AbstractPtyTest {
 
 			writer.println("Hello, World!");
 			writer.flush();
-			assertEquals("Hello, World!", reader.readLine());
+			assertEquals("Hello, World!", BoundedLineReader.readLine(reader, 5_000_000));
 		}
 	}
 
@@ -62,7 +63,7 @@ public abstract class AbstractUnixPtyTest extends AbstractPtyTest {
 
 			writer.println("Hello, World!");
 			writer.flush();
-			assertEquals("Hello, World!", reader.readLine());
+			assertEquals("Hello, World!", BoundedLineReader.readLine(reader, 5_000_000));
 		}
 	}
 
@@ -108,14 +109,14 @@ public abstract class AbstractUnixPtyTest extends AbstractPtyTest {
 			writer.flush();
 			String line;
 			do {
-				line = reader.readLine();
+				line = BoundedLineReader.readLine(reader, 5_000_000);
 			}
 			while (!"test".equals(line));
 
 			writer.println("exit 3");
 			writer.flush();
 
-			line = reader.readLine();
+			line = BoundedLineReader.readLine(reader, 5_000_000);
 			assertTrue("Not 'exit 3' or 'BASH:exit 3': '" + line + "'",
 				Set.of("BASH:exit 3", "exit 3").contains(line));
 
@@ -142,38 +143,38 @@ public abstract class AbstractUnixPtyTest extends AbstractPtyTest {
 			writer.flush();
 			String line;
 			do {
-				line = reader.readLine();
+				line = BoundedLineReader.readLine(reader, 5_000_000);
 			}
 			while (!"test".equals(line));
 
 			writer.println("cat");
 			writer.flush();
-			line = reader.readLine();
+			line = BoundedLineReader.readLine(reader, 5_000_000);
 			assertTrue("Not 'cat' or 'BASH:cat': '" + line + "'",
 				Set.of("BASH:cat", "cat").contains(line));
 
 			writer.println("Hello, cat!");
 			writer.flush();
-			assertEquals("Hello, cat!", reader.readLine()); // echo back
-			assertEquals("Hello, cat!", reader.readLine()); // cat back
+			assertEquals("Hello, cat!", BoundedLineReader.readLine(reader, 5_000_000)); // echo back
+			assertEquals("Hello, cat!", BoundedLineReader.readLine(reader, 5_000_000)); // cat back
 
 			writer.write(3); // should interrupt
 			writer.flush();
 			do {
-				line = reader.readLine();
+				line = BoundedLineReader.readLine(reader, 5_000_000);
 			}
 			while (!"^C".equals(line));
 			writer.println("echo test");
 			writer.flush();
 
 			do {
-				line = reader.readLine();
+				line = BoundedLineReader.readLine(reader, 5_000_000);
 			}
 			while (!"test".equals(line));
 
 			writer.println("exit 3");
 			writer.flush();
-			assertTrue(Set.of("BASH:exit 3", "exit 3").contains(reader.readLine()));
+			assertTrue(Set.of("BASH:exit 3", "exit 3").contains(BoundedLineReader.readLine(reader, 5_000_000)));
 
 			assertEquals(3, bash.waitExited(2, TimeUnit.SECONDS));
 		}
@@ -190,7 +191,7 @@ public abstract class AbstractUnixPtyTest extends AbstractPtyTest {
 
 			writer.println("Hello, World!");
 			writer.flush();
-			assertEquals("Hello, World!", reader.readLine());
+			assertEquals("Hello, World!", BoundedLineReader.readLine(reader, 5_000_000));
 		}
 	}
 
@@ -209,7 +210,7 @@ public abstract class AbstractUnixPtyTest extends AbstractPtyTest {
 			writerC.println("Good bye!");
 			writerC.flush();
 
-			assertEquals("Good bye!", reader.readLine());
+			assertEquals("Good bye!", BoundedLineReader.readLine(reader, 5_000_000));
 		}
 	}
 }

@@ -15,6 +15,7 @@
  */
 package ghidra.sleigh.grammar;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -110,7 +111,7 @@ public class SleighPreprocessor implements ExpressionEnvironment {
 
 			log.trace("enter SleighPreprocessor");
 
-			while ((line = in.readLine()) != null) {
+			while ((line = BoundedLineReader.readLine(in, 5_000_000)) != null) {
 				log.trace("top of while, state: " + this.toString());
 				log.trace("got line: " + line);
 

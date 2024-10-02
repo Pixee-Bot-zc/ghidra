@@ -15,6 +15,7 @@
  */
 package agent.dbgmodel.dbgmodel;
 
+import io.github.pixee.security.BoundedLineReader;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -316,7 +317,7 @@ public class DbgModelSetContextMWETest extends AbstractGhidraHeadlessIntegration
 			while (true) {
 				System.err.print(control.getPromptText());
 				//control.prompt(BitmaskSet.of(), "Hello?>");
-				String cmd = in.readLine();
+				String cmd = BoundedLineReader.readLine(in, 5_000_000);
 				control.execute(cmd);
 				if (control.getExecutionStatus().shouldWait) {
 					control.waitForEvent();

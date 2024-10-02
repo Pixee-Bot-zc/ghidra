@@ -15,6 +15,7 @@
  */
 package ghidra.pcode.emu.sys;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.*;
 import java.util.Map.Entry;
@@ -68,7 +69,7 @@ public interface EmuSyscallLibrary<T> extends PcodeUseropLibrary<T> {
 		final BufferedReader reader =
 			new BufferedReader(new InputStreamReader(mapFile.getInputStream()));
 		String line;
-		while (null != (line = reader.readLine())) {
+		while (null != (line = BoundedLineReader.readLine(reader, 5_000_000))) {
 			line = line.strip();
 			if (line.startsWith("#")) {
 				continue;

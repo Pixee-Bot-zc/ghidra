@@ -15,6 +15,7 @@
  */
 package ghidra.features.bsim.query;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.net.Authenticator;
 import java.net.InetAddress;
@@ -379,7 +380,7 @@ public class BSimControlLaunchable implements GhidraLaunchable {
 		try {
 			// All we currently do is search for the certificate header in the first 200 lines
 			for (int i = 0; i < 200; ++i) {
-				String line = reader.readLine();
+				String line = BoundedLineReader.readLine(reader, 5_000_000);
 				if (line == null) {
 					break;
 				}
@@ -1518,7 +1519,7 @@ public class BSimControlLaunchable implements GhidraLaunchable {
 		public void run() {
 			String line = null;
 			try {
-				while ((line = shellOutput.readLine()) != null) {
+				while ((line = BoundedLineReader.readLine(shellOutput, 5_000_000)) != null) {
 					if (!suppressOutput) {
 						System.out.println(line);
 					}

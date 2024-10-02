@@ -17,6 +17,7 @@
 //Uses overriding references and the symbolic propogator to resolve system calls
 //@category Analysis
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.*;
 import java.util.Map.Entry;
@@ -222,7 +223,7 @@ public class ResolveX86orX64LinuxSyscallsScript extends GhidraScript {
 		try (FileReader fReader = new FileReader(rFile.getFile(false));
 				BufferedReader bReader = new BufferedReader(fReader)) {
 			String line = null;
-			while ((line = bReader.readLine()) != null) {
+			while ((line = BoundedLineReader.readLine(bReader, 5_000_000)) != null) {
 				//lines starting with # are comments
 				if (!line.startsWith("#")) {
 					String[] parts = line.trim().split(" ");

@@ -15,6 +15,7 @@
  */
 package ghidra.app.util.opinion;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -276,7 +277,7 @@ class LibrarySymbolTable {
 
 			int mode = NONE;
 			String inString;
-			while ((inString = in.readLine()) != null) {
+			while ((inString = BoundedLineReader.readLine(in, 5_000_000)) != null) {
 
 				if (mode == NONE && inString.trim().startsWith("ordinal")) {
 					// rely on column header labels to establish ordinal and name column start/end 

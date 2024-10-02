@@ -16,6 +16,7 @@
  */
 package ghidra.sleigh.grammar;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -94,7 +95,7 @@ public class TokenExtractor {
             try {
                 in = new BufferedReader(new FileReader(inFiles[ii]));
                 String line;
-                while ((line = in.readLine()) != null) {
+                while ((line = BoundedLineReader.readLine(in, 5_000_000)) != null) {
                     match(P1.matcher(line), result);
                     match(P2.matcher(line), result);
                     match(P3.matcher(line), result);

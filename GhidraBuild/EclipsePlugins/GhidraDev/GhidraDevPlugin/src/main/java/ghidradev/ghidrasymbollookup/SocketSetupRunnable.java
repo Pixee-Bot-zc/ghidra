@@ -15,6 +15,7 @@
  */
 package ghidradev.ghidrasymbollookup;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -55,7 +56,7 @@ public class SocketSetupRunnable implements Runnable {
 				// If the project is closed while running the plugin and you try to look in it again
 				if (isInitialized && !project.isOpen()) {
 					try {
-						input.readLine();
+						BoundedLineReader.readLine(input, 5_000_000);
 					}
 					catch (IOException e) {
 						EclipseMessageUtils.error(
@@ -67,7 +68,7 @@ public class SocketSetupRunnable implements Runnable {
 				if (isInitialized) {
 					String symbolName = null;
 					try {
-						symbolName = input.readLine();
+						symbolName = BoundedLineReader.readLine(input, 5_000_000);
 					}
 					catch (IOException e) {
 						EclipseMessageUtils.error(

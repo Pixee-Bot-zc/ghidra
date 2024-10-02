@@ -1,18 +1,5 @@
-/* ###
- * IP: GHIDRA
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
+import io.github.pixee.security.BoundedLineReader;
 import java.awt.GraphicsEnvironment;
 import java.io.*;
 import java.text.ParseException;
@@ -237,7 +224,7 @@ public class LaunchSupport {
 				!GraphicsEnvironment.isHeadless() && !(javaFinder instanceof MacJavaFinder);
 			System.out.print("Enter path to " + javaName + " home directory");
 			System.out.print(supportsDialog ? " (ENTER for dialog): " : ": ");
-			String line = in.readLine().trim();
+			String line = BoundedLineReader.readLine(in, 5_000_000).trim();
 			if (supportsDialog && line.isEmpty()) {
 				System.out.println("Opening selection dialog...");
 				JFileChooser chooser = new JFileChooser();

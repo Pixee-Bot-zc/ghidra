@@ -15,6 +15,7 @@
  */
 package ghidra.server;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.*;
 
@@ -660,7 +661,7 @@ public class Repository implements FileSystemListener, RepositoryLogger {
 		try (BufferedReader reader = new BufferedReader(new FileReader(userAccessFile))) {
 			String line = "";
 			while (true) {
-				line = reader.readLine();
+				line = BoundedLineReader.readLine(reader, 5_000_000);
 				if (line == null) {
 					break;
 				}

@@ -15,6 +15,7 @@
  */
 package ghidra.app.util.disassemble;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.*;
 
@@ -646,12 +647,12 @@ public class GNUExternalDisassembler implements ExternalDisassembler {
 
 		boolean error = false;
 		do {
-			instructionLine = buffReader.readLine();
+			instructionLine = BoundedLineReader.readLine(buffReader, 5_000_000);
 			if (!error && instructionLine != null && !instructionLine.equals(ENDING_STRING) &&
 				(instructionLine.indexOf(ADDRESS_OUT_OF_BOUNDS) < 0) &&
 				!instructionLine.startsWith("Usage:") && !instructionLine.startsWith("Debug:")) {
 
-				String instructionMetadataLine = buffReader.readLine();
+				String instructionMetadataLine = BoundedLineReader.readLine(buffReader, 5_000_000);
 				if (!instructionMetadataLine.startsWith("Info: ")) {
 					// TODO, throw an "ExternalDisassemblerInterfaceException"
 					// or some such
@@ -782,7 +783,7 @@ public class GNUExternalDisassembler implements ExternalDisassembler {
 			mapFileReader = new InputStreamReader(mapFile.getInputStream());
 			BufferedReader reader = new BufferedReader(mapFileReader);
 			String line = null;
-			while ((line = reader.readLine()) != null) {
+			while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
 				if (line.startsWith("//") || line.isEmpty()) {
 					continue;
 				}

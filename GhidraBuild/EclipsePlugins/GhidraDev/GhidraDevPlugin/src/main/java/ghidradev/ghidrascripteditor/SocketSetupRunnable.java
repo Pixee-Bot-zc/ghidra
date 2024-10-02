@@ -15,6 +15,7 @@
  */
 package ghidradev.ghidrascripteditor;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -46,7 +47,7 @@ public class SocketSetupRunnable implements Runnable {
 						new BufferedReader(new InputStreamReader(socket.getInputStream()));
 					PrintWriter output = new PrintWriter(socket.getOutputStream())) {
 				String line;
-				while ((line = input.readLine()) != null) {
+				while ((line = BoundedLineReader.readLine(input, 5_000_000)) != null) {
 					String command = line.substring(0, line.indexOf('_'));
 					if (command.equals("open")) {
 						openInEditor(line.substring(line.indexOf('_') + 1));

@@ -15,6 +15,7 @@
  */
 package ghidra;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.lang.reflect.Constructor;
 import java.time.Instant;
@@ -324,7 +325,7 @@ public class GhidraLauncher {
 		try (BufferedReader reader =
 			new BufferedReader(new FileReader(libraryDependenciesFile.getFile(false)))) {
 			String line;
-			while ((line = reader.readLine()) != null) {
+			while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
 				String path = line.trim();
 				if (!path.startsWith("Module:") && path.endsWith(".jar")) {
 					ResourceFile jarFile = new ResourceFile(path);

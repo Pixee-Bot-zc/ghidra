@@ -15,6 +15,7 @@
  */
 package ghidra.framework.remote.security;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.security.InvalidKeyException;
 import java.security.Security;
@@ -99,7 +100,7 @@ public class SSHKeyManager {
 		try (BufferedReader r = new BufferedReader(new InputStreamReader(sshPrivateKeyIn))) {
 			boolean checkKeyFormat = true;
 			String line;
-			while ((line = r.readLine()) != null) {
+			while ((line = BoundedLineReader.readLine(r, 5_000_000)) != null) {
 				if (checkKeyFormat) {
 					if (!line.startsWith("-----BEGIN ") || line.indexOf(" KEY-----") < 0) {
 						throw new InvalidKeyException("Invalid SSH Private Key");
@@ -166,7 +167,7 @@ public class SSHKeyManager {
 		String keyLine = null;
 		try (BufferedReader r = new BufferedReader(new FileReader(sshPublicKeyFile))) {
 			String line;
-			while ((line = r.readLine()) != null) {
+			while ((line = BoundedLineReader.readLine(r, 5_000_000)) != null) {
 				if (!line.startsWith("ssh-")) {
 					continue;
 				}

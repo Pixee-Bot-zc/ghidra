@@ -15,6 +15,7 @@
  */
 package ghidra.server.remote;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.net.*;
 import java.rmi.registry.LocateRegistry;
@@ -142,7 +143,7 @@ public class ServerTestUtil {
 		public void run() {
 			String line = null;
 			try {
-				while (!isDisposed && (line = shellOutput.readLine()) != null) {
+				while (!isDisposed && (line = BoundedLineReader.readLine(shellOutput, 5_000_000)) != null) {
 					if (line.contains("Address already in use")) {
 						throw new IllegalStateException("Server already running--could not start!");
 					}
@@ -673,7 +674,7 @@ public class ServerTestUtil {
 
 		try (BufferedReader r = new BufferedReader(new FileReader(serverLogFile))) {
 			String s;
-			while ((s = r.readLine()) != null) {
+			while ((s = BoundedLineReader.readLine(r, 5_000_000)) != null) {
 				System.out.println("    SERVER: " + s);
 			}
 		}

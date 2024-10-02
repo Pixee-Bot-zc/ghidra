@@ -15,6 +15,7 @@
  */
 package ghidra.app.util.opinion;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.*;
 import java.util.function.Consumer;
@@ -41,7 +42,7 @@ public class DefLoader extends AbstractProgramWrapperLoader {
 			boolean hasExports = false;
 			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 			String line = null;
-			while ((line = reader.readLine()) != null) {
+			while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
 				if (line.startsWith(";") || line.isEmpty()) {// comment
 					continue;
 				}

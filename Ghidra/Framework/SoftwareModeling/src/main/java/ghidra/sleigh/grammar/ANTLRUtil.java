@@ -15,6 +15,7 @@
  */
 package ghidra.sleigh.grammar;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.Iterator;
 import java.util.List;
@@ -74,7 +75,7 @@ public class ANTLRUtil {
 		BufferedReader buf = new BufferedReader(reader);
 		String line = null;
 		while (lineno > 0) {
-			line = buf.readLine();
+			line = BoundedLineReader.readLine(buf, 5_000_000);
 			--lineno;
 		}
 		return line;

@@ -16,6 +16,7 @@
 package ghidra.server.remote;
 
 import static ghidra.server.remote.GhidraServer.AuthMode.*;
+import io.github.pixee.security.BoundedLineReader;
 
 import java.io.*;
 import java.net.*;
@@ -969,7 +970,7 @@ public class GhidraServer extends UnicastRemoteObject implements GhidraServerHan
 			try (FileReader fr = new FileReader(serialFilterFile);
 					BufferedReader r = new BufferedReader(fr)) {
 
-				for (String line = r.readLine(); line != null; line = r.readLine()) {
+				for (String line = BoundedLineReader.readLine(r, 5_000_000); line != null; line = BoundedLineReader.readLine(r, 5_000_000)) {
 					int ix = line.indexOf('#');
 					if (ix >= 0) {
 						// strip comment

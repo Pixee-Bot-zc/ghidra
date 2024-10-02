@@ -15,6 +15,7 @@
  */
 package ghidra.pty.windows;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 
 import com.sun.jna.LastErrorException;
@@ -60,7 +61,7 @@ public class NamedPipeTest {
 			writer.flush();
 
 			String line;
-			while (null != (line = reader.readLine())) {
+			while (null != (line = BoundedLineReader.readLine(reader, 5_000_000))) {
 				System.out.println(line);
 			}
 		}

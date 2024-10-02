@@ -15,6 +15,7 @@
  */
 package utilities.util;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.awt.Desktop;
 import java.io.*;
 import java.net.URI;
@@ -788,7 +789,7 @@ public final class FileUtilities {
 	public static List<String> getLines(BufferedReader in) throws IOException {
 		List<String> fileLines = new ArrayList<>();
 		String line;
-		while ((line = in.readLine()) != null) {
+		while ((line = BoundedLineReader.readLine(in, 5_000_000)) != null) {
 			fileLines.add(line);
 		}
 		return fileLines;

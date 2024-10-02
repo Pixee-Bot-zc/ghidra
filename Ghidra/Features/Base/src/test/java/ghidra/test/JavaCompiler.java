@@ -15,6 +15,7 @@
  */
 package ghidra.test;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 
 /**
@@ -100,7 +101,7 @@ public class JavaCompiler {
 		public void run() {
 			String line = null;
 			try {
-				while ((line = shellOutput.readLine()) != null) {
+				while ((line = BoundedLineReader.readLine(shellOutput, 5_000_000)) != null) {
 					System.out.println(line);
 				}
 			}

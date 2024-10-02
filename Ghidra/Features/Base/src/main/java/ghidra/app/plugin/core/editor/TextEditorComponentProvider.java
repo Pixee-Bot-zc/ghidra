@@ -15,6 +15,7 @@
  */
 package ghidra.app.plugin.core.editor;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
@@ -153,7 +154,7 @@ public class TextEditorComponentProvider extends ComponentProviderAdapter {
 	private String loadTextFile(BufferedReader reader) throws IOException {
 		StringBuilder buffer = new StringBuilder();
 		while (true) {
-			String line = reader.readLine();
+			String line = BoundedLineReader.readLine(reader, 5_000_000);
 			if (line == null) {
 				break;
 			}

@@ -15,6 +15,7 @@
  */
 package ghidra.app.plugin.core.analysis;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.*;
 
@@ -223,7 +224,7 @@ public class NoReturnFunctionAnalyzer extends AbstractAnalyzer {
 				new BufferedReader(new InputStreamReader(file.getInputStream()));
 			try {
 				while (true) {
-					String line = reader.readLine();
+					String line = BoundedLineReader.readLine(reader, 5_000_000);
 					if (line == null) {
 						break;
 					}

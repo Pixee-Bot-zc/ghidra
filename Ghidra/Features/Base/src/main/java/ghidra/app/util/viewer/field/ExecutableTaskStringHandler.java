@@ -15,6 +15,7 @@
  */
 package ghidra.app.util.viewer.field;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.*;
 
@@ -180,7 +181,7 @@ public class ExecutableTaskStringHandler implements AnnotatedStringHandler {
 		public void run() {
 			String line = null;
 			try {
-				while ((line = shellOutput.readLine()) != null) {
+				while ((line = BoundedLineReader.readLine(shellOutput, 5_000_000)) != null) {
 					buffer.append(line).append('\n');
 				}
 			}
