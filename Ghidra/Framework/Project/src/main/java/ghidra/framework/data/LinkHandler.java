@@ -15,6 +15,8 @@
  */
 package ghidra.framework.data;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -184,7 +186,7 @@ public abstract class LinkHandler<T extends DomainObjectAdapterDB> extends DBCon
 			Map<String, String> metadata = linkFile.getMetadata();
 			String urlStr = metadata.get(URL_METADATA_KEY);
 			if (urlStr != null) {
-				return new URL(urlStr);
+				return Urls.create(urlStr, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 			}
 		}
 		throw new IOException("Invalid link file: " + contentType);
@@ -206,7 +208,7 @@ public abstract class LinkHandler<T extends DomainObjectAdapterDB> extends DBCon
 			Map<String, String> metadata = GhidraFileData.getMetadata(linkFile);
 			String urlStr = metadata.get(URL_METADATA_KEY);
 			if (urlStr != null) {
-				return new URL(urlStr);
+				return Urls.create(urlStr, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 			}
 		}
 		throw new IOException("Invalid link file: " + contentType);

@@ -15,6 +15,8 @@
  */
 package ghidra.features.bsim.query.description;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -224,7 +226,7 @@ public class ExecutableRecord implements Comparable<ExecutableRecord> {
 		if (repo != null) {
 			URL ghidraURL;
 			try {
-				ghidraURL = new URL(repo);
+				ghidraURL = Urls.create(repo, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 				if (!GhidraURL.isGhidraURL(repo) || (!GhidraURL.isServerRepositoryURL(ghidraURL) &&
 					!GhidraURL.isLocalProjectURL(ghidraURL))) {
 					throw new IllegalArgumentException("Unsupported repository URL: " + repo);

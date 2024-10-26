@@ -15,6 +15,8 @@
  */
 package ghidra.app.util.headless;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -63,7 +65,7 @@ public class AnalyzeHeadless implements GhidraLaunchable {
 		if (args[0].startsWith("ghidra:")) {
 			optionStartIndex = 1;
 			try {
-				ghidraURL = new URL(args[0]);
+				ghidraURL = Urls.create(args[0], Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 			}
 			catch (MalformedURLException e) {
 				System.err.println("Invalid Ghidra URL: " + args[0]);

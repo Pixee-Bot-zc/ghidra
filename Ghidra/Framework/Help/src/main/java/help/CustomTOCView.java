@@ -15,6 +15,8 @@
  */
 package help;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.awt.Component;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -96,7 +98,7 @@ public class CustomTOCView extends TOCView {
 		URL helpSetURL = helpSet.getHelpSetURL();
 		URL url;
 		try {
-			url = new URL(helpSetURL, TOCData);
+			url = Urls.create(helpSetURL, TOCData, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 		}
 		catch (Exception ex) {
 			throw new Error("Unable to create tree for view data: " + ex);
@@ -281,7 +283,7 @@ public class CustomTOCView extends TOCView {
 
 			urlString = urlString.substring(0, anchorIndex);
 			try {
-				URL newURL = new URL(urlString);
+				URL newURL = Urls.create(urlString, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 				selectNodeForID(newURL, null);
 			}
 			catch (MalformedURLException e) {

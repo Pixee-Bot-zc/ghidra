@@ -15,6 +15,8 @@
  */
 package ghidra.framework.protocol.ghidra;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.File;
 import java.net.*;
 import java.util.Objects;
@@ -168,7 +170,7 @@ public class GhidraURL {
 			// handle possible ghidra protocol extension use which is assumed to encode
 			// repository and file path the same as standard ghidra URL.
 			try {
-				URL extensionURL = new URL(path);
+				URL extensionURL = Urls.create(path, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 				path = extensionURL.getPath();
 			}
 			catch (MalformedURLException e) {
@@ -201,7 +203,7 @@ public class GhidraURL {
 		}
 		if (!path.startsWith("/")) {
 			try {
-				URL extensionURL = new URL(path);
+				URL extensionURL = Urls.create(path, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 				path = extensionURL.getPath();
 				if (StringUtils.isBlank(path)) {
 					return false;
@@ -323,7 +325,7 @@ public class GhidraURL {
 			return makeURL(location, projectName);
 		}
 		try {
-			return new URL(projectPathOrURL);
+			return Urls.create(projectPathOrURL, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 		}
 		catch (MalformedURLException e) {
 			throw new IllegalArgumentException(e);
@@ -351,7 +353,7 @@ public class GhidraURL {
 			}
 			urlStr = urlStr.substring(0, queryIx);
 			try {
-				return new URL(urlStr);
+				return Urls.create(urlStr, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 			}
 			catch (MalformedURLException e) {
 				throw new RuntimeException(e); // unexpected
@@ -365,7 +367,7 @@ public class GhidraURL {
 			// repository and file path the same as standard ghidra URL.
 			if (!path.startsWith("/")) {
 				try {
-					URL extensionURL = new URL(path);
+					URL extensionURL = Urls.create(path, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 					path = extensionURL.getPath();
 				}
 				catch (MalformedURLException e) {
@@ -396,7 +398,7 @@ public class GhidraURL {
 				urlStr = urlStr.substring(0, urlStr.lastIndexOf(tail));
 			}
 			try {
-				return new URL(urlStr);
+				return Urls.create(urlStr, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 			}
 			catch (MalformedURLException e) {
 				// ignore
@@ -424,7 +426,7 @@ public class GhidraURL {
 			// handle possible ghidra protocol extension use
 			if (!path.startsWith("/")) {
 				try {
-					URL extensionURL = new URL(path);
+					URL extensionURL = Urls.create(path, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 					path = extensionURL.getPath();
 				}
 				catch (MalformedURLException e) {
@@ -489,10 +491,10 @@ public class GhidraURL {
 
 			try {
 				if (GhidraURL.isServerRepositoryURL(ghidraUrl)) {
-					ghidraUrl = new URL(repoURL + path);
+					ghidraUrl = Urls.create(repoURL + path, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 				}
 				else {
-					ghidraUrl = new URL(repoURL + "?" + path);
+					ghidraUrl = Urls.create(repoURL + "?" + path, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 				}
 			}
 			catch (MalformedURLException e) {
@@ -603,7 +605,7 @@ public class GhidraURL {
 			buf.append(ref);
 		}
 		try {
-			return new URL(buf.toString());
+			return Urls.create(buf.toString(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 		}
 		catch (MalformedURLException e) {
 			throw new IllegalArgumentException(e);

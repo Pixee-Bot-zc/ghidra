@@ -15,6 +15,8 @@
  */
 package ghidra.features.bsim.query.ingest;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.File;
 import java.io.IOException;
 import java.net.*;
@@ -228,7 +230,7 @@ public class BSimLaunchable implements GhidraLaunchable {
 		if (!GhidraURL.isGhidraURL(ghidraURLString)) {
 			throw new MalformedURLException("URL is not ghidra protocol: " + ghidraURLString);
 		}
-		ghidraURL = new URL(ghidraURLString);
+		ghidraURL = Urls.create(ghidraURLString, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 		if (!GhidraURL.isServerRepositoryURL(ghidraURL) &&
 			!GhidraURL.isLocalProjectURL(ghidraURL)) {
 			throw new MalformedURLException("Invalid repository URL: " + ghidraURLString);

@@ -15,6 +15,8 @@
  */
 package ghidra.features.bsim.gui.search.results.apply;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
@@ -199,7 +201,7 @@ public abstract class AbstractBSimApplyTask extends ProgramTask {
 	private URL getRemoteProgramURL(BSimMatchResult result) {
 		String urlString = result.getExecutableURLString();
 		try {
-			return new URL(urlString);
+			return Urls.create(urlString, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 		}
 		catch (MalformedURLException e) {
 			error("Bad URL: " + urlString, result);

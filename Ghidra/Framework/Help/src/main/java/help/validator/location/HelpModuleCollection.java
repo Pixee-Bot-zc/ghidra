@@ -15,6 +15,8 @@
  */
 package help.validator.location;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -290,7 +292,7 @@ public class HelpModuleCollection implements TOCItemProvider {
 			DefaultMutableTreeNode node = view.getDataAsTree();
 			URL url = helpSet.getHelpSetURL();
 			try {
-				URL dataURL = new URL(url, (String) view.getParameters().get("data"));
+				URL dataURL = Urls.create(url, (String) view.getParameters().get("data"), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 				Path path = Paths.get(dataURL.toURI());
 				addPrebuiltItem(node, path, map);
 			}

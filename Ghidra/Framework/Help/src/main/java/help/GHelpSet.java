@@ -15,6 +15,8 @@
  */
 package help;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -219,7 +221,7 @@ public class GHelpSet extends HelpSet {
 
 			URL url = null;
 			try {
-				url = new URL(id);
+				url = Urls.create(id, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 			}
 			catch (MalformedURLException e) {
 				LOG.trace("ID is not a URL; tried to make URL from string: " + id);

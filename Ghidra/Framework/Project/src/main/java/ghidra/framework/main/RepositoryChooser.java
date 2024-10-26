@@ -15,6 +15,8 @@
  */
 package ghidra.framework.main;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.event.MouseEvent;
@@ -246,7 +248,7 @@ class RepositoryChooser extends ReusableDialogComponentProvider {
 		setOkEnabled(false);
 
 		try {
-			URL url = new URL(urlTextField.getText());
+			URL url = Urls.create(urlTextField.getText(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 			if (!GhidraURL.PROTOCOL.equals(url.getProtocol())) {
 				setStatusText("URL must specify 'ghidra:' protocol", MessageType.ERROR);
 			}
@@ -285,7 +287,7 @@ class RepositoryChooser extends ReusableDialogComponentProvider {
 		// TODO: How do we restrict URL to repository only - not sure we can
 
 		try {
-			return new URL(urlTextField.getText());
+			return Urls.create(urlTextField.getText(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 		}
 		catch (MalformedURLException e) {
 			Msg.error(this, e.getMessage());

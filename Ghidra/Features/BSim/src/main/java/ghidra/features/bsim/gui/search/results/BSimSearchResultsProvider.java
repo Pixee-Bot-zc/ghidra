@@ -17,6 +17,8 @@ package ghidra.features.bsim.gui.search.results;
 
 import static ghidra.framework.model.DomainObjectEvent.*;
 import static ghidra.program.util.ProgramEvent.*;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -450,7 +452,7 @@ public class BSimSearchResultsProvider extends ComponentProviderAdapter {
 		ProgramManager service = tool.getService(ProgramManager.class);
 
 		try {
-			URL url = new URL(urlString);
+			URL url = Urls.create(urlString, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 			return service.openProgram(url, ProgramManager.OPEN_CURRENT);
 		}
 		catch (MalformedURLException exc) {
@@ -462,7 +464,7 @@ public class BSimSearchResultsProvider extends ComponentProviderAdapter {
 		ProgramManager service = tool.getService(ProgramManager.class);
 
 		try {
-			URL url = new URL(urlString);
+			URL url = Urls.create(urlString, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 			Program remote = service.openCachedProgram(url, this);
 			if (remote == null) {
 				return null;

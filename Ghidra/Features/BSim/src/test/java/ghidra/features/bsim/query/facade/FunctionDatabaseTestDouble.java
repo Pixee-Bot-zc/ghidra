@@ -15,6 +15,8 @@
  */
 package ghidra.features.bsim.query.facade;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -119,7 +121,7 @@ public class FunctionDatabaseTestDouble implements SQLFunctionDatabase {
 	@Override
 	public BSimServerInfo getServerInfo() {
 		try {
-			return new BSimServerInfo(new URL(urlString));
+			return new BSimServerInfo(Urls.create(urlString, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS));
 		}
 		catch (IllegalArgumentException | MalformedURLException e) {
 			throw new RuntimeException(e);

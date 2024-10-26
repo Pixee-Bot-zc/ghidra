@@ -15,6 +15,8 @@
  */
 package ghidra.query.test;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.junit.Assert.*;
 
 import java.io.*;
@@ -99,7 +101,7 @@ public class BSimServerTest {
 		doIngest();
 		BSimServerInfo bsimServerInfo;
 		try {
-			bsimServerInfo = new BSimServerInfo(new URL(util.bsimURLString));
+			bsimServerInfo = new BSimServerInfo(Urls.create(util.bsimURLString, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS));
 		}
 		catch (Exception e) {
 			throw new AssertionError(e);

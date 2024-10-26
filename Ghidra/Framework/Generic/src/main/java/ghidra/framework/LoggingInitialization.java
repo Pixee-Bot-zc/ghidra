@@ -15,6 +15,8 @@
  */
 package ghidra.framework;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.File;
 import java.net.*;
 
@@ -108,7 +110,7 @@ public class LoggingInitialization {
 		if (!configFile.exists()) {
 			// maybe it is already in URL form: file://some/file/path
 			try {
-				URL url = new URL(configString);
+				URL url = Urls.create(configString, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 				File file = new File(url.toURI());
 				if (file.exists()) {
 					return url;
