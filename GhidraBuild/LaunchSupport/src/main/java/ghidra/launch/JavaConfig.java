@@ -15,6 +15,7 @@
  */
 package ghidra.launch;
 
+import io.github.pixee.security.SystemCommand;
 import java.io.*;
 import java.text.ParseException;
 import java.util.Properties;
@@ -246,7 +247,7 @@ public class JavaConfig {
 			throws ParseException, IOException {
 		String version = "";
 		String arch = "";
-		Process proc = Runtime.getRuntime().exec(new String[] { javaExecutable.getAbsolutePath(),
+		Process proc = SystemCommand.runCommand(Runtime.getRuntime(), new String[] { javaExecutable.getAbsolutePath(),
 			"-XshowSettings:properties", "-version" });
 		try (BufferedReader reader =
 			new BufferedReader(new InputStreamReader(proc.getErrorStream()))) {

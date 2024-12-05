@@ -15,6 +15,7 @@
  */
 package agent.gdb.rmi;
 
+import io.github.pixee.security.SystemCommand;
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.*;
 
@@ -269,7 +270,7 @@ public abstract class AbstractGdbTraceRmiTest extends AbstractGhidraHeadedDebugg
 						 * compiled from source on a rather un-modern distro.
 						 */
 						Msg.warn(this, "gdb hung on quit. Sending SIGCONT.");
-						Runtime.getRuntime().exec("kill -SIGCONT %d".formatted(exec.gdb.pid()));
+						SystemCommand.runCommand(Runtime.getRuntime(), "kill -SIGCONT %d".formatted(exec.gdb.pid()));
 						asyncQuit.get(QUIT_TIMEOUT_MS, TimeUnit.MILLISECONDS);
 					}
 				}

@@ -15,6 +15,7 @@
  */
 package ghidra.server.remote;
 
+import io.github.pixee.security.SystemCommand;
 import java.io.*;
 import java.net.*;
 import java.rmi.registry.LocateRegistry;
@@ -496,7 +497,7 @@ public class ServerTestUtil {
 		System.out.println();
 
 		try {
-			serverProcess = Runtime.getRuntime().exec(args);
+			serverProcess = SystemCommand.runCommand(Runtime.getRuntime(), args);
 			serverRepositories = dirPath;
 
 			cmdOut = new IOThread(serverProcess.getInputStream());

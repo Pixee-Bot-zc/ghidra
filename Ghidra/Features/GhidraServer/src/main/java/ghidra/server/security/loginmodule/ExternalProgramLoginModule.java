@@ -15,6 +15,7 @@
  */
 package ghidra.server.security.loginmodule;
 
+import io.github.pixee.security.SystemCommand;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -205,7 +206,7 @@ public class ExternalProgramLoginModule implements LoginModule {
 			}
 		})) {
 			watchdog.arm();
-			Process p = Runtime.getRuntime().exec(cmdArray);
+			Process p = SystemCommand.runCommand(Runtime.getRuntime(), cmdArray);
 			process.set(p);
 
 			ProcessConsumer.consume(p.getInputStream(), stdOutStr -> {
