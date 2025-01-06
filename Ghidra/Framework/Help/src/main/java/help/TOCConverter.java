@@ -15,6 +15,7 @@
  */
 package help;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.*;
 
@@ -107,7 +108,7 @@ public class TOCConverter {
 		BufferedReader reader = new BufferedReader(new FileReader(sourceFilename));
 
 		String line = null;
-		while ((line = reader.readLine()) != null) {
+		while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
 			if (line.indexOf(TOCITEM) > 0) {
 				TOCItem item = parseLine(line);
 				if (item == null) {
@@ -181,7 +182,7 @@ public class TOCConverter {
 		BufferedReader reader = new BufferedReader(new FileReader(sourceFilename));
 		boolean endLineFound = true;
 		String line = null;
-		while ((line = reader.readLine()) != null) {
+		while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
 			if (line.startsWith("<!DOCTYPE")) {
 				if (line.endsWith(">")) {
 					continue;

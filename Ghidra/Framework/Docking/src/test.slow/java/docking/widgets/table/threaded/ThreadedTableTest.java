@@ -15,6 +15,7 @@
  */
 package docking.widgets.table.threaded;
 
+import io.github.pixee.security.BoundedLineReader;
 import static org.junit.Assert.*;
 
 import java.awt.Component;
@@ -650,7 +651,7 @@ public class ThreadedTableTest extends AbstractThreadedTableTest {
 		BufferedReader actualReader = new BufferedReader(new FileReader(actualFile));
 		try {
 			while (true) {
-				String line = actualReader.readLine();
+				String line = BoundedLineReader.readLine(actualReader, 5_000_000);
 				if (line == null) {
 					break;
 				}

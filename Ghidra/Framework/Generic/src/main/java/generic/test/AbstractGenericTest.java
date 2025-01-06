@@ -15,6 +15,7 @@
  */
 package generic.test;
 
+import io.github.pixee.security.BoundedLineReader;
 import static org.junit.Assert.*;
 
 import java.awt.*;
@@ -353,7 +354,7 @@ public abstract class AbstractGenericTest extends AbstractGTest {
 		ArrayList<String> list = new ArrayList<>();
 		String line = "";
 		while (line != null) {
-			line = br.readLine();
+			line = BoundedLineReader.readLine(br, 5_000_000);
 			if (line != null) {
 				list.add(line);
 			}

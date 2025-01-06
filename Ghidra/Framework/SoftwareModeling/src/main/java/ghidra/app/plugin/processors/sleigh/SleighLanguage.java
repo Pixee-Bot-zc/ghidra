@@ -16,6 +16,7 @@
 package ghidra.app.plugin.processors.sleigh;
 
 import static ghidra.pcode.utils.SlaFormat.*;
+import io.github.pixee.security.BoundedLineReader;
 
 import java.io.*;
 import java.math.BigInteger;
@@ -1297,7 +1298,7 @@ public class SleighLanguage implements Language {
 			fr = new InputStreamReader(processorFile.getInputStream());
 			buff = new BufferedReader(fr);
 			String line;
-			while ((line = buff.readLine()) != null) {
+			while ((line = BoundedLineReader.readLine(buff, 5_000_000)) != null) {
 				Matcher matcher = COMMENT.matcher(line);
 				if (matcher.find()) {
 					continue; // skip comment line

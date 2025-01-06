@@ -15,6 +15,7 @@
  */
 package ghidra.dbg.testutil;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 
 import ghidra.dbg.DebuggerModelListener;
@@ -55,7 +56,7 @@ public class DebuggerConsole extends Thread implements DebuggerModelListener, Au
 	public void run() {
 		try {
 			while (!closed) {
-				String line = reader.readLine();
+				String line = BoundedLineReader.readLine(reader, 5_000_000);
 				if (line == null) {
 					// NB. EOF happens immediately under Gradle
 					return;

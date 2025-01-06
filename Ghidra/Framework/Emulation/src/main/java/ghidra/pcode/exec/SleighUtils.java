@@ -15,6 +15,7 @@
  */
 package ghidra.pcode.exec;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.*;
 import java.util.function.Consumer;
@@ -108,7 +109,7 @@ public enum SleighUtils {
 		BufferedReader r = new BufferedReader(new StringReader(text));
 		String line;
 		try {
-			while ((line = r.readLine()) != null) {
+			while ((line = BoundedLineReader.readLine(r, 5_000_000)) != null) {
 				writer.write(line);
 				writer.newLine();
 			}

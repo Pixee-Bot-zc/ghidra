@@ -15,6 +15,7 @@
  */
 package ghidra.test.processors.support;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.awt.Color;
 import java.io.*;
 import java.util.*;
@@ -186,7 +187,7 @@ public class PCodeTestCombinedTestResults {
 		in = new BufferedInputStream(in);
 		BufferedReader br = new BufferedReader(new InputStreamReader(in));
 		String line;
-		while ((line = br.readLine()) != null) {
+		while ((line = BoundedLineReader.readLine(br, 5_000_000)) != null) {
 			w.println(line);
 		}
 		in.close();

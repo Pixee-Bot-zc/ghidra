@@ -17,6 +17,7 @@
 package ghidra.framework.store.local;
 
 import ghidra.framework.store.Version;
+import io.github.pixee.security.BoundedLineReader;
 
 import java.io.*;
 import java.util.*;
@@ -257,7 +258,7 @@ class HistoryManager {
 		File historyFile = getHistoryFile();
 		BufferedReader in = new BufferedReader(new FileReader(historyFile));
 		try {
-			String line = in.readLine();
+			String line = BoundedLineReader.readLine(in, 5_000_000);
 			while (line != null) {
 				Version ver;
 				try {
@@ -276,7 +277,7 @@ class HistoryManager {
 				}
 				curVersion = version;
 				list.add(ver);
-				line = in.readLine();
+				line = BoundedLineReader.readLine(in, 5_000_000);
 			}
 		}
 		finally {

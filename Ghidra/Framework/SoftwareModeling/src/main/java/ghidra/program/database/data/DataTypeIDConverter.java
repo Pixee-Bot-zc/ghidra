@@ -15,6 +15,7 @@
  */
 package ghidra.program.database.data;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.Iterator;
 
@@ -127,7 +128,7 @@ public class DataTypeIDConverter implements GhidraLaunchable {
 		try {
 			bufferedReader = new BufferedReader(reader);
 			String line;
-			while ((line = bufferedReader.readLine()) != null) {
+			while ((line = BoundedLineReader.readLine(bufferedReader, 5_000_000)) != null) {
 				// Parse the two hex Data Type Universal IDs from the line.
 				String[] tokens = line.split(" ");
 				if (tokens.length != 2) {

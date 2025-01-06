@@ -15,6 +15,7 @@
  */
 package ghidra.app.util.opinion;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.*;
 
@@ -225,7 +226,7 @@ public class MotorolaHexLoader extends AbstractProgramLoader {
 		MessageLog log = new MessageLog();
 		try (BufferedReader in =
 			new BufferedReader(new InputStreamReader(provider.getInputStream(0)))) {
-			while ((line = in.readLine()) != null) {
+			while ((line = BoundedLineReader.readLine(in, 5_000_000)) != null) {
 
 				monitor.checkCancelled();
 

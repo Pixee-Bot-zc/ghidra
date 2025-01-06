@@ -15,6 +15,7 @@
  */
 package ghidra.launch;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.text.ParseException;
 import java.util.Properties;
@@ -114,7 +115,7 @@ public class JavaConfig {
 	 */
 	public File getSavedJavaHome() throws IOException {
 		try (BufferedReader reader = new BufferedReader(new FileReader(javaHomeSaveFile))) {
-			String line = reader.readLine().trim();
+			String line = BoundedLineReader.readLine(reader, 5_000_000).trim();
 			if (line != null && !line.isEmpty()) {
 				return new File(line);
 			}
@@ -251,7 +252,7 @@ public class JavaConfig {
 		try (BufferedReader reader =
 			new BufferedReader(new InputStreamReader(proc.getErrorStream()))) {
 			String line;
-			while ((version.isEmpty() || arch.isEmpty()) && (line = reader.readLine()) != null) {
+			while ((version.isEmpty() || arch.isEmpty()) && (line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
 				line = line.trim();
 
 				String searchString = "java.version = ";

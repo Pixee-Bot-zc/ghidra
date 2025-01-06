@@ -16,6 +16,7 @@
 package ghidra.app.script;
 
 import static ghidra.util.HTMLUtilities.*;
+import io.github.pixee.security.BoundedLineReader;
 
 import java.io.*;
 import java.util.List;
@@ -195,7 +196,7 @@ public class ScriptInfo {
 			StringBuilder buffer = new StringBuilder();
 			boolean hitAtSign = false;
 			while (true) {
-				String line = reader.readLine();
+				String line = BoundedLineReader.readLine(reader, 5_000_000);
 				if (line == null) {
 					break;
 				}
@@ -256,7 +257,7 @@ public class ScriptInfo {
 		String certifyHeaderBodyPrefix = provider.getCertificationBodyPrefix();
 		certifyHeaderBodyPrefix = certifyHeaderBodyPrefix == null ? "" : certifyHeaderBodyPrefix;
 
-		while ((line = reader.readLine()) != null) {
+		while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
 
 			// Skip past certification header if found
 			String trimLine = line.trim();
@@ -287,7 +288,7 @@ public class ScriptInfo {
 		if (startMatcher.find()) {
 			int lastOffset = startMatcher.end();
 			while (line != null && !blockEnd.matcher(line).find(lastOffset)) {
-				line = reader.readLine();
+				line = BoundedLineReader.readLine(reader, 5_000_000);
 				lastOffset = 0;
 			}
 			return true;

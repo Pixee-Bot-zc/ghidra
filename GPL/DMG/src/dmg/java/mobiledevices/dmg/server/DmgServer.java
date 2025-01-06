@@ -3,6 +3,7 @@
  */
 package mobiledevices.dmg.server;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class DmgServer {
 		BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
 
 		try {
-			String openLine = inputReader.readLine();
+			String openLine = BoundedLineReader.readLine(inputReader, 5_000_000);
 			if (openLine == null) {
 				return;
 			}
@@ -77,7 +78,7 @@ public class DmgServer {
 					DmgFileReader dmgFileReader = new DmgFileReader(provider);) {
 				dmgFileReader.open();
 				while (true) {
-					String line = inputReader.readLine();
+					String line = BoundedLineReader.readLine(inputReader, 5_000_000);
 					if (line == null) {
 						break;
 					}

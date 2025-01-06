@@ -15,6 +15,7 @@
  */
 package ghidra.app.plugin.core.interpreter;
 
+import io.github.pixee.security.BoundedLineReader;
 import static org.junit.Assert.*;
 
 import java.awt.event.KeyEvent;
@@ -93,11 +94,11 @@ public class InterpreterPanelTest extends AbstractGhidraHeadedIntegrationTest {
 
 		ip.getStdin().close();
 
-		assertNull(reader.readLine());	// should always get NULL results because stream is now 'closed'
-		assertNull(reader.readLine());	//    "     "
+		assertNull(BoundedLineReader.readLine(reader, 5_000_000));	// should always get NULL results because stream is now 'closed'
+		assertNull(BoundedLineReader.readLine(reader, 5_000_000));	//    "     "
 
 		ip.stdin.addText("test_while_closed\n");	// text added after close shouldn't be preserved
-		assertNull(reader.readLine());	// should always get NULL results because stream is now 'closed'
+		assertNull(BoundedLineReader.readLine(reader, 5_000_000));	// should always get NULL results because stream is now 'closed'
 		ip.clear();						// stream should now be open again
 		doBackgroundTriggerTextTest(List.of("test2", "abc456"));
 	}
@@ -236,7 +237,7 @@ public class InterpreterPanelTest extends AbstractGhidraHeadedIntegrationTest {
 		});
 
 		for (String expectedValue : multiLineTestValues) {
-			String actualValue = reader.readLine();
+			String actualValue = BoundedLineReader.readLine(reader, 5_000_000);
 			assertEquals(expectedValue, actualValue);
 		}
 	}
@@ -266,7 +267,7 @@ public class InterpreterPanelTest extends AbstractGhidraHeadedIntegrationTest {
 		}).start();
 
 		for (String expectedValue : testValues) {
-			String actualValue = reader.readLine();
+			String actualValue = BoundedLineReader.readLine(reader, 5_000_000);
 			assertEquals(expectedValue, actualValue);
 		}
 	}
@@ -278,7 +279,7 @@ public class InterpreterPanelTest extends AbstractGhidraHeadedIntegrationTest {
 		Thread t = new Thread(() -> {
 			try {
 				startLatch.countDown();
-				result.set(reader.readLine());
+				result.set(BoundedLineReader.readLine(reader, 5_000_000));
 			}
 			catch (IOException e) {
 				// test will fail

@@ -16,6 +16,7 @@
  */
 package ghidra.pcodeCPort.slgh_compile.regression;
 
+import io.github.pixee.security.BoundedLineReader;
 import static org.junit.Assert.*;
 
 import java.io.*;
@@ -153,7 +154,7 @@ public class SleighCompileRegressionTest extends AbstractGenericTest {
 		public void run() {
 			String line = null;
 			try {
-				while ((line = shellOutput.readLine()) != null) {
+				while ((line = BoundedLineReader.readLine(shellOutput, 5_000_000)) != null) {
 					System.out.println(line);
 				}
 			}

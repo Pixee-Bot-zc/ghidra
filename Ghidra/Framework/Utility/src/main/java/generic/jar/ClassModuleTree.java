@@ -15,6 +15,7 @@
  */
 package generic.jar;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.*;
 
@@ -30,7 +31,7 @@ public class ClassModuleTree {
 		try (BufferedReader reader =
 			new BufferedReader(new InputStreamReader(treeFile.getInputStream()))) {
 			String line;
-			while ((line = reader.readLine()) != null) {
+			while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
 				String[] split = line.split(" ");
 				String path = split[0];
 				String module = split[1].equals("null") ? null : split[1];

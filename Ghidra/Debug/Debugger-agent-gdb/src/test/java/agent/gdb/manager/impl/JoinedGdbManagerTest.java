@@ -15,6 +15,7 @@
  */
 package agent.gdb.manager.impl;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -36,7 +37,7 @@ public class JoinedGdbManagerTest extends AbstractGdbManagerTest {
 				new BufferedReader(new InputStreamReader(ptyUserGdb.getParent().getInputStream()));
 			String line;
 			try {
-				while (gdb != null && null != (line = reader.readLine())) {
+				while (gdb != null && null != (line = BoundedLineReader.readLine(reader, 5_000_000))) {
 					Msg.debug(this, "USERGDB: " + line);
 				}
 			}

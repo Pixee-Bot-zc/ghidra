@@ -15,6 +15,7 @@
  */
 package ghidra.framework.store.db;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.*;
 
@@ -113,7 +114,7 @@ public class PackedDatabaseCache {
 		BufferedReader r = new BufferedReader(new FileReader(mapFile));
 		try {
 			String line;
-			while ((line = r.readLine()) != null) {
+			while ((line = BoundedLineReader.readLine(r, 5_000_000)) != null) {
 				line = line.trim();
 				if (line.length() == 0) {
 					continue;

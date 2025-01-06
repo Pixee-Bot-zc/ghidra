@@ -15,6 +15,7 @@
  */
 package ghidra.app.plugin.core.debug.gui.tracermi.launcher;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.math.BigInteger;
 import java.net.*;
@@ -360,7 +361,7 @@ public abstract class ScriptAttributesParser {
 		try (BufferedReader reader =
 			new BufferedReader(new InputStreamReader(new FileInputStream(script)))) {
 			String line;
-			for (int lineNo = 1; (line = reader.readLine()) != null; lineNo++) {
+			for (int lineNo = 1; (line = BoundedLineReader.readLine(reader, 5_000_000)) != null; lineNo++) {
 				if (ignoreLine(lineNo, line)) {
 					continue;
 				}

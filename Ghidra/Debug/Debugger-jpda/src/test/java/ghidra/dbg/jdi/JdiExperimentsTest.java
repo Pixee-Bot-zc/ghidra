@@ -15,6 +15,7 @@
  */
 package ghidra.dbg.jdi;
 
+import io.github.pixee.security.BoundedLineReader;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -73,7 +74,7 @@ public class JdiExperimentsTest {
 
 		BufferedReader reader =
 			new BufferedReader(new InputStreamReader(vm.process().getInputStream()));
-		String hw = reader.readLine();
+		String hw = BoundedLineReader.readLine(reader, 5_000_000);
 		assertEquals("Hello, World!", hw);
 
 		vm.dispose();
@@ -91,7 +92,7 @@ public class JdiExperimentsTest {
 		// The JDWP Agent will print the open port before suspending
 		BufferedReader reader =
 			new BufferedReader(new InputStreamReader(hwProc.getInputStream()));
-		String listenLine = reader.readLine();
+		String listenLine = BoundedLineReader.readLine(reader, 5_000_000);
 		Msg.info(this, listenLine);
 		assertTrue(listenLine.startsWith("Listening"));
 		String[] parts = listenLine.split("\\s+");
@@ -115,7 +116,7 @@ public class JdiExperimentsTest {
 
 		vm.resume();
 
-		String hw = reader.readLine();
+		String hw = BoundedLineReader.readLine(reader, 5_000_000);
 		assertEquals("Hello, World!", hw);
 
 		vm.dispose();
@@ -133,7 +134,7 @@ public class JdiExperimentsTest {
 		// The JDWP Agent will print the open port before suspending
 		BufferedReader reader =
 			new BufferedReader(new InputStreamReader(hwProc.getInputStream()));
-		String listenLine = reader.readLine();
+		String listenLine = BoundedLineReader.readLine(reader, 5_000_000);
 		// We don't need the port, but we still use this to wait for listen
 		Msg.info(this, listenLine);
 		// OK, everything above simulates existing process, now the real connection begins
@@ -154,7 +155,7 @@ public class JdiExperimentsTest {
 
 		vm.resume();
 
-		String hw = reader.readLine();
+		String hw = BoundedLineReader.readLine(reader, 5_000_000);
 		assertEquals("Hello, World!", hw);
 
 		vm.dispose();
@@ -190,7 +191,7 @@ public class JdiExperimentsTest {
 
 		BufferedReader reader =
 			new BufferedReader(new InputStreamReader(hwProc.getInputStream()));
-		String hw = reader.readLine();
+		String hw = BoundedLineReader.readLine(reader, 5_000_000);
 		assertEquals("Hello, World!", hw);
 
 		vm.dispose();
@@ -295,7 +296,7 @@ public class JdiExperimentsTest {
 
 		BufferedReader reader =
 			new BufferedReader(new InputStreamReader(vm.process().getInputStream()));
-		String hw = reader.readLine();
+		String hw = BoundedLineReader.readLine(reader, 5_000_000);
 		assertEquals("Hello, World!", hw);
 
 	}

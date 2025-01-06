@@ -15,6 +15,7 @@
  */
 package ghidra.pcodeCPort.slgh_compile;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.*;
 
@@ -289,13 +290,13 @@ public class SleighCompileLauncher implements GhidraLaunchable {
 		}
 
 		try (BufferedReader r = new BufferedReader(new FileReader(optionsFile))) {
-			String option = r.readLine();
+			String option = BoundedLineReader.readLine(r, 5_000_000);
 			while (option != null) {
 				option = option.trim();
 				if (option.length() != 0 && !option.startsWith("#")) {
 					list.add(option);
 				}
-				option = r.readLine();
+				option = BoundedLineReader.readLine(r, 5_000_000);
 			}
 		}
 		catch (IOException e) {

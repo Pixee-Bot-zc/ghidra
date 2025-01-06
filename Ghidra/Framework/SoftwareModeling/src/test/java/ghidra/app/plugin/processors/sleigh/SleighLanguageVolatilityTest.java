@@ -15,6 +15,7 @@
  */
 package ghidra.app.plugin.processors.sleigh;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 
 import org.junit.Assert;
@@ -243,7 +244,7 @@ public class SleighLanguageVolatilityTest extends AbstractGenericTest {
 			BufferedReader br = new BufferedReader(new FileReader(originalLdefFile.getFile(false)));
 			BufferedWriter bw = new BufferedWriter(new FileWriter(editedPspecFile));
 			String s;
-			while ((s = br.readLine()) != null) {
+			while ((s = BoundedLineReader.readLine(br, 5_000_000)) != null) {
 				//if the string is defining a filename, edit that line
 				String originalPspecFilename = "atmega256.pspec";
 

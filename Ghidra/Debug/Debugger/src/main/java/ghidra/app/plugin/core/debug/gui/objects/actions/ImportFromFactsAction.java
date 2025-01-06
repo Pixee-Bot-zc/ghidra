@@ -15,6 +15,7 @@
  */
 package ghidra.app.plugin.core.debug.gui.objects.actions;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.*;
@@ -80,7 +81,7 @@ public class ImportFromFactsAction extends ImportExportAsAction {
 						name = name.substring(0, name.indexOf(ExportAsFactsAction.fileExt2));
 						maps.put(name, map);
 						String line;
-						while (null != (line = reader.readLine())) {
+						while (null != (line = BoundedLineReader.readLine(reader, 5_000_000))) {
 							String[] split = line.split(ExportAsFactsAction.SEP);
 							if (split.length == 2) {
 								map.put(split[0], split[1]);

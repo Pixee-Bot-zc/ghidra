@@ -15,6 +15,7 @@
  */
 package generic.concurrent.io;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +68,7 @@ public class IOResult implements Runnable {
 		String line = null;
 
 		try {
-			while ((line = commandOutput.readLine()) != null) {
+			while ((line = BoundedLineReader.readLine(commandOutput, 5_000_000)) != null) {
 				consumer.accept(line);
 				outputLines.add(line);
 			}

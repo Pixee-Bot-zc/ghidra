@@ -15,6 +15,7 @@
  */
 package ghidra.app.util.demangler.swift;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -104,11 +105,11 @@ public class SwiftNativeDemangler {
 		try (BufferedReader reader = demangle(mangled, demanglerArgs)) {
 			String demangled = null;
 			List<String> treeLines = new ArrayList<>();
-			String line = reader.readLine().trim();
+			String line = BoundedLineReader.readLine(reader, 5_000_000).trim();
 			if (!line.startsWith("Demangling for")) {
 				throw new IOException("Unexpected output: " + line);
 			}
-			while ((line = reader.readLine()) != null) {
+			while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
 				if (line.startsWith("<<NULL>>")) { // Not a demangleable string
 					break;
 				}

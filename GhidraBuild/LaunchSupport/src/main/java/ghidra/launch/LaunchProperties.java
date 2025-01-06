@@ -15,6 +15,7 @@
  */
 package ghidra.launch;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.text.ParseException;
 import java.util.*;
@@ -136,7 +137,7 @@ public class LaunchProperties {
 			try (BufferedReader reader = new BufferedReader(new FileReader(launchPropertiesFile))) {
 				int i = 0;
 				String line;
-				while ((line = reader.readLine()) != null) {
+				while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
 					i++;
 					line = line.trim();
 					if (line.isEmpty() || line.startsWith("#") || line.startsWith("//")) {

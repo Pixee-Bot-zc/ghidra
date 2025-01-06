@@ -15,6 +15,7 @@
  */
 package ghidra.app.plugin.core.script;
 
+import io.github.pixee.security.BoundedLineReader;
 import static org.junit.Assert.*;
 
 import java.awt.Window;
@@ -196,9 +197,9 @@ public abstract class AbstractGhidraScriptMgrPluginTest
 			BufferedReader reader =
 				new BufferedReader(new InputStreamReader(newScript.getInputStream()));
 			try {
-				reader.readLine(); // header comment
-				reader.readLine(); //@author
-				String line = reader.readLine(); //@category
+				BoundedLineReader.readLine(reader, 5_000_000); // header comment
+				BoundedLineReader.readLine(reader, 5_000_000); //@author
+				String line = BoundedLineReader.readLine(reader, 5_000_000); //@category
 				assertEquals("//@category " + category, line);
 			}
 			finally {
@@ -783,7 +784,7 @@ public abstract class AbstractGhidraScriptMgrPluginTest
 		StringBuilder stringBuilder = new StringBuilder();
 
 		String line = null;
-		while ((line = reader.readLine()) != null) {
+		while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
 			stringBuilder.append(line).append('\n');
 		}
 

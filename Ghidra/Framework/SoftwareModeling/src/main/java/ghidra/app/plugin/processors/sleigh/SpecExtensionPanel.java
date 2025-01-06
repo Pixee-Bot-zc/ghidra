@@ -15,6 +15,7 @@
  */
 package ghidra.app.plugin.processors.sleigh;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -447,7 +448,7 @@ public class SpecExtensionPanel extends JPanel {
 		try {
 			StringBuffer buffer = new StringBuffer();
 			String line = null;
-			while ((line = reader.readLine()) != null) {
+			while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
 				buffer.append(line);
 				buffer.append('\n');
 			}

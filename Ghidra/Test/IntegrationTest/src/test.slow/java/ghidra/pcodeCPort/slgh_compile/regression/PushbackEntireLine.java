@@ -16,6 +16,7 @@
  */
 package ghidra.pcodeCPort.slgh_compile.regression;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 
@@ -33,7 +34,7 @@ public class PushbackEntireLine {
 			line = null;
 			return tmp;
 		}
-		return reader.readLine();
+		return BoundedLineReader.readLine(reader, 5_000_000);
 	}
 
 	public synchronized void putbackLine(String pushedLine) throws IOException {

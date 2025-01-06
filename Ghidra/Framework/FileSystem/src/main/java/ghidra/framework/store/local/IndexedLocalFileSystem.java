@@ -15,6 +15,7 @@
  */
 package ghidra.framework.store.local;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -427,7 +428,7 @@ public class IndexedLocalFileSystem extends LocalFileSystem {
 		try {
 			indexReader = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(new FileInputStream(indexFile)), "UTF8"));
-			return getIndexVersion(indexReader.readLine());
+			return getIndexVersion(BoundedLineReader.readLine(indexReader, 5_000_000));
 		}
 		finally {
 			if (indexReader != null) {
@@ -466,10 +467,10 @@ public class IndexedLocalFileSystem extends LocalFileSystem {
 		try {
 			indexReader = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(new FileInputStream(indexFile)), "UTF8"));
-			String line = indexReader.readLine();
+			String line = BoundedLineReader.readLine(indexReader, 5_000_000);
 			if (checkIndexVersion(line)) {
 				// version line consumed - read next line
-				line = indexReader.readLine();
+				line = BoundedLineReader.readLine(indexReader, 5_000_000);
 			}
 			Folder currentFolder = null;
 			while (line != null) {
@@ -498,7 +499,7 @@ public class IndexedLocalFileSystem extends LocalFileSystem {
 						}
 					}
 				}
-				line = indexReader.readLine();
+				line = BoundedLineReader.readLine(indexReader, 5_000_000);
 			}
 		}
 		catch (Exception e) {
@@ -1452,7 +1453,7 @@ public class IndexedLocalFileSystem extends LocalFileSystem {
 				journalReader = new BufferedReader(new InputStreamReader(
 					new BufferedInputStream(new FileInputStream(journalFile)), "UTF8"));
 				String line;
-				while ((line = journalReader.readLine()) != null) {
+				while ((line = BoundedLineReader.readLine(journalReader, 5_000_000)) != null) {
 					++lineNum;
 					String[] args = line.split(":");
 					if ("FADD".equals(args[0])) {

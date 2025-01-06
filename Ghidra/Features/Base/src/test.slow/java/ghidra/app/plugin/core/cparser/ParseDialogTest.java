@@ -15,6 +15,7 @@
  */
 package ghidra.app.plugin.core.cparser;
 
+import io.github.pixee.security.BoundedLineReader;
 import static org.junit.Assert.*;
 
 import java.io.*;
@@ -354,14 +355,14 @@ public class ParseDialogTest extends AbstractGhidraHeadedIntegrationTest {
 		String line = null;
 
 		// read paths
-		while ((line = br.readLine()) != null && line.trim().length() > 0) {
+		while ((line = BoundedLineReader.readLine(br, 5_000_000)) != null && line.trim().length() > 0) {
 			line = line.trim();
 			
 			pathList.add(line);
 		}
 	
 		// read options
-		while ((line = br.readLine()) != null && line.trim().length() > 0) {
+		while ((line = BoundedLineReader.readLine(br, 5_000_000)) != null && line.trim().length() > 0) {
 			line = line.trim();
 			
 			buffy.append(line + "\n");

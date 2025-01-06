@@ -15,6 +15,7 @@
  */
 package agent.dbgmodel.jna.dbgmodel;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.*;
 
@@ -29,7 +30,7 @@ import ghidra.util.Msg;
 public class UnknownWithUtils extends Unknown {
 	public static void pause() {
 		try {
-			new BufferedReader(new InputStreamReader(System.in)).readLine();
+			BoundedLineReader.readLine(new BufferedReader(new InputStreamReader(System.in)), 5_000_000);
 		}
 		catch (IOException e) {
 			throw new AssertionError(e);

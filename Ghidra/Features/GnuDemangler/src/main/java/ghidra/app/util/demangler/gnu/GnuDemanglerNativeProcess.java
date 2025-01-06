@@ -15,6 +15,7 @@
  */
 package ghidra.app.util.demangler.gnu;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.*;
@@ -126,7 +127,7 @@ public class GnuDemanglerNativeProcess {
 	private String doDemangle(String mangled) throws IOException {
 		writer.println(mangled);
 		writer.flush();
-		return reader.readLine();
+		return BoundedLineReader.readLine(reader, 5_000_000);
 	}
 
 	public void dispose() {

@@ -15,6 +15,7 @@
  */
 package ghidra.program.model.lang;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -407,7 +408,7 @@ public class PcodeParser extends PcodeCompile {
 			// inject pcode statement lines into writer (needed for error reporting)
 			BufferedReader r = new BufferedReader(new StringReader(pcodeStatements));
 			String line;
-			while ((line = r.readLine()) != null) {
+			while ((line = BoundedLineReader.readLine(r, 5_000_000)) != null) {
 				writer.write(line);
 				writer.newLine();
 			}

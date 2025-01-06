@@ -16,7 +16,8 @@
 package ghidra.features.bsim.query;
 
 // Read in a set of precomputed signature files, generate a similarity score for each pair of functions
-// listed in the files, if the similarity exceeds a threshold, print out a line to a file named "output"
+
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.text.NumberFormat;
 import java.util.Iterator;
@@ -44,7 +45,7 @@ public class CompareSignatures {
 		if (file == null) return false;
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(file));
-			String line = in.readLine();
+			String line = BoundedLineReader.readLine(in, 5_000_000);
 			in.close();
 			if (line == null) return false;
 			if (line.contains("<description>")) return true;

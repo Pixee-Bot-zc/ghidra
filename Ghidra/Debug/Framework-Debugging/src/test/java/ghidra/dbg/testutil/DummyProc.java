@@ -15,6 +15,7 @@
  */
 package ghidra.dbg.testutil;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -78,7 +79,7 @@ public class DummyProc implements AutoCloseable {
 			exec.waitFor();
 			BufferedReader reader =
 				new BufferedReader(new InputStreamReader(exec.getInputStream()));
-			line = reader.readLine();
+			line = BoundedLineReader.readLine(reader, 5_000_000);
 		}
 		catch (Exception e) {
 			throw new RuntimeException(e);

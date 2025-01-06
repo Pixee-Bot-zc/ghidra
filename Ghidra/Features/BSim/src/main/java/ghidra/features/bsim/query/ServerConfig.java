@@ -15,6 +15,7 @@
  */
 package ghidra.features.bsim.query;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -509,7 +510,7 @@ public class ServerConfig {
 		FileWriter writer = new FileWriter(outFile);
 		try {
 			for (;;) {
-				line = reader.readLine();
+				line = BoundedLineReader.readLine(reader, 5_000_000);
 				if (line == null) {
 					break;		// End of file reached
 				}
@@ -568,7 +569,7 @@ public class ServerConfig {
 		FileWriter writer = new FileWriter(outFile);
 		try {
 			for (;;) {
-				String line = reader.readLine();
+				String line = BoundedLineReader.readLine(reader, 5_000_000);
 				if (line == null) {
 					break;		// End of file reached
 				}
@@ -625,7 +626,7 @@ public class ServerConfig {
 		try {
 			boolean entryIsMatched = !addUser;
 			for (;;) {
-				String line = reader.readLine();
+				String line = BoundedLineReader.readLine(reader, 5_000_000);
 				if (line == null) {
 					break;
 				}
@@ -689,7 +690,7 @@ public class ServerConfig {
 
 		try {
 			for (;;) {
-				line = reader.readLine();
+				line = BoundedLineReader.readLine(reader, 5_000_000);
 				if (line == null) {
 					break;		// End of file reached
 				}
@@ -725,7 +726,7 @@ public class ServerConfig {
 		BufferedReader reader = new BufferedReader(new FileReader(inFile));
 		try {
 			for (;;) {
-				String line = reader.readLine();
+				String line = BoundedLineReader.readLine(reader, 5_000_000);
 				if (line == null) {
 					break;		// End of file reached
 				}

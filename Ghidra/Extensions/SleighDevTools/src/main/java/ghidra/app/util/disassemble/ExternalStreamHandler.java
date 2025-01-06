@@ -16,6 +16,7 @@
 package ghidra.app.util.disassemble;
 
 import ghidra.util.Msg;
+import io.github.pixee.security.BoundedLineReader;
 
 import java.io.*;
 
@@ -32,7 +33,7 @@ public class ExternalStreamHandler extends Thread {
 			InputStreamReader inStreamReader = new InputStreamReader(inStream);
 			BufferedReader buffReader = new BufferedReader(inStreamReader);
 			String line;
-			while ((line = buffReader.readLine()) != null) {
+			while ((line = BoundedLineReader.readLine(buffReader, 5_000_000)) != null) {
 				Msg.error(ExternalDisassemblyFieldFactory.class, "Error in Disassembler: " + line);
 			}
 		}

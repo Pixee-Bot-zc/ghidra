@@ -15,6 +15,7 @@
  */
 package ghidra.feature.fid.plugin;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.*;
 
@@ -125,13 +126,13 @@ public class IngestTask extends Task {
 		}
 		BufferedReader reader = new BufferedReader(new FileReader(commonSymbolsFile));
 		LinkedList<String> res = new LinkedList<String>();
-		String line = reader.readLine();
+		String line = BoundedLineReader.readLine(reader, 5_000_000);
 		while (line != null) {
 			monitor.checkCancelled();
 			if (line.length() != 0) {
 				res.add(line);
 			}
-			line = reader.readLine();
+			line = BoundedLineReader.readLine(reader, 5_000_000);
 		}
 		reader.close();
 		return res;
