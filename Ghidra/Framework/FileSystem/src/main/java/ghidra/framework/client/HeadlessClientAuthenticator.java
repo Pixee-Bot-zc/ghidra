@@ -15,6 +15,8 @@
  */
 package ghidra.framework.client;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.awt.Component;
 import java.io.*;
 import java.net.*;
@@ -55,7 +57,7 @@ public class HeadlessClientAuthenticator implements ClientAuthenticator {
 			if (requestingURL != null) {
 				URL minimalURL = null;
 				try {
-					minimalURL = new URL(requestingURL, "/");
+					minimalURL = Urls.create(requestingURL, "/", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 				}
 				catch (MalformedURLException e) {
 					// ignore

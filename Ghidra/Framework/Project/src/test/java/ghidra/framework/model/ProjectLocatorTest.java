@@ -15,6 +15,8 @@
  */
 package ghidra.framework.model;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.junit.Assert.*;
 
 import java.io.File;
@@ -131,14 +133,14 @@ public class ProjectLocatorTest extends AbstractGenericTest {
 
 		ProjectLocator pl = new ProjectLocator("", "bob");
 		assertEquals(tmpPath, pl.getLocation());
-		assertEquals(new URL("ghidra:" + tmpPath + "bob"), pl.getURL());
+		assertEquals(Urls.create("ghidra:" + tmpPath + "bob", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS), pl.getURL());
 		assertEquals(new File(pl.getLocation() + "bob.rep"), pl.getProjectDir());
 		assertEquals(new File(pl.getLocation() + "bob.gpr"), pl.getMarkerFile());
 		assertEquals("bob", pl.getName());
 
 		pl = new ProjectLocator(null, "bob");
 		assertEquals(tmpPath, pl.getLocation());
-		assertEquals(new URL("ghidra:" + tmpPath + "bob"), pl.getURL());
+		assertEquals(Urls.create("ghidra:" + tmpPath + "bob", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS), pl.getURL());
 		assertEquals(new File(pl.getLocation() + "bob.rep"), pl.getProjectDir());
 		assertEquals(new File(pl.getLocation() + "bob.gpr"), pl.getMarkerFile());
 		assertEquals("bob", pl.getName());

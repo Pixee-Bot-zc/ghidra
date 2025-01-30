@@ -15,6 +15,8 @@
  */
 package ghidra.framework.data;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -71,7 +73,7 @@ public class URLLinkObject extends DomainObjectAdapterDB {
 		if (urlText == null) {
 			throw new IOException("Null link object");
 		}
-		url = new URL(urlText);
+		url = Urls.create(urlText, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 	}
 
 	@Override

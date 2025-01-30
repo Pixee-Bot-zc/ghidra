@@ -15,6 +15,8 @@
  */
 package ghidra.net.http;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.*;
 import java.net.*;
 import java.util.Properties;
@@ -38,7 +40,7 @@ public class HttpUtil {
 			Properties httpRequestProperties, boolean allowRedirect) throws MalformedURLException,
 			IOException {
 
-		URL url = new URL(httpUrlString);
+		URL url = Urls.create(httpUrlString, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 		String protocol = url.getProtocol();
 
 		if ("https".equals(protocol)) {

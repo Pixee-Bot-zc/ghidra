@@ -15,6 +15,8 @@
  */
 package ghidra.features.bsim.query.client;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
 import java.net.*;
@@ -59,7 +61,7 @@ public class FunctionDatabaseProxy implements FunctionDatabase {
 	}
 
 	public FunctionDatabaseProxy(URL url) throws MalformedURLException {
-		httpURL = new URL(url.toString());		// Make sure URL has a real handler
+		httpURL = Urls.create(url.toString(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);		// Make sure URL has a real handler
 		lasterror = null;
 		info = null;
 		vectorFactory = FunctionDatabase.generateLSHVectorFactory();

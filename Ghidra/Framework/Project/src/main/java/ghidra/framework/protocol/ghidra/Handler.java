@@ -15,6 +15,8 @@
  */
 package ghidra.framework.protocol.ghidra;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.IOException;
 import java.net.*;
 import java.util.*;
@@ -113,7 +115,7 @@ public class Handler extends URLStreamHandler {
 			try {
 				GhidraProtocolHandler protocolHandler = getProtocolExtensionHandler(url);
 				// strip ghidra protocol specifier from URL
-				url = new URL(url.toExternalForm().substring(GhidraURL.PROTOCOL.length() + 1));
+				url = Urls.create(url.toExternalForm().substring(GhidraURL.PROTOCOL.length() + 1), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 				return new GhidraURLConnection(url, protocolHandler);
 			}
 			catch (NotFoundException e) {

@@ -17,6 +17,8 @@ package generic.jar;
 
 import ghidra.util.Msg;
 import ghidra.util.exception.AssertException;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import java.io.*;
 import java.net.*;
@@ -85,7 +87,7 @@ public class JarResource implements Resource {
 
 	@Override
 	public URL toURL() throws MalformedURLException {
-		return new URL(getAbsolutePath());
+		return Urls.create(getAbsolutePath(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 	}
 
 	@Override

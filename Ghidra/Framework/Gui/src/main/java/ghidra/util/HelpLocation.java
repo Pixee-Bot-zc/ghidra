@@ -15,6 +15,8 @@
  */
 package ghidra.util;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -151,7 +153,7 @@ public class HelpLocation {
 		// try creating a URL with the given anchor
 		if (localURL != null && localAnchor != null) {
 			try {
-				localURL = new URL(localURL.toExternalForm() + "#" + localAnchor);
+				localURL = Urls.create(localURL.toExternalForm() + "#" + localAnchor, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 			}
 			catch (MalformedURLException e) {
 				// we tried

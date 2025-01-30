@@ -15,6 +15,8 @@
  */
 package ghidra.features.bsim.query.elastic;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -57,7 +59,7 @@ public class ElasticConnection {
 	 * @throws IOException for problems with the socket
 	 */
 	public void startHttpRequest(String command, String path) throws IOException {
-		URL httpURL = new URL(httpURLbase + path);
+		URL httpURL = Urls.create(httpURLbase + path, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 		connection = (HttpURLConnection) httpURL.openConnection();
 		connection.setRequestMethod(command);
 		connection.setRequestProperty("Content-Type", "application/json");
@@ -66,7 +68,7 @@ public class ElasticConnection {
 	}
 
 	public void startHttpBulkRequest(String bulkCommand) throws IOException {
-		URL httpURL = new URL(hostURL + bulkCommand);
+		URL httpURL = Urls.create(hostURL + bulkCommand, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 		connection = (HttpURLConnection) httpURL.openConnection();
 		connection.setRequestMethod(POST);
 		connection.setRequestProperty("Content-Type", "application/x-ndjson");
@@ -75,7 +77,7 @@ public class ElasticConnection {
 	}
 
 	public void startHttpRawRequest(String command, String path) throws IOException {
-		URL httpURL = new URL(hostURL + path);
+		URL httpURL = Urls.create(hostURL + path, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 		connection = (HttpURLConnection) httpURL.openConnection();
 		connection.setRequestMethod(command);
 		connection.setRequestProperty("Content-Type", "application/json");
@@ -90,7 +92,7 @@ public class ElasticConnection {
 	 * @throws IOException for problems with the socket
 	 */
 	public void startHttpURICommand(String command, String path) throws IOException {
-		URL httpURL = new URL(httpURLbase + path);
+		URL httpURL = Urls.create(httpURLbase + path, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 		connection = (HttpURLConnection) httpURL.openConnection();
 		connection.setRequestMethod(command);
 		connection.setDoOutput(true);

@@ -15,6 +15,8 @@
  */
 package ghidra.framework.project;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
@@ -469,7 +471,7 @@ public class DefaultProject implements Project {
 			while (it.hasNext()) {
 				Element elem = (Element) it.next();
 				String urlStr = elem.getAttributeValue("URL");
-				URL url = new URL(urlStr);
+				URL url = Urls.create(urlStr, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 				try {
 					addProjectView(url, true);
 				}

@@ -15,6 +15,8 @@
  */
 package ghidra.framework.data;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -123,7 +125,7 @@ public class DomainFileProxy implements DomainFile {
 				urlStr = urlStr.substring(0, urlStr.length() - 1);
 			}
 			urlStr += getPathname();
-			return new URL(urlStr);
+			return Urls.create(urlStr, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 		}
 		catch (MalformedURLException e) {
 			// ignore

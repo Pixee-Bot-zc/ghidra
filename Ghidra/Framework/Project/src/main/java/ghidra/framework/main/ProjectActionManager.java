@@ -15,6 +15,8 @@
  */
 package ghidra.framework.main;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -537,7 +539,7 @@ class ProjectActionManager {
 		URL lastURL = null;
 		if (urlStr != null) {
 			try {
-				lastURL = new URL(urlStr);
+				lastURL = Urls.create(urlStr, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 			}
 			catch (MalformedURLException e) {
 				// ignore

@@ -15,6 +15,8 @@
  */
 package ghidra.framework.data;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.awt.*;
 import java.io.*;
 import java.net.MalformedURLException;
@@ -326,7 +328,7 @@ public class GhidraFileData {
 					if (!StringUtils.isEmpty(ref)) {
 						spec += "#" + ref;
 					}
-					return new URL(folderURL, spec);
+					return Urls.create(folderURL, spec, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 				}
 				catch (MalformedURLException e) {
 					// ignore

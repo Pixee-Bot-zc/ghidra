@@ -15,6 +15,8 @@
  */
 package ghidra.framework.main.datatree;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.DropTargetDropEvent;
 import java.io.File;
@@ -65,7 +67,7 @@ public final class LinuxFileUrlHandler extends AbstractFileListFlavorHandler {
 
 		return toFiles(transferData, s -> {
 			try {
-				return new File(new URL(s.replaceAll(" ", "%20")).toURI()); // fixup spaces
+				return new File(Urls.create(s.replaceAll(" ", "%20"), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).toURI()); // fixup spaces
 			}
 			catch (MalformedURLException e) {
 				// this could be the case that this handler is attempting to process an arbitrary

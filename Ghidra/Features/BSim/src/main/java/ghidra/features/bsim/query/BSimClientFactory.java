@@ -15,6 +15,8 @@
  */
 package ghidra.features.bsim.query;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -36,7 +38,7 @@ public class BSimClientFactory {
 	 * @throws MalformedURLException if the URL string cannot be parsed
 	 */
 	public static URL buildURL(String urlString) throws MalformedURLException {
-		URL url = new URL(urlString);
+		URL url = Urls.create(urlString, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 		checkBSimServerURL(url);
 		return url;
 	}
@@ -77,7 +79,7 @@ public class BSimClientFactory {
 	 */
 	public static URL deriveBSimURL(String urlString)
 			throws IllegalArgumentException, MalformedURLException {
-		URL url = new URL(urlString);	// URL used only for parsing purposes
+		URL url = Urls.create(urlString, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);	// URL used only for parsing purposes
 		String protocol = url.getProtocol();
 		if ("postgresql".equals(protocol) || "https".equals(protocol) ||
 			"elastic".equals(protocol) || "file".equals(protocol)) {

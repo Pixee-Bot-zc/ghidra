@@ -15,6 +15,8 @@
  */
 package help;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.awt.Desktop;
 import java.awt.Image;
 import java.beans.PropertyChangeEvent;
@@ -255,7 +257,7 @@ public class GHelpHTMLEditorKit extends HTMLEditorKit {
 
 		try {
 			// put the anchor back into the URL
-			return new URL(anchorlessURL, anchor);
+			return Urls.create(anchorlessURL, anchor, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 		}
 		catch (MalformedURLException e) {
 			// shouldn't happen, since the file exists
@@ -557,7 +559,7 @@ public class GHelpHTMLEditorKit extends HTMLEditorKit {
 			HTMLDocument htmlDocument = (HTMLDocument) getDocument();
 			URL context = htmlDocument.getBase();
 			try {
-				URL url = new URL(context, srcString);
+				URL url = Urls.create(context, srcString, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 				if (FileUtilities.exists(url.toURI())) {
 					// it's a good one, let it through
 					return url;

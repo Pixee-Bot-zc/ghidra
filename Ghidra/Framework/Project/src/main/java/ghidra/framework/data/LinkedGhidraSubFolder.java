@@ -15,6 +15,8 @@
  */
 package ghidra.framework.data;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -98,7 +100,7 @@ class LinkedGhidraSubFolder implements LinkedDomainFolder {
 				path += FileSystem.SEPARATOR;
 			}
 			try {
-				return new URL(urlStr + path);
+				return Urls.create(urlStr + path, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 			}
 			catch (MalformedURLException e) {
 				// ignore
